@@ -8,10 +8,8 @@ import {
   StyleProp,
   TextStyle,
 } from "react-native";
-import { colors } from "../styles/colors";
-import { fonts } from "../styles/fonts";
-import { shared } from "../styles/shared";
 import Icon from "react-native-vector-icons/Ionicons";
+import { colors, fonts, shared, spacings } from "../styles";
 
 export interface ButtonProps extends TouchableOpacityProps {
   type?: "contained" | "bordered" | "text";
@@ -34,8 +32,8 @@ export const Button = (props: ButtonProps) => {
       style={[
         {
           backgroundColor: type === "contained" ? colors.primary : undefined,
-          paddingHorizontal: type !== "text" ? shared.spacing.small : 0,
-          paddingVertical: shared.spacing.xsmall,
+          paddingHorizontal: type !== "text" ? spacings.small : 0,
+          paddingVertical: spacings.xsmall,
           justifyContent: "center",
           alignItems: "center",
           minHeight: 45,
@@ -55,7 +53,7 @@ export const Button = (props: ButtonProps) => {
               name={props.prefixIcon}
               size={20}
               color={contentColor}
-              style={{ marginRight: shared.spacing.small }}
+              style={{ marginRight: spacings.small }}
             />
           )}
           <Text
@@ -74,7 +72,7 @@ export const Button = (props: ButtonProps) => {
               name={props.postfixIcon}
               size={20}
               color={contentColor}
-              style={{ marginLeft: shared.spacing.small }}
+              style={{ marginLeft: spacings.small }}
             />
           )}
         </View>
