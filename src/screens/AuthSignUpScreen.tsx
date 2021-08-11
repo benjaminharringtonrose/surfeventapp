@@ -48,7 +48,7 @@ export const AuthSignUpScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
       <Formik
-        ref={formRef}
+        innerRef={formRef}
         initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
         validationSchema={ProfileSchema}
         onSubmit={onSignUp}>
