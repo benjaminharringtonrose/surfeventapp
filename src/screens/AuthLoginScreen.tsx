@@ -2,10 +2,12 @@ import React, { useState } from "react";
 import { View, SafeAreaView, TextInput } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
+import { useNavigation } from "@react-navigation/native";
 
 import { Button } from "../components/Button";
 import { spacings } from "../styles";
 import { FormInput } from "../components/FormInput";
+import { LoginNavProp } from "../AppNavigator";
 
 interface LoginFormProps {
   email?: string;
@@ -17,13 +19,15 @@ export const AuthLoginScreen = () => {
 
   const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
 
+  const navigation = useNavigation<LoginNavProp>();
+
   const onLogin = (values: any) => {
     console.log(values);
   };
 
   const ProfileSchema = Yup.object().shape({
-    email: Yup.string().min(2, "Too Short!").max(40, "Too Long!").required("Required"),
-    password: Yup.string().min(2, "Too Short!").max(40, "Too Long!").required("Required"),
+    email: Yup.string().required("Required"),
+    password: Yup.string().required("Required"),
   });
 
   return (
@@ -53,13 +57,19 @@ export const AuthLoginScreen = () => {
               error={errors.password}
               touched={touched.password}
               secureTextEntry={true}
+              style={{ marginBottom: spacings.base }}
             />
             <Button
               type={"contained"}
-              label={"Sign In"}
+              label={"Login"}
               loading={loadingLogin}
               onPress={() => handleSubmit()}
-              style={{ marginTop: spacings.base }}
+              style={{ marginBottom: spacings.base }}
+            />
+            <Button
+              type={"contained"}
+              label={"Sign Up"}
+              onPress={() => navigation.navigate("SignUp")}
             />
           </View>
         )}
