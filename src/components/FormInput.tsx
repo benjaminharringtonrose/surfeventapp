@@ -15,7 +15,6 @@ export const FormInput = (props: FormInputProps) => (
         style={[
           fonts.regular,
           {
-            marginTop: spacings.xsmall,
             marginLeft: spacings.small,
             color: colors.error,
           },

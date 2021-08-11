@@ -9,32 +9,6 @@ import { SettingsDashboardScreen } from "./screens/SettingsDashboardScreen";
 import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
 import { AuthLoginScreen } from "./screens/AuthLoginScreen";
 
-export function AppNavigator() {
-  const Stack = createStackNavigator();
-  return (
-    <Stack.Navigator>
-      {/* {true ? (
-        // "user signed in?"
-        <Stack.Screen
-          name="Main"
-          component={MainStack}
-          options={{
-            headerShown: false,
-          }}
-        />
-      ) : ( */}
-      <Stack.Screen
-        name="Auth"
-        component={AuthStack}
-        options={{
-          headerShown: false,
-        }}
-      />
-      {/* )} */}
-    </Stack.Navigator>
-  );
-}
-
 type MainStackParamList = {
   EventStack: undefined;
   JudgeStack: undefined;
@@ -45,7 +19,7 @@ export type EventStackNavProp = StackNavigationProp<MainStackParamList, "EventSt
 export type JudgeStackNavProp = StackNavigationProp<MainStackParamList, "JudgeStack">;
 export type SettingsStackNavProp = StackNavigationProp<MainStackParamList, "SettingsStack">;
 
-function MainStack() {
+export function MainStack() {
   const Tab = createBottomTabNavigator<MainStackParamList>();
   return (
     <Tab.Navigator
@@ -62,9 +36,9 @@ function MainStack() {
           return <Icon name={iconName} size={size} color={color} />;
         },
       })}>
-      <Tab.Screen name="EventStack" component={EventStack} />
-      <Tab.Screen name="JudgeStack" component={JudgeStack} />
-      <Tab.Screen name="SettingsStack" component={SettingsStack} />
+      <Tab.Screen name="EventStack" component={EventStack} options={{ headerShown: false }} />
+      <Tab.Screen name="JudgeStack" component={JudgeStack} options={{ headerShown: false }} />
+      <Tab.Screen name="SettingsStack" component={SettingsStack} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
 }

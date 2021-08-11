@@ -1,8 +1,9 @@
 import React, { useState } from "react";
-import { View, SafeAreaView, TextInput } from "react-native";
+import { View, SafeAreaView } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
+import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
 import { spacings } from "../styles";
@@ -18,11 +19,26 @@ export const AuthLoginScreen = () => {
   const formRef = React.useRef<FormikProps<LoginFormProps>>(null);
 
   const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
+  const [loginError, setLoginError] = useState<any>(undefined);
 
   const navigation = useNavigation<LoginNavProp>();
 
-  const onLogin = (values: any) => {
-    console.log(values);
+  const onLogin = async (values: LoginFormProps) => {
+    if (!values.email || !values.password) {
+      return;
+    }
+    setLoadingLogin(true);
+    setLoginError(undefined);
+    try {
+      await auth().signInWithEmailAndPassword(values.email, values.password);
+      console.log("User account created & signed in!");
+      setLoadingLogin(false);
+      setLoginError(undefined);
+    } catch (error) {
+      setLoadingLogin(false);
+      setLoginError(error);
+      console.warn(error);
+    }
   };
 
   const ProfileSchema = Yup.object().shape({
@@ -33,6 +49,7 @@ export const AuthLoginScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
       <Formik
+        ref={formRef}
         initialValues={{ email: "", password: "" }}
         validationSchema={ProfileSchema}
         onSubmit={onLogin}>

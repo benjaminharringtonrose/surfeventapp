@@ -1,10 +1,12 @@
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { StatusBar, useColorScheme } from "react-native";
-import { AppNavigator } from "./AppNavigator";
+import { AuthStack, MainStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store";
+import auth from "@react-native-firebase/auth";
+import { createStackNavigator } from "@react-navigation/stack";
 
 const App = () => {
   return (
@@ -16,10 +18,35 @@ const App = () => {
 
 const Root = () => {
   const isDarkMode = useColorScheme() === "dark";
+  const Stack = createStackNavigator();
+
+  // Set an initializing state whilst Firebase connects
+  const [initializing, setInitializing] = useState(true);
+  const [user, setUser] = useState();
+
+  // Handle user state changes
+  function onAuthStateChanged(user: any) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
+  if (initializing) return null;
+
   return (
     <NavigationContainer>
       <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-      <AppNavigator />
+      <Stack.Navigator>
+        {user ? (
+          <Stack.Screen name="Main" component={MainStack} options={{ headerShown: false }} />
+        ) : (
+          <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
+        )}
+      </Stack.Navigator>
     </NavigationContainer>
   );
 };

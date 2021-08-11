@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, SafeAreaView } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
+import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
 import { spacings } from "../styles";
@@ -18,9 +19,23 @@ export const AuthSignUpScreen = () => {
   const formRef = React.useRef<FormikProps<SignUpFormProps>>(null);
 
   const [loadingSignUp, setLoadingSignUp] = useState<boolean>(false);
+  const [signUpError, setSignUpError] = useState<any>(undefined);
 
-  const onSignUp = (values: any) => {
-    console.log(values);
+  const onSignUp = async (values: SignUpFormProps) => {
+    if (!values.firstName || !values.lastName || !values.email || !values.password) {
+      return;
+    }
+    setLoadingSignUp(true);
+    setSignUpError(undefined);
+    try {
+      await auth().createUserWithEmailAndPassword(values.email, values.password);
+      console.log("User account created and signed in");
+      setLoadingSignUp(false);
+      setSignUpError(undefined);
+    } catch (error) {
+      setLoadingSignUp(false);
+      console.warn(error);
+    }
   };
 
   const ProfileSchema = Yup.object().shape({
@@ -33,6 +48,7 @@ export const AuthSignUpScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
       <Formik
+        ref={formRef}
         initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
         validationSchema={ProfileSchema}
         onSubmit={onSignUp}>
