@@ -1,6 +1,7 @@
 import React from "react";
-import { View, Text, SafeAreaView, TextInput, Button } from "react-native";
+import { View, SafeAreaView, TextInput } from "react-native";
 import { Formik } from "formik";
+import { Button } from "../components/Button";
 
 export const AuthLoginScreen = () => {
   return (
@@ -16,7 +17,7 @@ export const AuthLoginScreen = () => {
                   value={values.email}
                 />
               </View>
-              <Button onPress={() => handleSubmit()} title="Submit" />
+              <Button onPress={() => handleSubmit()} label="Submit" />
             </View>
           )}
         </Formik>

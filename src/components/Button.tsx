@@ -8,10 +8,10 @@ import {
   StyleProp,
   TextStyle,
 } from "react-native";
-import { colors } from "../colors";
-import { fonts } from "../fonts";
-import { sharedStyles } from "../sharedStyles";
-import { Icon } from "./Icon";
+import { colors } from "../styles/colors";
+import { fonts } from "../styles/fonts";
+import { shared } from "../styles/shared";
+import Icon from "react-native-vector-icons/Ionicons";
 
 export interface ButtonProps extends TouchableOpacityProps {
   type?: "contained" | "bordered" | "text";
@@ -34,12 +34,12 @@ export const Button = (props: ButtonProps) => {
       style={[
         {
           backgroundColor: type === "contained" ? colors.primary : undefined,
-          paddingHorizontal: type !== "text" ? sharedStyles.spacing.small : 0,
-          paddingVertical: sharedStyles.spacing.xsmall,
+          paddingHorizontal: type !== "text" ? shared.spacing.small : 0,
+          paddingVertical: shared.spacing.xsmall,
           justifyContent: "center",
           alignItems: "center",
           minHeight: 45,
-          borderRadius: sharedStyles.borderRadius,
+          borderRadius: shared.borderRadius,
           opacity: props.disabled || props.loading ? 0.5 : 1.0,
           borderColor: colors.primary,
           borderWidth: type === "bordered" ? 1 : 0,
@@ -55,7 +55,7 @@ export const Button = (props: ButtonProps) => {
               name={props.prefixIcon}
               size={20}
               color={contentColor}
-              style={{ marginRight: sharedStyles.spacing.small }}
+              style={{ marginRight: shared.spacing.small }}
             />
           )}
           <Text
@@ -74,7 +74,7 @@ export const Button = (props: ButtonProps) => {
               name={props.postfixIcon}
               size={20}
               color={contentColor}
-              style={{ marginLeft: sharedStyles.spacing.small }}
+              style={{ marginLeft: shared.spacing.small }}
             />
           )}
         </View>
