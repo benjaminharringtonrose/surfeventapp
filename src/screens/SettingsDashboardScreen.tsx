@@ -1,7 +1,7 @@
 import React from "react";
 import { View, SafeAreaView } from "react-native";
 import { Button } from "../components/Button";
-import { spacings } from "../styles";
+import { spacings } from "../common";
 import auth from "@react-native-firebase/auth";
 
 export const SettingsDashboardScreen = () => {

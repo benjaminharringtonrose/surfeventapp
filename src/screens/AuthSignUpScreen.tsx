@@ -5,7 +5,7 @@ import * as Yup from "yup";
 import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
-import { spacings } from "../styles";
+import { spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 
 interface SignUpFormProps {

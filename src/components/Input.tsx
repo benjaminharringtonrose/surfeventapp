@@ -8,7 +8,7 @@ import {
   TextStyle,
   ViewStyle,
 } from "react-native";
-import { colors, fonts, shared, spacings } from "../styles";
+import { colors, fonts, shared, spacings } from "../common";
 
 export interface InputProps extends TextInputProps {
   label?: string;

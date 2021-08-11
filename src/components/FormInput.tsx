@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Text } from "react-native";
-import { colors, fonts, spacings } from "../styles";
+import { colors, fonts, spacings } from "../common";
 import { Input, InputProps } from "./Input";
 
 export interface FormInputProps extends InputProps {

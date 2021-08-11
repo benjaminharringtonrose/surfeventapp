@@ -9,7 +9,7 @@ import {
   TextStyle,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors, fonts, shared, spacings } from "../styles";
+import { colors, fonts, shared, spacings } from "../common";
 
 export interface ButtonProps extends TouchableOpacityProps {
   type?: "contained" | "bordered" | "text";
