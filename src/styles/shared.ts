@@ -1,6 +1,6 @@
 import { colors } from "./colors";
 
-const borderRadius = 14;
+const borderRadius = 10;
 
 export const shared = {
   borderRadius,
