@@ -7,6 +7,8 @@ import { Provider } from "react-redux";
 import { store } from "./store";
 import auth from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
+import { colors } from "./common";
+import { Host } from "react-native-portalize";
 
 const App = () => {
   return (
@@ -38,16 +40,18 @@ const Root = () => {
   if (initializing) return null;
 
   return (
-    <NavigationContainer>
-      <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-      <Stack.Navigator>
-        {user ? (
-          <Stack.Screen name="Main" component={MainStack} options={{ headerShown: false }} />
-        ) : (
-          <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
-        )}
-      </Stack.Navigator>
-    </NavigationContainer>
+    <Host>
+      <NavigationContainer>
+        <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+        <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: colors.background } }}>
+          {user ? (
+            <Stack.Screen name="Main" component={MainStack} options={{ headerShown: false }} />
+          ) : (
+            <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
+          )}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </Host>
   );
 };
 

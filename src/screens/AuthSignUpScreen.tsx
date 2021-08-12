@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { View, SafeAreaView } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
-import { spacings } from "../common";
+import { colors, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
+import { useNavigation } from "@react-navigation/native";
+import { SignUpNavProp } from "../AppNavigator";
+import { ButtonBack } from "../components/ButtonBack";
 
 interface SignUpFormProps {
   firstName?: string;
@@ -20,6 +23,16 @@ export const AuthSignUpScreen = () => {
 
   const [loadingSignUp, setLoadingSignUp] = useState<boolean>(false);
   const [signUpError, setSignUpError] = useState<any>(undefined);
+
+  const navigation = useNavigation<SignUpNavProp>();
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => {
+        return <ButtonBack onPress={() => navigation.pop()} />;
+      },
+    });
+  }, []);
 
   const onSignUp = async (values: SignUpFormProps) => {
     if (!values.firstName || !values.lastName || !values.email || !values.password) {
@@ -46,7 +59,7 @@ export const AuthSignUpScreen = () => {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+    <SafeAreaView style={{ flex: 1, justifyContent: "center", backgroundColor: colors.background }}>
       <Formik
         innerRef={formRef}
         initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
@@ -62,7 +75,6 @@ export const AuthSignUpScreen = () => {
               value={values.firstName}
               error={errors.firstName}
               touched={touched.firstName}
-              style={{ marginBottom: spacings.base }}
             />
             <FormInput
               label={"Last Name"}
@@ -72,7 +84,7 @@ export const AuthSignUpScreen = () => {
               value={values.lastName}
               error={errors.lastName}
               touched={touched.lastName}
-              style={{ marginBottom: spacings.base }}
+              style={{ marginTop: spacings.base }}
             />
             <FormInput
               label={"Email"}
@@ -82,7 +94,7 @@ export const AuthSignUpScreen = () => {
               value={values.email}
               error={errors.email}
               touched={touched.email}
-              style={{ marginBottom: spacings.base }}
+              style={{ marginTop: spacings.base }}
             />
             <FormInput
               label={"Password"}
@@ -93,6 +105,7 @@ export const AuthSignUpScreen = () => {
               error={errors.password}
               touched={touched.password}
               secureTextEntry={true}
+              style={{ marginTop: spacings.base }}
             />
             <Button
               type={"contained"}

@@ -1,5 +1,9 @@
 import React from "react";
-import { createStackNavigator, StackNavigationProp } from "@react-navigation/stack";
+import {
+  createStackNavigator,
+  StackNavigationOptions,
+  StackNavigationProp,
+} from "@react-navigation/stack";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 
@@ -8,6 +12,7 @@ import { JudgeDashboardScreen } from "./screens/JudgeDashboardScreen";
 import { SettingsDashboardScreen } from "./screens/SettingsDashboardScreen";
 import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
 import { AuthLoginScreen } from "./screens/AuthLoginScreen";
+import { colors, fonts } from "./common";
 
 type MainStackParamList = {
   EventStack: undefined;
@@ -35,6 +40,14 @@ export function MainStack() {
           }
           return <Icon name={iconName} size={size} color={color} />;
         },
+        tabBarStyle: {
+          backgroundColor: colors.background,
+          shadowColor: "transparent",
+          borderTopWidth: 0,
+        },
+        tabBarLabel: "",
+        tabBarActiveTintColor: colors.yellowCream,
+        tabBarInactiveTintColor: colors.grey700,
       })}>
       <Tab.Screen name="EventStack" component={EventStack} options={{ headerShown: false }} />
       <Tab.Screen name="JudgeStack" component={JudgeStack} options={{ headerShown: false }} />
@@ -51,12 +64,35 @@ type AuthStackParamList = {
 export type LoginNavProp = StackNavigationProp<AuthStackParamList, "Login">;
 export type SignUpNavProp = StackNavigationProp<AuthStackParamList, "SignUp">;
 
+const defaultNavigationOptions: StackNavigationOptions = {
+  headerStyle: {
+    backgroundColor: colors.background,
+    shadowColor: "transparent",
+  },
+  headerTitleStyle: [fonts.title3, { color: colors.yellowCream }],
+  cardStyle: { backgroundColor: "transparent" },
+};
+
 export function AuthStack() {
   const Stack = createStackNavigator<AuthStackParamList>();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Login" component={AuthLoginScreen} />
-      <Stack.Screen name="SignUp" component={AuthSignUpScreen} />
+      <Stack.Screen
+        name="Login"
+        component={AuthLoginScreen}
+        options={{
+          title: "SurfEvent",
+          ...defaultNavigationOptions,
+        }}
+      />
+      <Stack.Screen
+        name="SignUp"
+        component={AuthSignUpScreen}
+        options={{
+          title: "SurfEvent",
+          ...defaultNavigationOptions,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -71,7 +107,14 @@ export function EventStack() {
   const Stack = createStackNavigator<EventStackParamList>();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Events" component={EventDashboardScreen} />
+      <Stack.Screen
+        name="Events"
+        component={EventDashboardScreen}
+        options={{
+          title: "SurfEvent",
+          ...defaultNavigationOptions,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -86,7 +129,14 @@ export function JudgeStack() {
   const Stack = createStackNavigator<JudgeStackParamList>();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Judge" component={JudgeDashboardScreen} />
+      <Stack.Screen
+        name="Judge"
+        component={JudgeDashboardScreen}
+        options={{
+          title: "SurfEvent",
+          ...defaultNavigationOptions,
+        }}
+      />
     </Stack.Navigator>
   );
 }
@@ -101,7 +151,14 @@ export function SettingsStack() {
   const Stack = createStackNavigator<SettingsStackParamList>();
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Settings" component={SettingsDashboardScreen} />
+      <Stack.Screen
+        name="Settings"
+        component={SettingsDashboardScreen}
+        options={{
+          title: "SurfEvent",
+          ...defaultNavigationOptions,
+        }}
+      />
     </Stack.Navigator>
   );
 }

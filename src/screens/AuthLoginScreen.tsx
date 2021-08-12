@@ -6,7 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
-import { spacings } from "../common";
+import { colors, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 import { LoginNavProp } from "../AppNavigator";
 
@@ -47,7 +47,7 @@ export const AuthLoginScreen = () => {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center" }}>
+    <SafeAreaView style={{ flex: 1, justifyContent: "center", backgroundColor: colors.background }}>
       <Formik
         innerRef={formRef}
         initialValues={{ email: "", password: "" }}
@@ -63,7 +63,6 @@ export const AuthLoginScreen = () => {
               value={values.email}
               error={errors.email}
               touched={touched.email}
-              style={{ marginBottom: spacings.base }}
             />
             <FormInput
               label={"Password"}
@@ -74,19 +73,20 @@ export const AuthLoginScreen = () => {
               error={errors.password}
               touched={touched.password}
               secureTextEntry={true}
-              style={{ marginBottom: spacings.base }}
+              style={{ marginTop: spacings.base }}
             />
             <Button
               type={"contained"}
               label={"Login"}
               loading={loadingLogin}
               onPress={() => handleSubmit()}
-              style={{ marginBottom: spacings.base }}
+              style={{ marginTop: spacings.base }}
             />
             <Button
               type={"contained"}
               label={"Sign Up"}
               onPress={() => navigation.navigate("SignUp")}
+              style={{ marginTop: spacings.base }}
             />
           </View>
         )}

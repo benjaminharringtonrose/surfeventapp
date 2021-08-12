@@ -31,7 +31,7 @@ export const Button = (props: ButtonProps) => {
       disabled={props.loading || props.disabled}
       style={[
         {
-          backgroundColor: type === "contained" ? colors.primary : undefined,
+          backgroundColor: type === "contained" ? colors.button : undefined,
           paddingHorizontal: type !== "text" ? spacings.small : 0,
           paddingVertical: spacings.xsmall,
           justifyContent: "center",
