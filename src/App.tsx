@@ -5,11 +5,13 @@ import { StatusBar, useColorScheme } from "react-native";
 import { AuthStack, MainStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import auth from "@react-native-firebase/auth";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
 import { colors } from "./common";
 import { Host } from "react-native-portalize";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import { useAppDispatch } from "./hooks/redux";
+import { setAuthUser } from "./store/slices/authSlice";
 
 const App = () => {
   return (
@@ -28,11 +30,17 @@ const Root = () => {
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
+  const dispatch = useAppDispatch();
 
   // Handle user state changes
   function onAuthStateChanged(user: any) {
+    if (user) {
+      dispatch(setAuthUser({ user: user._user }));
+    }
     setUser(user);
-    if (initializing) setInitializing(false);
+    if (initializing) {
+      setInitializing(false);
+    }
   }
 
   useEffect(() => {

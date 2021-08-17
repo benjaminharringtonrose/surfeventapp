@@ -9,14 +9,12 @@ import { AddHeatModal } from "../modals/AddHeatModal";
 import { ButtonAdd } from "../components/ButtonAdd";
 
 export const HeatDashboardScreen = () => {
-  const width = Dimensions.get("window").width - 2 * spacings.base;
   const addHeatModalRef = useRef<Modalize>(null);
-
   const navigation = useNavigation<HeatNavProp>();
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => {
+      headerRight: () => {
         return (
           <TouchableOpacity onPress={() => {}} style={{ marginHorizontal: spacings.base }}>
             <Icon name={"timer"} size={32} color={colors.almostWhite} />
@@ -33,7 +31,8 @@ export const HeatDashboardScreen = () => {
         backgroundColor: colors.background,
       }}>
       <View style={{ marginLeft: spacings.base }}>
-        <Text style={[fonts.subheader]}>{"Heats"}</Text>
+        <Text style={[fonts.header]}>{"Heats"}</Text>
+        <Text style={[fonts.subheader]}>{"view & create heats here"}</Text>
       </View>
       <ButtonAdd
         label={"add surf heat"}

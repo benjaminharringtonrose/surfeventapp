@@ -16,7 +16,7 @@ import { FormModalDatePicker } from "../components/FormModalDatePicker";
 interface AddHeatFormProps {
   eventName?: string;
   division?: string;
-  date?: Date;
+  datetime?: Date;
 }
 
 interface AddHeatModalProps {
@@ -31,7 +31,7 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
   useEffect(() => {}, []);
 
   const onSubmit = (values: AddHeatFormProps) => {
-    if (!values.division) {
+    if (!values.eventName || !values.division || !values.datetime) {
       return;
     }
     // const userDocRef = firestore().collection("users").doc(user?.uid);
@@ -40,7 +40,7 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
   const ProfileSchema = Yup.object().shape({
     eventName: Yup.string().required("Required"),
     division: Yup.string().required("Required"),
-    date: Yup.date().required("Required"),
+    datetime: Yup.date().required("Required"),
   });
   return (
     <Portal>
@@ -56,7 +56,7 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
         )}>
         <Formik
           innerRef={formRef}
-          initialValues={{ division: undefined, date: undefined }}
+          initialValues={{ eventName: undefined, division: undefined, datetime: undefined }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
           {({ handleChange, handleBlur, setFieldValue, handleSubmit, values, touched, errors }) => (
@@ -82,11 +82,12 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
                 style={{ marginTop: spacings.base }}
               />
               <FormModalDatePicker
-                label={"Date"}
-                value={values.date}
-                onSelectDate={date => setFieldValue("date", date)}
-                error={errors.date}
-                touched={touched.date}
+                label={"When"}
+                value={values.datetime}
+                mode={"datetime"}
+                onSelectDate={datetime => setFieldValue("datetime", datetime)}
+                error={errors.datetime}
+                touched={touched.datetime}
                 style={{ marginTop: spacings.base }}
               />
               <Button

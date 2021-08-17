@@ -3,7 +3,7 @@ import React, { useRef } from "react";
 import { View, StyleProp, ViewStyle, TouchableOpacity, Text } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
-import { colors, fonts, spacings } from "../common";
+import { colors, DateMode, fonts, spacings } from "../common";
 import { FormDatePicker } from "./FormDatePicker";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ModalHeader } from "./ModalHeader";
@@ -13,6 +13,7 @@ interface FormModalDatePickerProps {
   title?: string;
   label: string;
   value?: Date;
+  mode: DateMode;
   error?: string;
   touched?: boolean;
   style?: StyleProp<ViewStyle>;
@@ -22,6 +23,33 @@ interface FormModalDatePickerProps {
 export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
   const modalRef = useRef<Modalize>();
   const insets = useSafeAreaInsets();
+
+  const getTitle = (mode: DateMode) => {
+    switch (mode) {
+      case "date":
+        return "Select Date";
+      case "datetime":
+      case "time":
+        return "Select Time";
+      default:
+        return "-";
+    }
+  };
+
+  const getLabel = (value: any, mode: DateMode) => {
+    switch (mode) {
+      case "date":
+        return moment(value).format("MM/DD/YYYY");
+      case "datetime":
+        return moment(value).format("dddd, MMMM Do YYYY, h:mm a");
+      case "time":
+        return moment(value).format("h:mm a");
+      default:
+        return "-";
+    }
+  };
+
+  console.log(props.value);
 
   return (
     <>
@@ -62,7 +90,7 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
                 borderBottomColor: colors.grey800,
               }}>
               <Text style={[fonts.regular, { color: colors.almostWhite }]}>
-                {!!props?.value ? moment(props.value).format("MM/DD/YYYY") : "Select..."}
+                {!!props?.value ? getLabel(props.value, props.mode) : "Select..."}
               </Text>
               <Icon name={"chevron-down"} size={16} color={colors.almostWhite} />
             </View>
@@ -77,7 +105,7 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
           childrenStyle={{ backgroundColor: colors.background, paddingBottom: insets.bottom }}
           HeaderComponent={() => (
             <ModalHeader
-              title={"Select Date"}
+              title={getTitle(props.mode)}
               showCloseButton={true}
               onClose={() => modalRef?.current?.close()}
               showDoneButton={true}
@@ -87,6 +115,7 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
           <FormDatePicker
             label={""}
             value={props.value}
+            mode={props.mode}
             onSelectDate={date => props.onSelectDate(date)}
             error={props.error}
             touched={props.touched}

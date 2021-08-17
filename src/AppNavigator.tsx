@@ -19,7 +19,7 @@ const defaultNavigationOptions: StackNavigationOptions = {
     backgroundColor: colors.background,
     shadowColor: "transparent",
   },
-  headerTitleStyle: [fonts.title3, { color: colors.grey500 }],
+  headerTitleStyle: fonts.navHeader,
   cardStyle: { backgroundColor: "transparent" },
 };
 

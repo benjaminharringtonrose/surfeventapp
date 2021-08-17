@@ -9,3 +9,9 @@ export interface User {
   surfEvents?: string[];
   providers?: string[];
 }
+
+export enum Collection {
+  events = "events",
+  heats = "heats",
+  user = "user",
+}

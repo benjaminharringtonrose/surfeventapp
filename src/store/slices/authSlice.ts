@@ -1,15 +1,15 @@
+import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { Action, createSlice } from "@reduxjs/toolkit";
-import { RootState } from "..";
 
 interface AuthState {
-  value?: any;
+  user?: FirebaseAuthTypes.User | null;
 }
 
 const initialState: AuthState = {};
 
-interface IAction extends Action {
+interface ISubscribeToAuthUser extends Action {
   payload: {
-    value: any;
+    user: FirebaseAuthTypes.User;
   };
 }
 
@@ -17,14 +17,12 @@ export const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    action: (state, action: IAction) => {
-      const { value } = action.payload;
-      state.value = value;
+    setAuthUser: (state, action: ISubscribeToAuthUser) => {
+      const { user } = action.payload;
+      state.user = user;
     },
   },
 });
 
-export const { action } = authSlice.actions;
+export const { setAuthUser } = authSlice.actions;
 export const authReducer = authSlice.reducer;
-
-export const valueSelector = (state: RootState) => state.auth.value;
