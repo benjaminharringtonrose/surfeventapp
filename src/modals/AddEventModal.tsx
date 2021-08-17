@@ -62,7 +62,7 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
           backgroundColor: colors.background,
         }}
         HeaderComponent={() => (
-          <ModalHeader title={"Add Surf Heat"} showCloseButton={true} onClose={props.onClose} />
+          <ModalHeader title={"Add Surf Event"} showCloseButton={true} onClose={props.onClose} />
         )}>
         <Formik
           innerRef={formRef}
@@ -73,7 +73,7 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
             <View style={{ marginHorizontal: spacings.base }}>
               <FormInput
                 label={"Event Name"}
-                placeholder={"...type event name here"}
+                placeholder={"...type here"}
                 onChangeText={handleChange("eventName")}
                 onBlur={handleBlur("eventName")}
                 value={values.eventName}
