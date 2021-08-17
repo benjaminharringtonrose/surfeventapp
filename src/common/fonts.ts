@@ -1,12 +1,12 @@
 import { colors } from "./colors";
 
 export const fonts = {
-  title1: {
+  header: {
     fontSize: 44,
-    fontWeight: "600" as "600",
-    color: colors.grey800,
+    fontWeight: "200" as "200",
+    color: colors.header,
   },
-  title2: {
+  subheader: {
     fontSize: 32,
     fontWeight: "700" as "700",
     color: colors.grey800,

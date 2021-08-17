@@ -11,7 +11,7 @@ export const shared = {
     elevation: 8,
   },
   card: {
-    backgroundColor: colors.greyscale9,
+    backgroundColor: colors.greyscale6,
     borderRadius,
   },
 };

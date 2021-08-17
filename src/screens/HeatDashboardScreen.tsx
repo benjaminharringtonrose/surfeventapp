@@ -1,10 +1,10 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef } from "react";
-import { View, Text, SafeAreaView, Dimensions, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, Dimensions, TouchableOpacity, StyleSheet } from "react-native";
 import { Modalize } from "react-native-modalize";
 import Icon from "react-native-vector-icons/Ionicons";
 import { HeatNavProp } from "../AppNavigator";
-import { colors, shared, spacings } from "../common";
+import { colors, fonts, shared, spacings } from "../common";
 import { AddHeatModal } from "../modals/AddHeatModal";
 import { ButtonAdd } from "../components/ButtonAdd";
 
@@ -32,28 +32,44 @@ export const HeatDashboardScreen = () => {
         flex: 1,
         backgroundColor: colors.background,
       }}>
+      <View style={{ marginLeft: spacings.base }}>
+        <Text style={[fonts.subheader]}>{"Heats"}</Text>
+      </View>
       <ButtonAdd
         label={"add surf heat"}
         onPress={() => addHeatModalRef.current?.open()}
         style={{ marginHorizontal: spacings.base }}
       />
-
       <View style={{ padding: spacings.base }}>
-        <Text style={{ color: colors.grey500, fontSize: 21 }}>{"upcoming heats"}</Text>
+        <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Today's Event"}</Text>
       </View>
-      <View
-        style={[
-          shared.card,
-          shared.shadow,
-          {
-            alignItems: "center",
-            justifyContent: "center",
-            width,
-            height: width,
-            marginBottom: spacings.base,
-          },
-        ]}></View>
+      <View style={styles.card}>
+        <Text style={styles.cardText}>{"You haven't created any events!"}</Text>
+      </View>
+      <View style={{ padding: spacings.base }}>
+        <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Upcoming Heats"}</Text>
+      </View>
+      <View style={styles.card}>
+        <Text style={styles.cardText}>{"You haven't created any heats!"}</Text>
+      </View>
       <AddHeatModal ref={addHeatModalRef} onClose={() => addHeatModalRef.current?.close()} />
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  card: {
+    ...shared.card,
+    ...shared.shadow,
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: spacings.base,
+    marginHorizontal: spacings.base,
+  },
+  cardText: {
+    ...fonts.large,
+    color: colors.grey500,
+    textAlign: "center",
+    padding: spacings.base,
+  },
+});

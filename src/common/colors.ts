@@ -19,7 +19,7 @@ export const colors = {
   almostWhite: "#F7F7F7",
 
   background: "#121212",
-  header: "#282828",
+  header: "#BDBDBD",
   input: "#fafafa",
   button: "#222222",
 

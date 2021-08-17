@@ -14,6 +14,7 @@ import { ModalHeader } from "../components/ModalHeader";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 
 interface AddHeatFormProps {
+  eventName?: string;
   division?: string;
   date?: Date;
 }
@@ -37,6 +38,7 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
   };
 
   const ProfileSchema = Yup.object().shape({
+    eventName: Yup.string().required("Required"),
     division: Yup.string().required("Required"),
     date: Yup.date().required("Required"),
   });
@@ -59,6 +61,16 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
           onSubmit={onSubmit}>
           {({ handleChange, handleBlur, setFieldValue, handleSubmit, values, touched, errors }) => (
             <View style={{ marginHorizontal: spacings.base }}>
+              <FormDropdownPicker
+                title={"Select Event"}
+                label={"Event Name"}
+                value={values.eventName}
+                items={EVENTS}
+                error={errors.eventName}
+                touched={touched.eventName}
+                onSelect={value => setFieldValue("eventName", value)}
+                style={{ marginTop: spacings.base }}
+              />
               <FormDropdownPicker
                 title={"Select Division"}
                 label={"Division"}
@@ -108,4 +120,11 @@ export const DIVISIONS = [
   { id: "SMEN", label: "Senior Men 40-49" },
   { id: "LEGENDS", label: "Legends 50 & Over" },
   { id: "GLEGENDS", label: "Grand Legends 60 & Over" },
+];
+
+export const EVENTS = [
+  { id: "EVENT1", label: "ESA Event #1" },
+  { id: "EVENT2", label: "ESA Event #2" },
+  { id: "EVENT3", label: "ESA Event #3" },
+  { id: "EVENT4", label: "ESA Event #4" },
 ];
