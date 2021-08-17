@@ -20,6 +20,7 @@ export const useEvents = () => {
         querySnapshot.forEach(doc => {
           events.push(doc.data());
         });
+        events.sort((d1, d2) => new Date(d1.date).getTime() - new Date(d2.date).getTime());
         setEvents(events);
       });
     return function cleanup() {

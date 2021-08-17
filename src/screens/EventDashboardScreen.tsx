@@ -36,7 +36,7 @@ export const EventDashboardScreen = () => {
       }}>
       <View style={{ marginLeft: spacings.base }}>
         <Text style={[fonts.header]}>{"Events"}</Text>
-        <Text style={[fonts.subheader]}>{"view & create events here"}</Text>
+        <Text style={[fonts.subheader]}>{"view & create events"}</Text>
       </View>
       <ButtonAdd
         label={"add surf event"}
@@ -129,7 +129,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     ...fonts.large,
-    color: colors.grey500,
+    color: colors.grey700,
     textAlign: "center",
     padding: spacings.base,
   },
