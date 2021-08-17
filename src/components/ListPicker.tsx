@@ -16,7 +16,7 @@ export interface ListPickerProps {
   items: Array<ListPickerItem>;
   headerTitle?: string;
   onBack: () => void;
-  onSelect: (id: string) => void;
+  onSelect: (value: string) => void;
   itemContainerStyle?: StyleProp<ViewStyle>;
 }
 
@@ -27,7 +27,7 @@ export const ListPicker = React.forwardRef((props: ListPickerProps, ref) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          props.onSelect(item.id);
+          props.onSelect(item.label);
         }}
         style={[
           {
@@ -39,7 +39,7 @@ export const ListPicker = React.forwardRef((props: ListPickerProps, ref) => {
           },
           props.itemContainerStyle,
         ]}>
-        <Text style={fonts.regular}>{item.label}</Text>
+        <Text style={[fonts.regular, { color: colors.almostWhite }]}>{item.label}</Text>
       </TouchableOpacity>
     );
   };
@@ -64,10 +64,11 @@ export const ListPicker = React.forwardRef((props: ListPickerProps, ref) => {
           ItemSeparatorComponent: Separator,
           keyExtractor: item => item.id.toString(),
           contentContainerStyle: { paddingBottom: insets.bottom },
+          style: { backgroundColor: colors.background },
         }}
       />
     </Portal>
   );
 });
 
-const Separator = () => <View style={{ height: 1, backgroundColor: colors.grey200 }} />;
+const Separator = () => <View style={{ height: 1, backgroundColor: colors.grey800 }} />;

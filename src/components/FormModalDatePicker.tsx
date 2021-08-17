@@ -3,10 +3,11 @@ import React, { useRef } from "react";
 import { View, StyleProp, ViewStyle, TouchableOpacity, Text } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
-import { colors, fonts, shared, spacings } from "../common";
+import { colors, fonts, spacings } from "../common";
 import { FormDatePicker } from "./FormDatePicker";
 import Icon from "react-native-vector-icons/Ionicons";
-import { NavigationTextButton } from "./NavigationTextButton";
+import { ModalHeader } from "./ModalHeader";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 interface FormModalDatePickerProps {
   title?: string;
@@ -20,6 +21,7 @@ interface FormModalDatePickerProps {
 
 export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
   const modalRef = useRef<Modalize>();
+  const insets = useSafeAreaInsets();
 
   return (
     <>
@@ -27,17 +29,15 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
         style={[
           {
             minHeight: 40,
-            borderColor: colors.grey500,
-            borderWidth: 1,
-            backgroundColor: "white",
-            borderRadius: shared.borderRadius,
+            backgroundColor: colors.background,
           },
           props.style,
         ]}
         onPress={() => modalRef?.current?.open()}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View style={{ flex: 1, flexDirection: "row", justifyContent: "space-between" }}>
           <View
             style={{
+              flex: 1,
               flexDirection: "column",
             }}>
             <View style={{ marginBottom: spacings.xsmall }}>
@@ -45,8 +45,7 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
                 style={{
                   ...fonts.small,
                   fontWeight: "700",
-                  paddingLeft: spacings.small,
-                  color: colors.grey700,
+                  color: colors.grey500,
                   paddingTop: spacings.xsmall,
                 }}>
                 {props.label}
@@ -54,73 +53,52 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
             </View>
             <View
               style={{
+                flex: 1,
                 alignItems: "center",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingHorizontal: spacings.small,
                 paddingBottom: spacings.xsmall,
+                borderBottomWidth: 1,
+                borderBottomColor: colors.grey800,
               }}>
-              <Text style={[fonts.regular]}>
+              <Text style={[fonts.regular, { color: colors.almostWhite }]}>
                 {!!props?.value ? moment(props.value).format("MM/DD/YYYY") : "Select..."}
               </Text>
+              <Icon name={"chevron-down"} size={16} color={colors.almostWhite} />
             </View>
-          </View>
-          <View
-            style={{
-              marginRight: spacings.small,
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
-            <Icon name={"chevron-down"} size={16} color={colors.grey800} />
           </View>
         </View>
       </TouchableOpacity>
 
-      <View>
-        <Portal>
-          <Modalize ref={modalRef} adjustToContentHeight={true}>
-            <View
-              style={{
-                marginHorizontal: spacings.base,
-                marginBottom: spacings.base,
-              }}>
-              <View
-                style={{
-                  flex: 1,
-                  alignItems: "flex-end",
-                  marginTop: spacings.base,
-                }}>
-                <View
-                  style={{
-                    alignItems: "center",
-                  }}>
-                  <NavigationTextButton label={"Done"} onPress={() => modalRef?.current?.close()} />
-                </View>
-              </View>
-
-              <View
-                style={{
-                  marginBottom: spacings.base,
-                }}>
-                <FormDatePicker
-                  label={props.label}
-                  value={props.value}
-                  onSelectDate={date => props.onSelectDate(date)}
-                  error={props.error}
-                  touched={props.touched}
-                />
-              </View>
-            </View>
-          </Modalize>
-        </Portal>
-      </View>
+      <Portal>
+        <Modalize
+          ref={modalRef}
+          adjustToContentHeight={true}
+          childrenStyle={{ backgroundColor: colors.background, paddingBottom: insets.bottom }}
+          HeaderComponent={() => (
+            <ModalHeader
+              title={"Select Date"}
+              showCloseButton={true}
+              onClose={() => modalRef?.current?.close()}
+              showDoneButton={true}
+              onDone={() => modalRef?.current?.close()}
+            />
+          )}>
+          <FormDatePicker
+            label={""}
+            value={props.value}
+            onSelectDate={date => props.onSelectDate(date)}
+            error={props.error}
+            touched={props.touched}
+          />
+        </Modalize>
+      </Portal>
       {!!props.error && !!props.touched && (
         <Text
           style={[
             fonts.regular,
             {
               marginTop: spacings.xsmall,
-              marginLeft: spacings.small,
               color: colors.error,
             },
           ]}>

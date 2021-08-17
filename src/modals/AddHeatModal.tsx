@@ -6,15 +6,16 @@ import { View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { colors } from "../common/colors";
-import { shared } from "../common/shared";
-import { spacings } from "../common";
+import { spacings, colors } from "../common";
 import { FormInput } from "../components/FormInput";
 import { Button } from "../components/Button";
 import { FormDropdownPicker } from "../components/FormDropdownPicker";
+import { ModalHeader } from "../components/ModalHeader";
+import { FormModalDatePicker } from "../components/FormModalDatePicker";
 
 interface AddHeatFormProps {
   division?: string;
+  date?: Date;
 }
 
 interface AddHeatModalProps {
@@ -37,6 +38,7 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
 
   const ProfileSchema = Yup.object().shape({
     division: Yup.string().required("Required"),
+    date: Yup.date().required("Required"),
   });
   return (
     <Portal>
@@ -46,12 +48,13 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
         childrenStyle={{
           paddingBottom: insets.bottom,
           backgroundColor: colors.background,
-          borderTopStartRadius: shared.borderRadius,
-          borderTopEndRadius: shared.borderRadius,
-        }}>
+        }}
+        HeaderComponent={() => (
+          <ModalHeader title={"Add Surf Heat"} showCloseButton={true} onClose={props.onClose} />
+        )}>
         <Formik
           innerRef={formRef}
-          initialValues={{ division: undefined }}
+          initialValues={{ division: undefined, date: undefined }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
           {({ handleChange, handleBlur, setFieldValue, handleSubmit, values, touched, errors }) => (
@@ -63,7 +66,15 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
                 items={DIVISIONS}
                 error={errors.division}
                 touched={touched.division}
-                onSelect={id => setFieldValue("division", id)}
+                onSelect={value => setFieldValue("division", value)}
+                style={{ marginTop: spacings.base }}
+              />
+              <FormModalDatePicker
+                label={"Date"}
+                value={values.date}
+                onSelectDate={date => setFieldValue("date", date)}
+                error={errors.date}
+                touched={touched.date}
                 style={{ marginTop: spacings.base }}
               />
               <Button
@@ -85,4 +96,16 @@ export const DIVISIONS = [
   { id: "BOYSU12", label: "Boys 11 & Under" },
   { id: "BOYSU14", label: "Boys 13 & Under" },
   { id: "BOYSU16", label: "Boys 15 & Under" },
+  { id: "JMENU18", label: "Junior Men 17 & Under" },
+  { id: "MEN", label: "Men 18-29" },
+  { id: "GIRLSU12", label: "Girls 11 & Under" },
+  { id: "GIRLSU14", label: "Girls 13 & Under" },
+  { id: "GIRLSU16", label: "Girls 15 & Under" },
+  { id: "JWOMENU18", label: "Junior Women 17 & Under" },
+  { id: "WOMEN", label: "Women 18-39" },
+  { id: "LADIES", label: "Ladies 40 & Over" },
+  { id: "MASTERS", label: "Masters 30-39" },
+  { id: "SMEN", label: "Senior Men 40-49" },
+  { id: "LEGENDS", label: "Legends 50 & Over" },
+  { id: "GLEGENDS", label: "Grand Legends 60 & Over" },
 ];

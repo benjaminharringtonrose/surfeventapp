@@ -14,6 +14,15 @@ import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
 import { AuthLoginScreen } from "./screens/AuthLoginScreen";
 import { colors, fonts } from "./common";
 
+const defaultNavigationOptions: StackNavigationOptions = {
+  headerStyle: {
+    backgroundColor: colors.background,
+    shadowColor: "transparent",
+  },
+  headerTitleStyle: [fonts.title3, { color: colors.almostWhite }],
+  cardStyle: { backgroundColor: "transparent" },
+};
+
 type MainStackParamList = {
   EventStack: undefined;
   HeatStack: undefined;
@@ -46,7 +55,7 @@ export function MainStack() {
           borderTopWidth: 0,
         },
         tabBarLabel: "",
-        tabBarActiveTintColor: colors.yellowCream,
+        tabBarActiveTintColor: colors.almostWhite,
         tabBarInactiveTintColor: colors.grey700,
       })}>
       <Tab.Screen name="EventStack" component={EventStack} options={{ headerShown: false }} />
@@ -63,15 +72,6 @@ type AuthStackParamList = {
 
 export type LoginNavProp = StackNavigationProp<AuthStackParamList, "Login">;
 export type SignUpNavProp = StackNavigationProp<AuthStackParamList, "SignUp">;
-
-const defaultNavigationOptions: StackNavigationOptions = {
-  headerStyle: {
-    backgroundColor: colors.background,
-    shadowColor: "transparent",
-  },
-  headerTitleStyle: [fonts.title3, { color: colors.yellowCream }],
-  cardStyle: { backgroundColor: "transparent" },
-};
 
 export function AuthStack() {
   const Stack = createStackNavigator<AuthStackParamList>();

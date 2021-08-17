@@ -19,10 +19,7 @@ export const FormDatePicker = (props: FormDatePickerProps) => {
     <>
       <View
         style={{
-          marginTop: spacings.base,
-          borderWidth: 1,
-          borderRadius: shared.borderRadius,
-          borderColor: colors.grey500,
+          backgroundColor: colors.background,
         }}>
         <Text
           style={[
@@ -50,6 +47,7 @@ export const FormDatePicker = (props: FormDatePickerProps) => {
               setDate(date);
             }}
             mode={"date"}
+            textColor={colors.almostWhite}
           />
         </View>
       </View>

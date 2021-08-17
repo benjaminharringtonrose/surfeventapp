@@ -34,17 +34,20 @@ export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
         style={[
           {
             minHeight: 40,
-            borderColor: colors.grey500,
-            borderWidth: 1,
-            backgroundColor: "white",
-            borderRadius: shared.borderRadius,
+            backgroundColor: colors.background,
           },
           props.style,
         ]}
         onPress={onShow}>
-        <View style={{ flexDirection: "row", justifyContent: "space-between" }}>
+        <View
+          style={{
+            flex: 1,
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}>
           <View
             style={{
+              flex: 1,
               flexDirection: "column",
             }}>
             <View style={{ marginBottom: spacings.xsmall }}>
@@ -52,8 +55,7 @@ export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
                 style={{
                   ...fonts.small,
                   fontWeight: "700",
-                  paddingLeft: spacings.small,
-                  color: colors.grey700,
+                  color: colors.grey500,
                   paddingTop: spacings.xsmall,
                 }}>
                 {props.label}
@@ -61,24 +63,20 @@ export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
             </View>
             <View
               style={{
+                flex: 1,
                 alignItems: "center",
                 flexDirection: "row",
                 justifyContent: "space-between",
-                paddingHorizontal: spacings.small,
                 paddingBottom: spacings.xsmall,
+                borderBottomWidth: 1,
+                borderBottomColor: colors.grey800,
               }}>
-              <Text style={[fonts.regular]}>{props.value || "Select..."}</Text>
+              <Text style={[fonts.regular, { color: colors.almostWhite }]}>
+                {props.value || "Select..."}
+              </Text>
+              <Icon name={"chevron-down"} size={16} color={colors.almostWhite} />
             </View>
           </View>
-          <View
-            style={{
-              marginRight: spacings.small,
-              alignItems: "center",
-              justifyContent: "center",
-            }}>
-            <Icon name={"chevron-down"} size={16} color={colors.grey800} />
-          </View>
-
           <ListPicker
             ref={pickerRef}
             headerTitle={props?.title || "Select An Option"}
@@ -92,7 +90,7 @@ export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
         </View>
       </TouchableOpacity>
       {!!props.error && !!props.touched && (
-        <View style={{ marginLeft: spacings.small }}>
+        <View>
           <Text
             style={{
               ...fonts.regular,

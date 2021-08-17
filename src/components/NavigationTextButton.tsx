@@ -12,7 +12,7 @@ export const NavigationTextButton = (props: NavigationTextButtonProps) => (
     style={[
       props.style,
       {
-        backgroundColor: colors.primary,
+        backgroundColor: colors.button,
         borderRadius: shared.borderRadius,
         justifyContent: "center",
         alignItems: "center",

@@ -4,7 +4,7 @@ import { View, Text, SafeAreaView, Dimensions, TouchableOpacity } from "react-na
 import { Modalize } from "react-native-modalize";
 import Icon from "react-native-vector-icons/Ionicons";
 import { HeatNavProp } from "../AppNavigator";
-import { colors, fonts, shared, spacings } from "../common";
+import { colors, shared, spacings } from "../common";
 import { AddHeatModal } from "../modals/AddHeatModal";
 import { ButtonAdd } from "../components/ButtonAdd";
 
@@ -19,7 +19,7 @@ export const HeatDashboardScreen = () => {
       headerLeft: () => {
         return (
           <TouchableOpacity onPress={() => {}} style={{ marginHorizontal: spacings.base }}>
-            <Icon name={"timer"} size={32} color={colors.yellowCream} />
+            <Icon name={"timer"} size={32} color={colors.almostWhite} />
           </TouchableOpacity>
         );
       },
