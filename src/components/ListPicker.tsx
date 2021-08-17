@@ -33,8 +33,8 @@ export const ListPicker = React.forwardRef((props: ListPickerProps, ref) => {
           {
             minHeight: 50,
             alignItems: "flex-end",
-            paddingHorizontal: sharedStyles.spacing.base,
-            paddingVertical: sharedStyles.spacing.small,
+            paddingHorizontal: spacings.base,
+            paddingVertical: spacings.small,
             justifyContent: "center",
           },
           props.itemContainerStyle,

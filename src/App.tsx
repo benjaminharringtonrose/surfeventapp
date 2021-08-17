@@ -9,12 +9,15 @@ import auth from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
 import { colors } from "./common";
 import { Host } from "react-native-portalize";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const App = () => {
   return (
-    <Provider store={store}>
-      <Root />
-    </Provider>
+    <SafeAreaProvider>
+      <Provider store={store}>
+        <Root />
+      </Provider>
+    </SafeAreaProvider>
   );
 };
 

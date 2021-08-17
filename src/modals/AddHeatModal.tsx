@@ -11,9 +11,10 @@ import { shared } from "../common/shared";
 import { spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 import { Button } from "../components/Button";
+import { FormDropdownPicker } from "../components/FormDropdownPicker";
 
 interface AddHeatFormProps {
-  heatName?: string;
+  division?: string;
 }
 
 interface AddHeatModalProps {
@@ -28,14 +29,14 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
   useEffect(() => {}, []);
 
   const onSubmit = (values: AddHeatFormProps) => {
-    if (!values.heatName) {
+    if (!values.division) {
       return;
     }
     // const userDocRef = firestore().collection("users").doc(user?.uid);
   };
 
   const ProfileSchema = Yup.object().shape({
-    heatName: Yup.string().required("Required"),
+    division: Yup.string().required("Required"),
   });
   return (
     <Portal>
@@ -50,19 +51,20 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
         }}>
         <Formik
           innerRef={formRef}
-          initialValues={{ heatName: "" }}
+          initialValues={{ division: undefined }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
-          {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
+          {({ handleChange, handleBlur, setFieldValue, handleSubmit, values, touched, errors }) => (
             <View style={{ marginHorizontal: spacings.base }}>
-              <FormInput
-                label={"Heat Name"}
-                placeholder={"Junior Men's Heat 1"}
-                onChangeText={handleChange("eventName")}
-                onBlur={handleBlur("eventName")}
-                value={values.heatName}
-                error={errors.heatName}
-                touched={touched.heatName}
+              <FormDropdownPicker
+                title={"Select Division"}
+                label={"Division"}
+                value={values.division}
+                items={DIVISIONS}
+                error={errors.division}
+                touched={touched.division}
+                onSelect={id => setFieldValue("division", id)}
+                style={{ marginTop: spacings.base }}
               />
               <Button
                 type={"contained"}
@@ -78,3 +80,9 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
     </Portal>
   );
 });
+
+export const DIVISIONS = [
+  { id: "BOYSU12", label: "Boys 11 & Under" },
+  { id: "BOYSU14", label: "Boys 13 & Under" },
+  { id: "BOYSU16", label: "Boys 15 & Under" },
+];
