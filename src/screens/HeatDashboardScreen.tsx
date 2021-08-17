@@ -3,15 +3,16 @@ import React, { useEffect, useRef } from "react";
 import { View, Text, SafeAreaView, Dimensions, TouchableOpacity } from "react-native";
 import { Modalize } from "react-native-modalize";
 import Icon from "react-native-vector-icons/Ionicons";
-import { JudgeNavProp } from "../AppNavigator";
+import { HeatNavProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
-import { AddHeatModal } from "../common/modals/AddHeatModal";
+import { AddHeatModal } from "../modals/AddHeatModal";
+import { ButtonAdd } from "../components/ButtonAdd";
 
-export const JudgeDashboardScreen = () => {
+export const HeatDashboardScreen = () => {
   const width = Dimensions.get("window").width - 2 * spacings.base;
   const addHeatModalRef = useRef<Modalize>(null);
 
-  const navigation = useNavigation<JudgeNavProp>();
+  const navigation = useNavigation<HeatNavProp>();
 
   useEffect(() => {
     navigation.setOptions({
@@ -30,31 +31,21 @@ export const JudgeDashboardScreen = () => {
       style={{
         flex: 1,
         backgroundColor: colors.background,
-        alignItems: "center",
       }}>
-      <TouchableOpacity
+      <ButtonAdd
+        label={"add surf heat"}
         onPress={() => addHeatModalRef.current?.open()}
-        style={[shared.card, shared.shadow, { marginVertical: spacings.base, width }]}>
-        <View
-          style={{
-            flexDirection: "row",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: spacings.small,
-          }}>
-          <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Add Surf Heat"}</Text>
-          <Icon name={"add"} size={28} color={colors.grey500} />
-        </View>
-      </TouchableOpacity>
-      <View style={{ width, paddingBottom: spacings.small }}>
-        <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Upcoming Heats"}</Text>
+        style={{ marginHorizontal: spacings.base }}
+      />
+
+      <View style={{ padding: spacings.base }}>
+        <Text style={{ color: colors.grey500, fontSize: 21 }}>{"upcoming heats"}</Text>
       </View>
       <View
         style={[
           shared.card,
           shared.shadow,
           {
-            flex: 1,
             alignItems: "center",
             justifyContent: "center",
             width,

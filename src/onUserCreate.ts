@@ -1,10 +1,10 @@
 import * as functions from "firebase-functions";
-import { User } from "../common/models";
+import { User } from "./common/models";
 import * as firebase from "firebase-admin";
 import { format } from "date-fns";
 firebase.firestore().settings({ ignoreUndefinedProperties: true });
 
-export const onUserCreate = functions.auth.user().onCreate(async user => {
+export const onCreateUser = functions.auth.user().onCreate(async user => {
   if (!user.uid || !user.email || !user.displayName || !user.providerData) {
     return;
   }

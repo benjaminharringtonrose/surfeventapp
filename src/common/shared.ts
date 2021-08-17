@@ -6,9 +6,9 @@ export const shared = {
   borderRadius,
   shadow: {
     shadowColor: colors.black,
-    shadowOffset: { width: 3, height: 1 },
+    shadowOffset: { width: 7, height: 2 },
     shadowOpacity: 0.2,
-    elevation: 4,
+    elevation: 8,
   },
   card: {
     backgroundColor: colors.greyscale9,
