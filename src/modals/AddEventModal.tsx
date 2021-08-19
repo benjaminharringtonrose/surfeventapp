@@ -16,7 +16,9 @@ import moment from "moment";
 
 interface AddEventFormProps {
   eventName?: string;
-  datetime?: Date;
+  dateStart?: Date;
+  timeStart?: Date;
+  dateEnd?: Date;
 }
 
 interface AddEventModalProps {
@@ -30,27 +32,34 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
   const insets = useSafeAreaInsets();
 
   const onSubmit = async (values: AddEventFormProps) => {
-    if (!values.eventName || !values.datetime) {
+    if (!values.eventName || !values.dateStart || !values.dateEnd || !values.timeStart) {
       return;
     }
     try {
-      await firestore()
-        .collection("events")
-        .add({
-          uid: uid || "",
-          eventName: values.eventName,
-          date: moment(values.datetime).format("YYYY-MM-DD"),
-          time: moment(values.datetime).format("h:mm a"),
-        });
+      setLoadingAddEvent(true);
+      const eventsCollectionRef = firestore().collection("events");
+      const eventId = eventsCollectionRef.doc().id;
+      await eventsCollectionRef.doc(eventId).set({
+        uid: uid || "",
+        eventId,
+        eventName: values.eventName,
+        dateStart: moment(values.dateStart).format("YYYY-MM-DD"),
+        dateEnd: moment(values.dateEnd).format("YYYY-MM-DD"),
+        timeStart: moment(values.timeStart).format("h:mma"),
+      });
+      setLoadingAddEvent(false);
       props.onClose();
     } catch (error) {
+      setLoadingAddEvent(false);
       console.warn(error);
     }
   };
 
   const ProfileSchema = Yup.object().shape({
     eventName: Yup.string().required("Required"),
-    datetime: Yup.date().required("Required"),
+    dateStart: Yup.date().required("Required"),
+    dateEnd: Yup.date().required("Required"),
+    timeStart: Yup.date().required("Required"),
   });
   return (
     <Portal>
@@ -66,7 +75,12 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
         )}>
         <Formik
           innerRef={formRef}
-          initialValues={{ eventName: undefined, datetime: undefined }}
+          initialValues={{
+            eventName: undefined,
+            dateStart: undefined,
+            timeStart: undefined,
+            dateEnd: undefined,
+          }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
           {({ handleChange, handleBlur, setFieldValue, handleSubmit, values, touched, errors }) => (
@@ -81,12 +95,30 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
                 touched={touched.eventName}
               />
               <FormModalDatePicker
-                label={"When"}
-                value={values.datetime}
-                mode={"datetime"}
-                onSelectDate={datetime => setFieldValue("datetime", datetime)}
-                error={errors.datetime}
-                touched={touched.datetime}
+                label={"Start Date"}
+                value={values.dateStart}
+                mode={"date"}
+                onSelectDate={dateStart => setFieldValue("dateStart", dateStart)}
+                error={errors.dateStart}
+                touched={touched.dateStart}
+                style={{ marginTop: spacings.base }}
+              />
+              <FormModalDatePicker
+                label={"Time"}
+                value={values.timeStart}
+                mode={"time"}
+                onSelectDate={timeStart => setFieldValue("timeStart", timeStart)}
+                error={errors.timeStart}
+                touched={touched.timeStart}
+                style={{ marginTop: spacings.base }}
+              />
+              <FormModalDatePicker
+                label={"End Date"}
+                value={values.dateEnd}
+                mode={"date"}
+                onSelectDate={dateEnd => setFieldValue("dateEnd", dateEnd)}
+                error={errors.dateEnd}
+                touched={touched.dateEnd}
                 style={{ marginTop: spacings.base }}
               />
               <Button

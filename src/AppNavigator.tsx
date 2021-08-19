@@ -13,6 +13,7 @@ import { SettingsDashboardScreen } from "./screens/SettingsDashboardScreen";
 import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
 import { AuthLoginScreen } from "./screens/AuthLoginScreen";
 import { colors, fonts } from "./common";
+import { EventDetailScreen } from "./screens/EventDetailScreen";
 
 const defaultNavigationOptions: StackNavigationOptions = {
   headerStyle: {
@@ -97,11 +98,15 @@ export function AuthStack() {
   );
 }
 
-type EventStackParamList = {
+export type EventStackParamList = {
   Events: undefined;
+  EventDetails: {
+    eventId: string;
+  };
 };
 
 export type EventNavProp = StackNavigationProp<EventStackParamList, "Events">;
+export type EventDetailsNavProp = StackNavigationProp<EventStackParamList, "EventDetails">;
 
 export function EventStack() {
   const Stack = createStackNavigator<EventStackParamList>();
@@ -110,6 +115,14 @@ export function EventStack() {
       <Stack.Screen
         name="Events"
         component={EventDashboardScreen}
+        options={{
+          title: "SurfEvent",
+          ...defaultNavigationOptions,
+        }}
+      />
+      <Stack.Screen
+        name="EventDetails"
+        component={EventDetailScreen}
         options={{
           title: "SurfEvent",
           ...defaultNavigationOptions,

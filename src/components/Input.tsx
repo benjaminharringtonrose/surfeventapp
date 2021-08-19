@@ -26,8 +26,8 @@ export const Input = React.forwardRef<TextInput, InputProps>((props: InputProps,
           borderColor: colors.grey800,
           borderBottomWidth: 1,
         },
-        ,
         props.style,
+        ,
       ]}>
       {!!props.label && (
         <Text
@@ -55,6 +55,7 @@ export const Input = React.forwardRef<TextInput, InputProps>((props: InputProps,
             minHeight: 40,
             paddingVertical: spacings.xsmall,
             borderRadius: shared.borderRadius,
+            color: colors.white,
           },
           fonts.regular,
           props.inputStyle,

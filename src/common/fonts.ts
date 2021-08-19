@@ -24,7 +24,7 @@ export const fonts = {
   regular: {
     fontSize: 17,
     fontWeight: "600" as "600",
-    color: colors.white,
+    color: colors.almostWhite,
   },
   small: {
     fontSize: 14,

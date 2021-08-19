@@ -39,7 +39,7 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
   const getLabel = (value: any, mode: DateMode) => {
     switch (mode) {
       case "date":
-        return moment(value).format("MM/DD/YYYY");
+        return moment(value).format("dddd, MMMM Do YYYY");
       case "datetime":
         return moment(value).format("dddd, MMMM Do YYYY, h:mm a");
       case "time":

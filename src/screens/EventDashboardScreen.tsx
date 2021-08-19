@@ -2,13 +2,14 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef } from "react";
 import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
-import moment from "moment";
+import messaging from "@react-native-firebase/messaging";
 
-import { Icon, ButtonAdd } from "../components";
+import { ButtonAdd } from "../components";
 import { EventNavProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
 import { AddEventModal } from "../modals/AddEventModal";
 import { useEvents } from "../hooks/useEvents";
+import { EventCard } from "../components/EventCard";
 
 export const EventDashboardScreen = () => {
   const addEventModalRef = useRef<Modalize>(null);
@@ -16,7 +17,22 @@ export const EventDashboardScreen = () => {
 
   const events = useEvents();
 
+  const requestUserPermission = async () => {
+    try {
+      const authStatus = await messaging().requestPermission();
+      const enabled =
+        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+      if (enabled) {
+        console.log("Authorization status:", authStatus);
+      }
+    } catch (error) {
+      console.warn(error);
+    }
+  };
+
   useEffect(() => {
+    requestUserPermission();
     navigation.setOptions({
       headerRight: () => {
         return (
@@ -55,9 +71,17 @@ export const EventDashboardScreen = () => {
       {!!events ? (
         <FlatList
           data={events}
-          keyExtractor={item => item.datetime}
+          keyExtractor={item => item.eventId}
           renderItem={({ item }) => {
-            return <EventCard eventName={item.eventName} date={item.date} time={item.time} />;
+            return (
+              <EventCard
+                eventName={item.eventName}
+                dateStart={item.dateStart}
+                dateEnd={item.dateEnd}
+                timeStart={item.timeStart}
+                onPress={() => navigation.navigate("EventDetails", { eventId: item.eventId })}
+              />
+            );
           }}
         />
       ) : (
@@ -68,55 +92,6 @@ export const EventDashboardScreen = () => {
 
       <AddEventModal ref={addEventModalRef} onClose={() => addEventModalRef.current?.close()} />
     </SafeAreaView>
-  );
-};
-
-interface IEventCardProps {
-  eventName?: string;
-  date?: string;
-  time?: string;
-  onPress?: () => void;
-}
-
-export const EventCard = (props: IEventCardProps) => {
-  return (
-    <TouchableOpacity
-      onPress={props?.onPress}
-      style={{
-        ...shared.card,
-        ...shared.shadow,
-        marginBottom: spacings.base,
-        marginHorizontal: spacings.base,
-        padding: spacings.base,
-      }}>
-      <View style={{ flexDirection: "row" }}>
-        <View>
-          {!!props.eventName && (
-            <Text style={{ fontSize: 21, fontWeight: "400", color: colors.almostWhite }}>
-              {props.eventName}
-            </Text>
-          )}
-          {!!props.date && (
-            <Text style={{ fontSize: 16, fontWeight: "400", color: colors.grey700 }}>
-              {moment(props.date).format("dddd, MMMM Do YYYY")}
-            </Text>
-          )}
-          {!!props.time && (
-            <Text style={{ fontSize: 16, fontWeight: "400", color: colors.grey700 }}>
-              {props.time}
-            </Text>
-          )}
-        </View>
-        <View
-          style={{
-            flex: 1,
-            alignItems: "flex-end",
-            justifyContent: "center",
-          }}>
-          <Icon name={"chevron-forward"} size={30} color={colors.grey100} />
-        </View>
-      </View>
-    </TouchableOpacity>
   );
 };
 

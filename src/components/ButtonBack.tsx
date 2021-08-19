@@ -10,7 +10,7 @@ interface ButtonBackProps {
 export const ButtonBack = (props: ButtonBackProps) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ paddingHorizontal: spacings.base }}>
-      <Icon name={"chevron-back"} color={colors.yellowCream} size={34} />
+      <Icon name={"chevron-back"} color={colors.grey500} size={24} />
     </TouchableOpacity>
   );
 };

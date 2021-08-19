@@ -17,7 +17,7 @@ export const HeatDashboardScreen = () => {
       headerRight: () => {
         return (
           <TouchableOpacity onPress={() => {}} style={{ marginHorizontal: spacings.base }}>
-            <Icon name={"timer"} size={32} color={colors.almostWhite} />
+            {/* <Icon name={"timer"} size={32} color={colors.almostWhite} /> */}
           </TouchableOpacity>
         );
       },
@@ -31,8 +31,8 @@ export const HeatDashboardScreen = () => {
         backgroundColor: colors.background,
       }}>
       <View style={{ marginLeft: spacings.base }}>
-        <Text style={[fonts.header]}>{"Heats"}</Text>
-        <Text style={[fonts.subheader]}>{"view & create heats here"}</Text>
+        <Text style={fonts.header}>{"Heats"}</Text>
+        <Text style={fonts.subheader}>{"view & create heats"}</Text>
       </View>
       <ButtonAdd
         label={"add surf heat"}
