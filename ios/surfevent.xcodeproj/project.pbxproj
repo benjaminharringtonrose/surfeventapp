@@ -7,14 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00E356F31AD99517003FC87E /* SurfEventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SurfEventTests.m */; };
+		00E356F31AD99517003FC87E /* surfeventTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* surfeventTests.m */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
-		2121E5038EBFFD3E4D53EC61 /* libPods-SurfEvent-SurfEventTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D270B3E44C717E00EB82E53B /* libPods-SurfEvent-SurfEventTests.a */; };
+		2121E5038EBFFD3E4D53EC61 /* libPods-surfevent-surfeventTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D270B3E44C717E00EB82E53B /* libPods-surfevent-surfeventTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		D93B721C26C3760800197431 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D93B721B26C3760800197431 /* GoogleService-Info.plist */; };
-		FE7269CCC039C6EE8C6BF2B0 /* libPods-SurfEvent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A786F184B29EE4140F05884 /* libPods-SurfEvent.a */; };
+		FE7269CCC039C6EE8C6BF2B0 /* libPods-surfevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A786F184B29EE4140F05884 /* libPods-surfevent.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -23,29 +23,29 @@
 			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 13B07F861A680F5B00A75B9A;
-			remoteInfo = SurfEvent;
+			remoteInfo = surfevent;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		00E356EE1AD99517003FC87E /* surfeventTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = surfeventTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		00E356F21AD99517003FC87E /* SurfEventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SurfEventTests.m; sourceTree = "<group>"; };
+		00E356F21AD99517003FC87E /* surfeventTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = surfeventTests.m; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* surfevent.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = surfevent.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = SurfEvent/AppDelegate.h; sourceTree = "<group>"; };
-		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = SurfEvent/AppDelegate.m; sourceTree = "<group>"; };
-		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = SurfEvent/Images.xcassets; sourceTree = "<group>"; };
-		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = SurfEvent/Info.plist; sourceTree = "<group>"; };
-		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SurfEvent/main.m; sourceTree = "<group>"; };
-		1A786F184B29EE4140F05884 /* libPods-SurfEvent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SurfEvent.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		3867C5147D2E31C9721C7E3D /* Pods-SurfEvent-SurfEventTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SurfEvent-SurfEventTests.release.xcconfig"; path = "Target Support Files/Pods-SurfEvent-SurfEventTests/Pods-SurfEvent-SurfEventTests.release.xcconfig"; sourceTree = "<group>"; };
-		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = SurfEvent/LaunchScreen.storyboard; sourceTree = "<group>"; };
-		C6A9E1C2BC65902730E969B9 /* Pods-SurfEvent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SurfEvent.release.xcconfig"; path = "Target Support Files/Pods-SurfEvent/Pods-SurfEvent.release.xcconfig"; sourceTree = "<group>"; };
-		CF07F5068224D428F293BE4A /* Pods-SurfEvent-SurfEventTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SurfEvent-SurfEventTests.debug.xcconfig"; path = "Target Support Files/Pods-SurfEvent-SurfEventTests/Pods-SurfEvent-SurfEventTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D270B3E44C717E00EB82E53B /* libPods-SurfEvent-SurfEventTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-SurfEvent-SurfEventTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = surfevent/AppDelegate.h; sourceTree = "<group>"; };
+		13B07FB01A68108700A75B9A /* AppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppDelegate.m; path = surfevent/AppDelegate.m; sourceTree = "<group>"; };
+		13B07FB51A68108700A75B9A /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = surfevent/Images.xcassets; sourceTree = "<group>"; };
+		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = surfevent/Info.plist; sourceTree = "<group>"; };
+		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = surfevent/main.m; sourceTree = "<group>"; };
+		1A786F184B29EE4140F05884 /* libPods-surfevent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-surfevent.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3867C5147D2E31C9721C7E3D /* Pods-surfevent-surfeventTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-surfevent-surfeventTests.release.xcconfig"; path = "Target Support Files/Pods-surfevent-surfeventTests/Pods-surfevent-surfeventTests.release.xcconfig"; sourceTree = "<group>"; };
+		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = surfevent/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		C6A9E1C2BC65902730E969B9 /* Pods-surfevent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-surfevent.release.xcconfig"; path = "Target Support Files/Pods-surfevent/Pods-surfevent.release.xcconfig"; sourceTree = "<group>"; };
+		CF07F5068224D428F293BE4A /* Pods-surfevent-surfeventTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-surfevent-surfeventTests.debug.xcconfig"; path = "Target Support Files/Pods-surfevent-surfeventTests/Pods-surfevent-surfeventTests.debug.xcconfig"; sourceTree = "<group>"; };
+		D270B3E44C717E00EB82E53B /* libPods-surfevent-surfeventTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-surfevent-surfeventTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D93B721B26C3760800197431 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
-		FE6527CA22E67AE632611908 /* Pods-SurfEvent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SurfEvent.debug.xcconfig"; path = "Target Support Files/Pods-SurfEvent/Pods-SurfEvent.debug.xcconfig"; sourceTree = "<group>"; };
+		FE6527CA22E67AE632611908 /* Pods-surfevent.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-surfevent.debug.xcconfig"; path = "Target Support Files/Pods-surfevent/Pods-surfevent.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -53,7 +53,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2121E5038EBFFD3E4D53EC61 /* libPods-SurfEvent-SurfEventTests.a in Frameworks */,
+				2121E5038EBFFD3E4D53EC61 /* libPods-surfevent-surfeventTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -61,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FE7269CCC039C6EE8C6BF2B0 /* libPods-SurfEvent.a in Frameworks */,
+				FE7269CCC039C6EE8C6BF2B0 /* libPods-surfevent.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -71,7 +71,7 @@
 		00E356EF1AD99517003FC87E /* surfeventTests */ = {
 			isa = PBXGroup;
 			children = (
-				00E356F21AD99517003FC87E /* SurfEventTests.m */,
+				00E356F21AD99517003FC87E /* surfeventTests.m */,
 				00E356F01AD99517003FC87E /* Supporting Files */,
 			);
 			path = surfeventTests;
@@ -103,8 +103,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				1A786F184B29EE4140F05884 /* libPods-SurfEvent.a */,
-				D270B3E44C717E00EB82E53B /* libPods-SurfEvent-SurfEventTests.a */,
+				1A786F184B29EE4140F05884 /* libPods-surfevent.a */,
+				D270B3E44C717E00EB82E53B /* libPods-surfevent-surfeventTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -143,10 +143,10 @@
 		BE8F05A58F2096C339781614 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				FE6527CA22E67AE632611908 /* Pods-SurfEvent.debug.xcconfig */,
-				C6A9E1C2BC65902730E969B9 /* Pods-SurfEvent.release.xcconfig */,
-				CF07F5068224D428F293BE4A /* Pods-SurfEvent-SurfEventTests.debug.xcconfig */,
-				3867C5147D2E31C9721C7E3D /* Pods-SurfEvent-SurfEventTests.release.xcconfig */,
+				FE6527CA22E67AE632611908 /* Pods-surfevent.debug.xcconfig */,
+				C6A9E1C2BC65902730E969B9 /* Pods-surfevent.release.xcconfig */,
+				CF07F5068224D428F293BE4A /* Pods-surfevent-surfeventTests.debug.xcconfig */,
+				3867C5147D2E31C9721C7E3D /* Pods-surfevent-surfeventTests.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -171,7 +171,7 @@
 				00E356F51AD99517003FC87E /* PBXTargetDependency */,
 			);
 			name = surfeventTests;
-			productName = SurfEventTests;
+			productName = surfeventTests;
 			productReference = 00E356EE1AD99517003FC87E /* surfeventTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
@@ -194,7 +194,7 @@
 			dependencies = (
 			);
 			name = surfevent;
-			productName = SurfEvent;
+			productName = surfevent;
 			productReference = 13B07F961A680F5B00A75B9A /* surfevent.app */;
 			productType = "com.apple.product-type.application";
 		};
@@ -275,15 +275,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SurfEvent/Pods-SurfEvent-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-surfevent/Pods-surfevent-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SurfEvent/Pods-SurfEvent-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-surfevent/Pods-surfevent-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SurfEvent/Pods-SurfEvent-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-surfevent/Pods-surfevent-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		4AED3990D03AA8741B2DA37B /* [CP-User] [RNFB] Core Configuration */ = {
@@ -314,7 +314,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SurfEvent-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-surfevent-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -327,15 +327,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SurfEvent-SurfEventTests/Pods-SurfEvent-SurfEventTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-surfevent-surfeventTests/Pods-surfevent-surfeventTests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SurfEvent-SurfEventTests/Pods-SurfEvent-SurfEventTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-surfevent-surfeventTests/Pods-surfevent-surfeventTests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SurfEvent-SurfEventTests/Pods-SurfEvent-SurfEventTests-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-surfevent-surfeventTests/Pods-surfevent-surfeventTests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D3B625F6E05FDFBD18EB73D1 /* [CP] Embed Pods Frameworks */ = {
@@ -344,15 +344,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SurfEvent/Pods-SurfEvent-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-surfevent/Pods-surfevent-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SurfEvent/Pods-SurfEvent-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-surfevent/Pods-surfevent-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SurfEvent/Pods-SurfEvent-frameworks.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-surfevent/Pods-surfevent-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		D4BF2532EE76802C6DA0D353 /* [CP] Check Pods Manifest.lock */ = {
@@ -370,7 +370,7 @@
 			outputFileListPaths = (
 			);
 			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SurfEvent-SurfEventTests-checkManifestLockResult.txt",
+				"$(DERIVED_FILE_DIR)/Pods-surfevent-surfeventTests-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -383,15 +383,15 @@
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SurfEvent-SurfEventTests/Pods-SurfEvent-SurfEventTests-resources-${CONFIGURATION}-input-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-surfevent-surfeventTests/Pods-surfevent-surfeventTests-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SurfEvent-SurfEventTests/Pods-SurfEvent-SurfEventTests-resources-${CONFIGURATION}-output-files.xcfilelist",
+				"${PODS_ROOT}/Target Support Files/Pods-surfevent-surfeventTests/Pods-surfevent-surfeventTests-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SurfEvent-SurfEventTests/Pods-SurfEvent-SurfEventTests-resources.sh\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-surfevent-surfeventTests/Pods-surfevent-surfeventTests-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		FD10A7F022414F080027D42C /* Start Packager */ = {
@@ -420,7 +420,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				00E356F31AD99517003FC87E /* SurfEventTests.m in Sources */,
+				00E356F31AD99517003FC87E /* surfeventTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -446,14 +446,14 @@
 /* Begin XCBuildConfiguration section */
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = CF07F5068224D428F293BE4A /* Pods-SurfEvent-SurfEventTests.debug.xcconfig */;
+			baseConfigurationReference = CF07F5068224D428F293BE4A /* Pods-surfevent-surfeventTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
 				);
-				INFOPLIST_FILE = SurfEventTests/Info.plist;
+				INFOPLIST_FILE = surfeventTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -473,11 +473,11 @@
 		};
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3867C5147D2E31C9721C7E3D /* Pods-SurfEvent-SurfEventTests.release.xcconfig */;
+			baseConfigurationReference = 3867C5147D2E31C9721C7E3D /* Pods-surfevent-surfeventTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
-				INFOPLIST_FILE = SurfEventTests/Info.plist;
+				INFOPLIST_FILE = surfeventTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -497,14 +497,14 @@
 		};
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE6527CA22E67AE632611908 /* Pods-SurfEvent.debug.xcconfig */;
+			baseConfigurationReference = FE6527CA22E67AE632611908 /* Pods-surfevent.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2B9UR59BJP;
 				ENABLE_BITCODE = NO;
-				INFOPLIST_FILE = SurfEvent/Info.plist;
+				INFOPLIST_FILE = surfevent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -524,13 +524,13 @@
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C6A9E1C2BC65902730E969B9 /* Pods-SurfEvent.release.xcconfig */;
+			baseConfigurationReference = C6A9E1C2BC65902730E969B9 /* Pods-surfevent.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 2B9UR59BJP;
-				INFOPLIST_FILE = SurfEvent/Info.plist;
+				INFOPLIST_FILE = surfevent/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

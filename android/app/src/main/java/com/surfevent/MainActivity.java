@@ -16,6 +16,6 @@ protected void onCreate(Bundle savedInstanceState) {
    */
   @Override
   protected String getMainComponentName() {
-    return "SurfEvent";
+    return "surfevent";
   }
 }
