@@ -17,10 +17,12 @@ export const useEvents = () => {
       .where("uid", "==", uid)
       .onSnapshot(querySnapshot => {
         const events: any[] = [];
-        querySnapshot.forEach(doc => {
+        querySnapshot?.forEach(doc => {
           events.push(doc.data());
         });
-        events.sort((d1, d2) => new Date(d1.date).getTime() - new Date(d2.date).getTime());
+        events.sort(
+          (d1, d2) => new Date(d1.dateStart).getTime() - new Date(d2.dateStart).getTime(),
+        );
         setEvents(events);
       });
     return function cleanup() {

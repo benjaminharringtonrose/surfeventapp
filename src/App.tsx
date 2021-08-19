@@ -5,7 +5,7 @@ import { StatusBar, useColorScheme } from "react-native";
 import { AuthStack, MainStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
+import auth from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
 import { colors } from "./common";
 import { Host } from "react-native-portalize";
@@ -32,6 +32,11 @@ const Root = () => {
   const [user, setUser] = useState();
   const dispatch = useAppDispatch();
 
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
   // Handle user state changes
   function onAuthStateChanged(user: any) {
     if (user) {
@@ -42,11 +47,6 @@ const Root = () => {
       setInitializing(false);
     }
   }
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber; // unsubscribe on unmount
-  }, []);
 
   if (initializing) return null;
 

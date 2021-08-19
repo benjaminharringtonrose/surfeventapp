@@ -1,6 +1,14 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, FlatList } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  TouchableOpacity,
+  StyleSheet,
+  FlatList,
+  ScrollView,
+} from "react-native";
 import { Modalize } from "react-native-modalize";
 import messaging from "@react-native-firebase/messaging";
 
@@ -50,28 +58,32 @@ export const EventDashboardScreen = () => {
         flex: 1,
         backgroundColor: colors.background,
       }}>
-      <View style={{ marginLeft: spacings.base }}>
-        <Text style={[fonts.header]}>{"Events"}</Text>
-        <Text style={[fonts.subheader]}>{"view & create events"}</Text>
-      </View>
-      <ButtonAdd
-        label={"add surf event"}
-        onPress={() => addEventModalRef.current?.open()}
-        style={{ marginHorizontal: spacings.base }}
-      />
-      <View style={{ padding: spacings.base }}>
-        <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Today's Event"}</Text>
-      </View>
-      <View style={styles.card}>
-        <Text style={styles.cardText}>{"There are no events today"}</Text>
-      </View>
-      <View style={{ padding: spacings.base }}>
-        <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Upcoming Events"}</Text>
-      </View>
       {!!events ? (
         <FlatList
           data={events}
           keyExtractor={item => item.eventId}
+          ListHeaderComponent={
+            <>
+              <View style={{ marginLeft: spacings.base }}>
+                <Text style={[fonts.header]}>{"Events"}</Text>
+                <Text style={[fonts.subheader]}>{"view & create events"}</Text>
+              </View>
+              <ButtonAdd
+                label={"add surf event"}
+                onPress={() => addEventModalRef.current?.open()}
+                style={{ marginHorizontal: spacings.base }}
+              />
+              <View style={{ padding: spacings.base }}>
+                <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Today's Event"}</Text>
+              </View>
+              <View style={styles.card}>
+                <Text style={styles.cardText}>{"There are no events today"}</Text>
+              </View>
+              <View style={{ padding: spacings.base }}>
+                <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Upcoming Events"}</Text>
+              </View>
+            </>
+          }
           renderItem={({ item }) => {
             return (
               <EventCard
@@ -89,7 +101,6 @@ export const EventDashboardScreen = () => {
           <Text style={styles.cardText}>{"You haven't created any events"}</Text>
         </View>
       )}
-
       <AddEventModal ref={addEventModalRef} onClose={() => addEventModalRef.current?.close()} />
     </SafeAreaView>
   );

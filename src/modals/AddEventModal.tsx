@@ -2,7 +2,7 @@ import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import firestore from "@react-native-firebase/firestore";
 import React, { forwardRef, Ref, useState } from "react";
-import { View } from "react-native";
+import { ActivityIndicatorComponent, Platform, View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -13,6 +13,7 @@ import { ModalHeader } from "../components/ModalHeader";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppSelector } from "../hooks/redux";
 import moment from "moment";
+import { firebase } from "@react-native-firebase/messaging";
 
 interface AddEventFormProps {
   eventName?: string;
