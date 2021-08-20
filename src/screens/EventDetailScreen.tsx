@@ -2,8 +2,8 @@ import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { View, Text, SafeAreaView, ScrollView } from "react-native";
 import { EventDetailsNavProp, EventStackParamList } from "../AppNavigator";
-import { colors } from "../common";
-import { ButtonBack } from "../components";
+import { colors, spacings } from "../common";
+import { ButtonAdd, ButtonBack } from "../components";
 import { EventCard } from "../components/EventCard";
 import { useEvent } from "../hooks/useEvent";
 
@@ -31,6 +31,7 @@ export const EventDetailScreen = () => {
           dateEnd={event.dateEnd}
           timeStart={event.timeStart}
         />
+        <ButtonAdd label={"Add Heats"} onPress={() => {}} />
       </ScrollView>
     </SafeAreaView>
   );

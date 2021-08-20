@@ -1,15 +1,15 @@
-import { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { Action, createSlice } from "@reduxjs/toolkit";
+import { AuthUser } from "../../common";
 
 interface AuthState {
-  user?: FirebaseAuthTypes.User | null;
+  user?: AuthUser;
 }
 
 const initialState: AuthState = {};
 
 interface ISubscribeToAuthUser extends Action {
   payload: {
-    user: FirebaseAuthTypes.User;
+    user?: AuthUser;
   };
 }
 

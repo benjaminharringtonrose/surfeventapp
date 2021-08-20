@@ -1,5 +1,5 @@
 import React from "react";
-import { Dimensions, TouchableOpacity, View, Text, StyleProp, ViewStyle } from "react-native";
+import { TouchableOpacity, View, Text, StyleProp, ViewStyle } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
 import { colors, shared, spacings } from "../common";
 
@@ -16,7 +16,11 @@ export const ButtonAdd = (props: ButtonAddProps) => {
       style={[
         shared.card,
         shared.shadow,
-        { marginVertical: spacings.base, backgroundColor: colors.primary },
+        {
+          marginVertical: spacings.base,
+          backgroundColor: colors.primary,
+          marginHorizontal: spacings.base,
+        },
         props?.style,
       ]}>
       <View
@@ -28,11 +32,11 @@ export const ButtonAdd = (props: ButtonAddProps) => {
           paddingVertical: spacings.xsmall,
         }}>
         {!!props?.label && (
-          <Text style={{ color: colors.grey500, fontSize: 21, paddingRight: spacings.small }}>
+          <Text style={{ color: colors.almostWhite, fontSize: 21, paddingRight: spacings.small }}>
             {props.label}
           </Text>
         )}
-        <Icon name={"add"} size={28} color={colors.grey500} />
+        <Icon name={"add"} size={28} color={colors.almostWhite} />
       </View>
     </TouchableOpacity>
   );

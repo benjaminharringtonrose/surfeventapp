@@ -5,13 +5,14 @@ import { StatusBar, useColorScheme } from "react-native";
 import { AuthStack, MainStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import auth from "@react-native-firebase/auth";
+import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
-import { colors } from "./common";
+import { AuthUser, colors } from "./common";
 import { Host } from "react-native-portalize";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAppDispatch } from "./hooks/redux";
 import { setAuthUser } from "./store/slices/authSlice";
+import { updateMessagingToken } from "./util/cloudMessaging";
 
 const App = () => {
   return (
@@ -29,7 +30,7 @@ const Root = () => {
 
   // Set an initializing state whilst Firebase connects
   const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
+  const [user, setUser] = useState<AuthUser | undefined>(undefined);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
@@ -37,16 +38,30 @@ const Root = () => {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  // Handle user state changes
-  function onAuthStateChanged(user: any) {
-    if (user) {
-      dispatch(setAuthUser({ user: user._user }));
+  const onAuthStateChanged = async (firebaseUser: FirebaseAuthTypes.User | null) => {
+    let authUser: AuthUser | undefined = undefined;
+    if (firebaseUser) {
+      authUser = {
+        emailVerified: firebaseUser.emailVerified,
+        uid: firebaseUser.uid,
+        providerId: firebaseUser.providerId,
+        providerData: firebaseUser.providerData,
+        displayName: firebaseUser.displayName || undefined,
+        email: firebaseUser.email || undefined,
+        isAnonymous: firebaseUser.isAnonymous,
+        photoURL: firebaseUser.photoURL || undefined,
+        metadata: firebaseUser.metadata,
+      };
+      dispatch(setAuthUser({ user: authUser }));
     }
-    setUser(user);
+    if (firebaseUser?.uid) {
+      await updateMessagingToken(firebaseUser.uid);
+    }
+    setUser(authUser);
     if (initializing) {
       setInitializing(false);
     }
-  }
+  };
 
   if (initializing) return null;
 

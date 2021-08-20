@@ -7,6 +7,10 @@ export const useEvents = () => {
   const [events, setEvents] = useState<any>(undefined);
   const uid = useAppSelector(state => state.auth.user?.uid);
 
+  const user = useAppSelector(state => state.auth.user);
+
+  console.log(user);
+
   useEffect(() => {
     if (!uid) {
       return;

@@ -1,14 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  StyleSheet,
-  FlatList,
-  ScrollView,
-} from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 import messaging from "@react-native-firebase/messaging";
 
@@ -71,16 +63,15 @@ export const EventDashboardScreen = () => {
               <ButtonAdd
                 label={"add surf event"}
                 onPress={() => addEventModalRef.current?.open()}
-                style={{ marginHorizontal: spacings.base }}
               />
               <View style={{ padding: spacings.base }}>
-                <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Today's Event"}</Text>
+                <Text style={{ color: colors.almostWhite, fontSize: 21 }}>{"Today's Event"}</Text>
               </View>
               <View style={styles.card}>
                 <Text style={styles.cardText}>{"There are no events today"}</Text>
               </View>
               <View style={{ padding: spacings.base }}>
-                <Text style={{ color: colors.grey500, fontSize: 21 }}>{"Upcoming Events"}</Text>
+                <Text style={{ color: colors.almostWhite, fontSize: 21 }}>{"Upcoming Events"}</Text>
               </View>
             </>
           }
