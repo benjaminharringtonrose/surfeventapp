@@ -2,6 +2,9 @@ import messaging from "@react-native-firebase/messaging";
 import firestore from "@react-native-firebase/firestore";
 
 export const updateMessagingToken = async (uid: string) => {
+  if (!messaging().isDeviceRegisteredForRemoteMessages) {
+    await messaging().registerDeviceForRemoteMessages();
+  }
   const token = await messaging().getToken();
   console.log("messaging.getToken", token);
   await saveMessagingTokenToUser(token, uid);
