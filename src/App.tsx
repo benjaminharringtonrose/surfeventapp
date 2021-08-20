@@ -39,27 +39,31 @@ const Root = () => {
   }, []);
 
   const onAuthStateChanged = async (firebaseUser: FirebaseAuthTypes.User | null) => {
-    let authUser: AuthUser | undefined = undefined;
-    if (firebaseUser) {
-      authUser = {
-        emailVerified: firebaseUser.emailVerified,
-        uid: firebaseUser.uid,
-        providerId: firebaseUser.providerId,
-        providerData: firebaseUser.providerData,
-        displayName: firebaseUser.displayName || undefined,
-        email: firebaseUser.email || undefined,
-        isAnonymous: firebaseUser.isAnonymous,
-        photoURL: firebaseUser.photoURL || undefined,
-        metadata: firebaseUser.metadata,
-      };
-      dispatch(setAuthUser({ user: authUser }));
-    }
-    if (firebaseUser?.uid) {
-      await updateMessagingToken(firebaseUser.uid);
-    }
-    setUser(authUser);
-    if (initializing) {
-      setInitializing(false);
+    try {
+      let authUser: AuthUser | undefined = undefined;
+      if (firebaseUser) {
+        authUser = {
+          emailVerified: firebaseUser.emailVerified,
+          uid: firebaseUser.uid,
+          providerId: firebaseUser.providerId,
+          providerData: firebaseUser.providerData,
+          displayName: firebaseUser.displayName || undefined,
+          email: firebaseUser.email || undefined,
+          isAnonymous: firebaseUser.isAnonymous,
+          photoURL: firebaseUser.photoURL || undefined,
+          metadata: firebaseUser.metadata,
+        };
+        dispatch(setAuthUser({ user: authUser }));
+      }
+      if (firebaseUser?.uid) {
+        await updateMessagingToken(firebaseUser.uid);
+      }
+      setUser(authUser);
+      if (initializing) {
+        setInitializing(false);
+      }
+    } catch (e) {
+      console.warn(e);
     }
   };
 
