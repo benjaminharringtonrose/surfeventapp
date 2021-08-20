@@ -14,7 +14,7 @@ export const fonts = {
   navHeader: {
     fontSize: 24,
     fontWeight: "400" as "400",
-    color: colors.grey500,
+    color: colors.white,
   },
   large: {
     fontSize: 19,

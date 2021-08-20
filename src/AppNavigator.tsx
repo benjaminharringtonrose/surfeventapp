@@ -56,8 +56,8 @@ export function MainStack() {
           borderTopWidth: 0,
         },
         tabBarLabel: "",
-        tabBarActiveTintColor: colors.almostWhite,
-        tabBarInactiveTintColor: colors.grey700,
+        tabBarActiveTintColor: colors.primary,
+        tabBarInactiveTintColor: colors.white,
       })}>
       <Tab.Screen name="EventStack" component={EventStack} options={{ headerShown: false }} />
       <Tab.Screen name="HeatStack" component={HeatStack} options={{ headerShown: false }} />

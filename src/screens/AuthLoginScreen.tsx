@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { View, SafeAreaView } from "react-native";
+import { View, SafeAreaView, Text } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
 import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
-import { colors, spacings } from "../common";
+import { colors, fonts, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 import { LoginNavProp } from "../AppNavigator";
 
@@ -48,13 +48,17 @@ export const AuthLoginScreen = () => {
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center", backgroundColor: colors.background }}>
+      <View style={{ marginLeft: spacings.base, marginTop: spacings.large }}>
+        <Text style={fonts.header}>{"Welcome"}</Text>
+        <Text style={fonts.subheader}>{"Sign in below"}</Text>
+      </View>
       <Formik
         innerRef={formRef}
         initialValues={{ email: "", password: "" }}
         validationSchema={ProfileSchema}
         onSubmit={onLogin}>
         {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
-          <View style={{ marginHorizontal: spacings.base }}>
+          <View style={{ flex: 1, marginHorizontal: spacings.base, marginTop: spacings.large }}>
             <FormInput
               label={"Email"}
               placeholder={"Jimmy123@gmail.com"}

@@ -1,5 +1,5 @@
 export const colors = {
-  primary: "#BB86FC",
+  primary: "#303F9F",
   primaryVariant: "#3700B3",
   secondary: "03DAC6",
   primaryDark: "#002366",
@@ -21,7 +21,7 @@ export const colors = {
   background: "#121212",
   header: "#BDBDBD",
   input: "#fafafa",
-  button: "#222222",
+  button: "#303F9F",
 
   greyscale1: "#383838",
   greyscale2: "#343434",

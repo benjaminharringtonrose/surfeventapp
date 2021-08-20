@@ -13,7 +13,12 @@ export const ButtonAdd = (props: ButtonAddProps) => {
   return (
     <TouchableOpacity
       onPress={props.onPress}
-      style={[shared.card, shared.shadow, { marginVertical: spacings.base }, props?.style]}>
+      style={[
+        shared.card,
+        shared.shadow,
+        { marginVertical: spacings.base, backgroundColor: colors.primary },
+        props?.style,
+      ]}>
       <View
         style={{
           flexDirection: "row",

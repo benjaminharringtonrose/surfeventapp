@@ -1,19 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, SafeAreaView } from "react-native";
+import { View, SafeAreaView, Text } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
-import { colors, spacings } from "../common";
+import { colors, fonts, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 import { useNavigation } from "@react-navigation/native";
 import { SignUpNavProp } from "../AppNavigator";
 import { ButtonBack } from "../components/ButtonBack";
 
 interface SignUpFormProps {
-  firstName?: string;
-  lastName?: string;
   email?: string;
   password?: string;
 }
@@ -35,7 +33,7 @@ export const AuthSignUpScreen = () => {
   }, []);
 
   const onSignUp = async (values: SignUpFormProps) => {
-    if (!values.firstName || !values.lastName || !values.email || !values.password) {
+    if (!values.email || !values.password) {
       return;
     }
     setLoadingSignUp(true);
@@ -52,40 +50,23 @@ export const AuthSignUpScreen = () => {
   };
 
   const ProfileSchema = Yup.object().shape({
-    firstName: Yup.string().required("Required"),
-    lastName: Yup.string().required("Required"),
     email: Yup.string().required("Required"),
     password: Yup.string().required("Required"),
   });
 
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center", backgroundColor: colors.background }}>
+      <View style={{ marginLeft: spacings.base, marginTop: spacings.large }}>
+        <Text style={fonts.header}>{"Sign up below"}</Text>
+        <Text style={fonts.subheader}>{"Provide an email\n and password"}</Text>
+      </View>
       <Formik
         innerRef={formRef}
-        initialValues={{ firstName: "", lastName: "", email: "", password: "" }}
+        initialValues={{ email: "", password: "" }}
         validationSchema={ProfileSchema}
         onSubmit={onSignUp}>
         {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
-          <View style={{ marginHorizontal: spacings.base }}>
-            <FormInput
-              label={"First Name"}
-              placeholder={"Jimmy"}
-              onChangeText={handleChange("firstName")}
-              onBlur={handleBlur("firstName")}
-              value={values.firstName}
-              error={errors.firstName}
-              touched={touched.firstName}
-            />
-            <FormInput
-              label={"Last Name"}
-              placeholder={"Neutron"}
-              onChangeText={handleChange("lastName")}
-              onBlur={handleBlur("lastName")}
-              value={values.lastName}
-              error={errors.lastName}
-              touched={touched.lastName}
-              style={{ marginTop: spacings.base }}
-            />
+          <View style={{ flex: 1, marginHorizontal: spacings.base, marginTop: spacings.large }}>
             <FormInput
               label={"Email"}
               placeholder={"Jimmy123@gmail.com"}
