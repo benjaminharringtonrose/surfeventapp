@@ -5,10 +5,9 @@ import { useAppSelector } from "./redux";
 import { RouteProp, useRoute } from "@react-navigation/native";
 import { EventStackParamList } from "../AppNavigator";
 
-export const useEvent = () => {
+export const useEvent = (eventId: string) => {
   const [event, setEvent] = useState<any>(undefined);
   const uid = useAppSelector(state => state.auth.user?.uid);
-  const eventId = useRoute<RouteProp<EventStackParamList, "EventDetails">>().params.eventId;
 
   useEffect(() => {
     if (!uid) {

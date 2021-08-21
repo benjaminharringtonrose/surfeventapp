@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>46767575-f71kjacb4dlg3im28lmtf41ig266gnf4.apps.googleusercontent.com</string>
+	<string>46767575-3e786s2tb2eal5j3hvjumo9sa70psp3d.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.46767575-f71kjacb4dlg3im28lmtf41ig266gnf4</string>
+	<string>com.googleusercontent.apps.46767575-3e786s2tb2eal5j3hvjumo9sa70psp3d</string>
 	<key>API_KEY</key>
 	<string>AIzaSyC6RSRoo-1255bJDZD6UMBCwIfh8qKQ1Qg</string>
 	<key>GCM_SENDER_ID</key>
@@ -19,16 +19,16 @@
 	<key>STORAGE_BUCKET</key>
 	<string>surfevent-f39db.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>
-	<false/>
+	<false></false>
 	<key>IS_APPINVITE_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_GCM_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>IS_SIGNIN_ENABLED</key>
-	<true/>
+	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:46767575:ios:640d2513c317eab3a23f92</string>
+	<string>1:46767575:ios:afb98a37aea0ece9a23f92</string>
 </dict>
 </plist>

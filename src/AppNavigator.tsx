@@ -14,6 +14,7 @@ import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
 import { AuthLoginScreen } from "./screens/AuthLoginScreen";
 import { colors, fonts } from "./common";
 import { EventDetailScreen } from "./screens/EventDetailScreen";
+import { RouteProp } from "@react-navigation/native";
 
 const defaultNavigationOptions: StackNavigationOptions = {
   headerStyle: {
@@ -107,6 +108,7 @@ export type EventStackParamList = {
 
 export type EventNavProp = StackNavigationProp<EventStackParamList, "Events">;
 export type EventDetailsNavProp = StackNavigationProp<EventStackParamList, "EventDetails">;
+export type EventDetailsRouteProp = RouteProp<EventStackParamList, "EventDetails">;
 
 export function EventStack() {
   const Stack = createStackNavigator<EventStackParamList>();

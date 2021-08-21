@@ -1,7 +1,7 @@
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
-import { StatusBar, useColorScheme } from "react-native";
+import { Alert, StatusBar, useColorScheme } from "react-native";
 import { AuthStack, MainStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import messaging from "@react-native-firebase/messaging";
@@ -38,6 +38,13 @@ const Root = () => {
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
+  }, []);
+
+  useEffect(() => {
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+    });
+    return unsubscribe;
   }, []);
 
   const onAuthStateChanged = async (firebaseUser: FirebaseAuthTypes.User | null) => {

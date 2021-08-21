@@ -1,7 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { TouchableOpacity, View, Text } from "react-native";
-import { Icon } from ".";
+import { View, Text } from "react-native";
 import { colors, shared, spacings } from "../common";
 
 interface IEventCardProps {
@@ -9,14 +8,11 @@ interface IEventCardProps {
   dateStart?: string;
   timeStart?: string;
   dateEnd: string;
-  onPress?: () => void;
 }
 
 export const EventCard = (props: IEventCardProps) => {
   return (
-    <TouchableOpacity
-      onPress={props?.onPress}
-      disabled={!props?.onPress}
+    <View
       style={{
         flex: 1,
         ...shared.card,
@@ -29,7 +25,6 @@ export const EventCard = (props: IEventCardProps) => {
         {!!props.eventName && (
           <Text
             style={{
-              textAlign: "center",
               fontSize: 24,
               fontWeight: "500",
               color: colors.almostWhite,
@@ -106,22 +101,7 @@ export const EventCard = (props: IEventCardProps) => {
             </Text>
           )}
         </View>
-        {!!props?.onPress && (
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "flex-end",
-              marginTop: spacings.base,
-            }}>
-            <Text style={{ fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
-              {"View Event"}
-            </Text>
-            <Icon name={"chevron-forward"} size={21} color={colors.grey100} />
-          </View>
-        )}
       </View>
-    </TouchableOpacity>
+    </View>
   );
 };

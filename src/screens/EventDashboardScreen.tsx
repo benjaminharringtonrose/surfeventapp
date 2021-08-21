@@ -9,6 +9,7 @@ import { colors, fonts, shared, spacings } from "../common";
 import { AddEventModal } from "../modals/AddEventModal";
 import { useEvents } from "../hooks/useEvents";
 import { EventCard } from "../components/EventCard";
+import { EventButton } from "../components/EventButton";
 
 export const EventDashboardScreen = () => {
   const addEventModalRef = useRef<Modalize>(null);
@@ -61,7 +62,7 @@ export const EventDashboardScreen = () => {
           }
           renderItem={({ item }) => {
             return (
-              <EventCard
+              <EventButton
                 eventName={item.eventName}
                 dateStart={item.dateStart}
                 dateEnd={item.dateEnd}
