@@ -46,6 +46,7 @@ export const Input = React.forwardRef<TextInput, InputProps>((props: InputProps,
         ref={ref}
         placeholderTextColor={colors.grey500}
         selectionColor={colors.grey200}
+        autoCapitalize={"none"}
         {...props}
         style={[
           {

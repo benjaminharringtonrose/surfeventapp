@@ -69,7 +69,7 @@ export const AuthSignUpScreen = () => {
           <View style={{ flex: 1, marginHorizontal: spacings.base, marginTop: spacings.large }}>
             <FormInput
               label={"Email"}
-              placeholder={"Jimmy123@gmail.com"}
+              placeholder={"jimmy123@gmail.com"}
               onChangeText={handleChange("email")}
               onBlur={handleBlur("email")}
               value={values.email}

@@ -2,7 +2,6 @@ import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef } from "react";
 import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
-import messaging from "@react-native-firebase/messaging";
 
 import { ButtonAdd } from "../components";
 import { EventNavProp } from "../AppNavigator";
@@ -17,22 +16,7 @@ export const EventDashboardScreen = () => {
 
   const events = useEvents();
 
-  const requestUserPermission = async () => {
-    try {
-      const authStatus = await messaging().requestPermission();
-      const enabled =
-        authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-        authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-      if (enabled) {
-        console.log("Authorization status:", authStatus);
-      }
-    } catch (error) {
-      console.warn(error);
-    }
-  };
-
   useEffect(() => {
-    requestUserPermission();
     navigation.setOptions({
       headerRight: () => {
         return (

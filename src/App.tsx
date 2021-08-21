@@ -4,6 +4,8 @@ import React, { useEffect, useState } from "react";
 import { StatusBar, useColorScheme } from "react-native";
 import { AuthStack, MainStack } from "./AppNavigator";
 import { Provider } from "react-redux";
+import messaging from "@react-native-firebase/messaging";
+
 import { store } from "./store";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -54,8 +56,6 @@ const Root = () => {
           metadata: firebaseUser.metadata,
         };
         dispatch(setAuthUser({ user: authUser }));
-      }
-      if (firebaseUser?.uid) {
         await updateMessagingToken(firebaseUser.uid);
       }
       setUser(authUser);
