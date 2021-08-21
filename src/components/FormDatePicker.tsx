@@ -19,7 +19,7 @@ export const FormDatePicker = (props: FormDatePickerProps) => {
     <>
       <View
         style={{
-          backgroundColor: colors.background,
+          backgroundColor: colors.greyscale9,
         }}>
         <Text
           style={[

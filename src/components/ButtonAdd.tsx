@@ -17,7 +17,6 @@ export const ButtonAdd = (props: ButtonAddProps) => {
         shared.card,
         shared.shadow,
         {
-          marginVertical: spacings.base,
           backgroundColor: colors.primary,
           marginHorizontal: spacings.base,
         },

@@ -8,7 +8,7 @@ interface IEventButtonProps {
   eventName?: string;
   dateStart?: string;
   timeStart?: string;
-  dateEnd: string;
+  dateEnd?: string;
   onPress?: () => void;
 }
 
@@ -26,7 +26,7 @@ export const EventButton = (props: IEventButtonProps) => {
         padding: spacings.base,
       }}>
       <View style={{ flex: 1, flexDirection: "row" }}>
-        {!!props.dateStart && (
+        {!!props.dateStart && !!props.dateEnd && (
           <Text style={{ flex: 2, fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
             {`${moment(props.dateStart).format("MMM DD")} - ${moment(props.dateEnd).format("DD")}`}
           </Text>

@@ -64,7 +64,7 @@ export const ListPicker = React.forwardRef((props: ListPickerProps, ref) => {
           ItemSeparatorComponent: Separator,
           keyExtractor: item => item.id.toString(),
           contentContainerStyle: { paddingBottom: insets.bottom },
-          style: { backgroundColor: colors.background },
+          style: { backgroundColor: colors.greyscale9 },
         }}
       />
     </Portal>

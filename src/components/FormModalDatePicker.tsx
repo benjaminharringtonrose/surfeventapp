@@ -43,13 +43,12 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
       case "datetime":
         return moment(value).format("dddd, MMMM Do YYYY, h:mm a");
       case "time":
+        console.log(value);
         return moment(value).format("h:mm a");
       default:
         return "-";
     }
   };
-
-  console.log(props.value);
 
   return (
     <>
@@ -57,7 +56,6 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
         style={[
           {
             minHeight: 40,
-            backgroundColor: colors.background,
           },
           props.style,
         ]}
@@ -72,7 +70,7 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
               <Text
                 style={{
                   ...fonts.small,
-                  fontWeight: "700",
+                  fontWeight: "600",
                   color: colors.grey500,
                   paddingTop: spacings.xsmall,
                 }}>
@@ -86,8 +84,8 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 paddingBottom: spacings.xsmall,
-                borderBottomWidth: 1,
-                borderBottomColor: colors.grey800,
+                borderBottomWidth: 2,
+                borderBottomColor: colors.greyscale1,
               }}>
               <Text style={[fonts.regular, { color: colors.almostWhite }]}>
                 {!!props?.value ? getLabel(props.value, props.mode) : "Select..."}

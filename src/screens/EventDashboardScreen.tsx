@@ -41,9 +41,9 @@ export const EventDashboardScreen = () => {
           keyExtractor={item => item.eventId}
           ListHeaderComponent={
             <>
-              <View style={{ marginLeft: spacings.base }}>
-                <Text style={[fonts.header]}>{"Events"}</Text>
-                <Text style={[fonts.subheader]}>{"view & create events"}</Text>
+              <View style={{ marginLeft: spacings.base, marginVertical: spacings.base }}>
+                <Text style={[fonts.header]}>{"Surf Events"}</Text>
+                <Text style={[fonts.subheader]}>{"view & create surf events"}</Text>
               </View>
               <ButtonAdd
                 label={"add surf event"}
@@ -53,7 +53,7 @@ export const EventDashboardScreen = () => {
                 <Text style={{ color: colors.almostWhite, fontSize: 21 }}>{"Today's Event"}</Text>
               </View>
               <View style={styles.card}>
-                <Text style={styles.cardText}>{"There are no events today"}</Text>
+                <Text style={styles.cardText}>{"There are no surf events today"}</Text>
               </View>
               <View style={{ padding: spacings.base }}>
                 <Text style={{ color: colors.almostWhite, fontSize: 21 }}>{"Upcoming Events"}</Text>

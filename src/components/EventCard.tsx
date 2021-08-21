@@ -14,35 +14,32 @@ export const EventCard = (props: IEventCardProps) => {
   return (
     <View
       style={{
-        flex: 1,
         ...shared.card,
         ...shared.shadow,
         marginBottom: spacings.base,
         marginHorizontal: spacings.base,
         padding: spacings.base,
       }}>
-      <View style={{ flex: 1 }}>
-        {!!props.eventName && (
+      <View>
+        {/* {!!props.eventName && (
           <Text
             style={{
               fontSize: 24,
               fontWeight: "500",
               color: colors.almostWhite,
+              marginBottom: spacings.small,
             }}>
             {props.eventName}
           </Text>
-        )}
+        )} */}
         <View
           style={{
-            flex: 3,
             justifyContent: "space-between",
             alignItems: "center",
             flexDirection: "row",
-            marginTop: spacings.small,
           }}>
           <Text
             style={{
-              flex: 1,
               fontSize: 17,
               fontWeight: "400",
               color: colors.almostWhite,
@@ -50,14 +47,13 @@ export const EventCard = (props: IEventCardProps) => {
             {"From"}
           </Text>
           {!!props.dateStart && (
-            <Text style={{ flex: 2, fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
+            <Text style={{ fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
               {moment(props.dateStart).format("dddd, MMMM Do")}
             </Text>
           )}
         </View>
         <View
           style={{
-            flex: 3,
             justifyContent: "space-between",
             alignItems: "center",
             flexDirection: "row",
@@ -65,7 +61,6 @@ export const EventCard = (props: IEventCardProps) => {
           }}>
           <Text
             style={{
-              flex: 1,
               fontSize: 17,
               fontWeight: "400",
               color: colors.almostWhite,
@@ -73,14 +68,18 @@ export const EventCard = (props: IEventCardProps) => {
             {"Until"}
           </Text>
           {!!props.dateEnd && (
-            <Text style={{ flex: 2, fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
+            <Text
+              style={{
+                fontSize: 16,
+                fontWeight: "400",
+                color: colors.almostWhite,
+              }}>
               {moment(props.dateEnd).format("dddd, MMMM Do")}
             </Text>
           )}
         </View>
         <View
           style={{
-            flex: 3,
             justifyContent: "space-between",
             alignItems: "center",
             flexDirection: "row",
@@ -88,7 +87,6 @@ export const EventCard = (props: IEventCardProps) => {
           }}>
           <Text
             style={{
-              flex: 1,
               fontSize: 17,
               fontWeight: "400",
               color: colors.almostWhite,
@@ -96,7 +94,7 @@ export const EventCard = (props: IEventCardProps) => {
             {"Time"}
           </Text>
           {!!props.dateStart && (
-            <Text style={{ flex: 2, fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
+            <Text style={{ fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
               {props.timeStart}
             </Text>
           )}

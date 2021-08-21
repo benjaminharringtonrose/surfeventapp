@@ -34,7 +34,6 @@ export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
         style={[
           {
             minHeight: 40,
-            backgroundColor: colors.background,
           },
           props.style,
         ]}
@@ -54,7 +53,7 @@ export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
               <Text
                 style={{
                   ...fonts.small,
-                  fontWeight: "700",
+                  fontWeight: "600",
                   color: colors.grey500,
                   paddingTop: spacings.xsmall,
                 }}>
@@ -68,8 +67,8 @@ export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
                 flexDirection: "row",
                 justifyContent: "space-between",
                 paddingBottom: spacings.xsmall,
-                borderBottomWidth: 1,
-                borderBottomColor: colors.grey800,
+                borderBottomWidth: 2,
+                borderBottomColor: colors.greyscale1,
               }}>
               <Text style={[fonts.regular, { color: colors.almostWhite }]}>
                 {props.value || "Select..."}

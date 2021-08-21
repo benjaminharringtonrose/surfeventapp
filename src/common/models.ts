@@ -1,3 +1,5 @@
+import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+
 export interface AuthUser {
   emailVerified?: boolean;
   uid: string;
@@ -36,4 +38,41 @@ export enum Collection {
   user = "user",
   mail = "mail",
   messages = "messages",
+}
+
+export enum ESA_DIVISIONS {
+  BOYSU12 = "BOYSU12",
+  BOYSU14 = "BOYSU14",
+  BOYSU16 = "BOYSU16",
+  JMENU18 = "JMENU18",
+  MEN = "MEN",
+  GIRLSU12 = "GIRLSU12",
+  GIRLSU14 = "GIRLSU14",
+  GIRLSU16 = "GIRLSU16",
+  JWOMENU18 = "JWOMENU18",
+  WOMEN = "WOMEN",
+  LADIES = "LADIES",
+  MASTERS = "MASTERS",
+  SMEN = "SMEN",
+  LEGENDS = "LEGENDS",
+  GLEGENDS = "GLEGENDS",
+}
+
+export enum HeatType {
+  regular = "regular",
+  quarterFinal = "quarterFinal",
+  semiFinal = "semiFinal",
+  final = "final",
+}
+
+export interface Heat {
+  title: string | undefined;
+  eventId: string;
+  heatId: string;
+  uid: string;
+  division: ESA_DIVISIONS;
+  heatType: HeatType;
+  surfers: string[];
+  dateStart: FirebaseFirestoreTypes.Timestamp;
+  timeStart: FirebaseFirestoreTypes.Timestamp;
 }

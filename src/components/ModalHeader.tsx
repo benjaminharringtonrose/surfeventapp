@@ -21,7 +21,9 @@ export const ModalHeader = (props: ModalHeaderProps) => {
           flexDirection: "row",
           alignItems: "center",
           height: 60,
-          backgroundColor: colors.background,
+          backgroundColor: colors.greyscale9,
+          borderTopLeftRadius: shared.borderRadius,
+          borderTopRightRadius: shared.borderRadius,
         },
         props.style,
       ]}>
