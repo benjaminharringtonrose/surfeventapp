@@ -1,11 +1,11 @@
 import React from "react";
 import { StyleProp, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { colors, fonts, shared, spacings } from "../common";
+import { colors, fonts, spacings } from "../common";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ListPicker, ListPickerItem } from "./ListPicker";
 
-interface FormDropdownPickerProps {
+interface FormDropListPickerProps {
   title?: string;
   label?: string;
   value?: ListPickerItem;
@@ -16,7 +16,7 @@ interface FormDropdownPickerProps {
   style?: StyleProp<ViewStyle>;
 }
 
-export const FormDropListPicker = (props: FormDropdownPickerProps) => {
+export const FormDropListPicker = (props: FormDropListPickerProps) => {
   const pickerRef = React.useRef<Modalize>(null);
 
   const onSelect = (item: ListPickerItem) => {

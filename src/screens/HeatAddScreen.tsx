@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import firestore, { firebase } from "@react-native-firebase/firestore";
 import React, { forwardRef, useEffect, useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { spacings, colors, ESA_DIVISIONS } from "../common";
+import { spacings, colors } from "../common";
 import { Button } from "../components/Button";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppSelector } from "../hooks/redux";
@@ -13,7 +13,9 @@ import { FormInput } from "../components";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackNavProp, RootStackParamList } from "../AppNavigator";
 import { ButtonX } from "../components/ButtonX";
-import { DIVISIONS, DIVISIONS_SECTIONS } from "../common/util";
+import { DIVISIONS_SECTIONS } from "../common/util";
+import { useEvent } from "../hooks/useEvent";
+import { getDatesBetweenDates } from "../util/dates";
 
 interface HeatAddFormProps {
   division?: ListPickerItem;
@@ -38,6 +40,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
   const navigation = useNavigation<RootStackNavProp>();
   const uid = useAppSelector(state => state.auth.user?.uid);
   const { eventId } = useRoute<RouteProp<RootStackParamList, "AddHeat">>().params;
+  const event = useEvent(eventId);
 
   useEffect(() => {
     navigation.setOptions({
@@ -104,6 +107,10 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
     surfer2: Yup.string().required("At least 2 surfers required"),
   });
 
+  if (!event) return null;
+
+  getDatesBetweenDates(event?.dateStart.toDate(), event?.dateEnd.toDate());
+
   return (
     <SafeAreaView
       style={{
@@ -153,6 +160,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
               touched={touched.dateStart}
               style={{ marginTop: spacings.base }}
             />
+
             <FormInput
               label={"Surfer #1 Name"}
               placeholder={""}
