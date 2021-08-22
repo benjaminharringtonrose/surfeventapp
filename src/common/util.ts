@@ -33,14 +33,6 @@ export const DIVISIONS_SECTIONS = [
     ],
   },
   {
-    title: "Junior Men",
-    data: [{ id: ESA_DIVISIONS.JMENU18, label: "17 & Under" }],
-  },
-  {
-    title: "Men",
-    data: [{ id: ESA_DIVISIONS.MEN, label: "18-29" }],
-  },
-  {
     title: "Girls",
     data: [
       { id: ESA_DIVISIONS.GIRLSU12, label: "11 & Under" },
@@ -49,8 +41,16 @@ export const DIVISIONS_SECTIONS = [
     ],
   },
   {
+    title: "Junior Men",
+    data: [{ id: ESA_DIVISIONS.JMENU18, label: "17 & Under" }],
+  },
+  {
     title: "Junior Women",
     data: [{ id: ESA_DIVISIONS.JWOMENU18, label: "17 & Under" }],
+  },
+  {
+    title: "Men",
+    data: [{ id: ESA_DIVISIONS.MEN, label: "18-29" }],
   },
   {
     title: "Women",

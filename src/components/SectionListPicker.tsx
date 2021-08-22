@@ -66,17 +66,19 @@ export const SectionListPicker = React.forwardRef((props: SectionListPickerProps
                 style={{
                   paddingLeft: spacings.base,
                   paddingVertical: spacings.small,
-                  backgroundColor: colors.greyscale9,
+                  backgroundColor: colors.greyscale7,
                   borderBottomColor: colors.greyscale5,
                   borderBottomWidth: 1,
+                  borderTopColor: colors.greyscale5,
+                  borderTopWidth: 1,
                 }}>
-                <Text style={{ fontSize: 19, fontWeight: "200", color: colors.grey700 }}>
+                <Text style={{ fontSize: 19, fontWeight: "300", color: colors.grey200 }}>
                   {title}
                 </Text>
               </View>
             );
           },
-
+          ItemSeparatorComponent: Separator,
           keyExtractor: item => item.id.toString(),
           contentContainerStyle: { paddingBottom: insets.bottom },
           style: { backgroundColor: colors.greyscale9 },
@@ -85,3 +87,5 @@ export const SectionListPicker = React.forwardRef((props: SectionListPickerProps
     </Portal>
   );
 });
+
+const Separator = () => <View style={{ height: 1, backgroundColor: colors.greyscale5 }} />;

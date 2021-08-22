@@ -27,6 +27,13 @@ export const EventDashboardScreen = () => {
     });
   });
 
+  const onAddHeat = () => {
+    if (eventId) {
+      setShowAlert(false);
+      navigation.navigate("AddHeat", { eventId });
+    }
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -86,17 +93,15 @@ export const EventDashboardScreen = () => {
         actions={[
           {
             label: "Add heat",
-            onPress: () => {
-              if (eventId) {
-                setShowAlert(false);
-                navigation.navigate("AddHeat", { eventId });
-              }
-            },
+            onPress: onAddHeat,
             type: "contained",
           },
-          { label: "Not right now", onPress: () => setShowAlert(false), type: "bordered" },
+          {
+            label: "Not right now",
+            onPress: () => setShowAlert(false),
+            type: "bordered",
+          },
         ]}
-        onClose={() => setShowAlert(false)}
       />
     </SafeAreaView>
   );
