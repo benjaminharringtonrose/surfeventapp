@@ -2,7 +2,8 @@ import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import moment from "moment";
 import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet, FlatList } from "react-native";
-import { colors, shared, spacings } from "../common";
+import { colors, ESA_DIVISIONS, shared, spacings } from "../common";
+import { getHeatDivisionLabel } from "../common/util";
 
 interface IHeatCardProps {
   eventId?: string;
@@ -20,44 +21,65 @@ interface IHeatCardProps {
 export const HeatCard = (props: IHeatCardProps) => {
   return (
     <TouchableOpacity style={styles.rootContainer} onPress={props?.onPress}>
-      {!!props?.title && (
-        <View>
-          <Text style={{ fontSize: 21, fontWeight: "400", color: colors.almostWhite }}>
-            {props.title}
-          </Text>
+      <View style={{ flexDirection: "row", alignItems: "center", marginBottom: spacings.base }}>
+        {!!props?.title && (
+          <View>
+            <Text style={{ fontSize: 21, fontWeight: "400", color: colors.almostWhite }}>
+              {props.title}
+            </Text>
+          </View>
+        )}
+        {!!props?.division && (
+          <View>
+            <Text
+              style={{
+                fontSize: 21,
+                fontWeight: "400",
+                color: colors.almostWhite,
+              }}>{` - ${getHeatDivisionLabel(props.division)}`}</Text>
+          </View>
+        )}
+      </View>
+      <View style={[styles.dateContainer, { flex: 3, flexDirection: "row" }]}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.font}>{"Date"}</Text>
         </View>
-      )}
-      {!!props?.division && (
-        <View style={{ paddingBottom: spacings.small }}>
-          <Text style={{ fontSize: 21, fontWeight: "200", color: colors.almostWhite }}>
-            {props.division}
-          </Text>
-        </View>
-      )}
-      <View style={styles.dateContainer}>
-        <Text style={styles.font}>{"Date"}</Text>
         {!!props?.dateStart && (
-          <Text style={styles.font}>
-            {moment(props.dateStart.toDate()).format("dddd, MMMM Do")}
-          </Text>
+          <View style={{ flex: 2 }}>
+            <Text style={styles.font}>
+              {moment(props.dateStart.toDate()).format("dddd, MMMM Do")}
+            </Text>
+          </View>
         )}
       </View>
-      <View style={styles.timeContainer}>
-        <Text style={styles.font}>{"Time"}</Text>
+      <View
+        style={
+          (styles.timeContainer, { flex: 3, flexDirection: "row", marginTop: spacings.small })
+        }>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.font}>{"Time"}</Text>
+        </View>
         {!!props?.timeStart && (
-          <Text style={styles.font}>{moment(props.timeStart.toDate()).format("hh:mm a")}</Text>
+          <View style={{ flex: 2 }}>
+            <Text style={styles.font}>{moment(props.timeStart.toDate()).format("hh:mm a")}</Text>
+          </View>
         )}
       </View>
-      <View style={styles.surfersContainer}>
-        <Text style={styles.font}>{"Surfers"}</Text>
+      <View style={[styles.surfersContainer, { flex: 3, flexDirection: "row" }]}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.font}>{"Surfers"}</Text>
+        </View>
+
         {!props.surfers && (
-          <FlatList
-            data={SURFERS}
-            keyExtractor={item => item}
-            renderItem={({ item }) => {
-              return <Text style={styles.font}>{item}</Text>;
-            }}
-          />
+          <View style={{ flex: 2 }}>
+            <FlatList
+              data={SURFERS}
+              keyExtractor={item => item}
+              renderItem={({ item }) => {
+                return <Text style={styles.font}>{item}</Text>;
+              }}
+            />
+          </View>
         )}
       </View>
     </TouchableOpacity>
@@ -70,7 +92,7 @@ const styles = StyleSheet.create({
   rootContainer: {
     ...shared.card,
     ...shared.shadow,
-    marginBottom: spacings.base,
+    marginBottom: spacings.xsmall,
     marginHorizontal: spacings.base,
     padding: spacings.base,
   },
@@ -84,7 +106,6 @@ const styles = StyleSheet.create({
     flexDirection: "row",
   },
   timeContainer: {
-    marginTop: spacings.small,
     justifyContent: "space-between",
     flexDirection: "row",
   },

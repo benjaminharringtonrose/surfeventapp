@@ -39,7 +39,7 @@ export const EventDetailScreen = () => {
           keyExtractor={item => item.heatId}
           ListHeaderComponent={
             <>
-              <View style={{ marginLeft: spacings.base, marginVertical: spacings.base }}>
+              <View style={{ marginLeft: spacings.base, marginTop: spacings.base }}>
                 <Text style={fonts.header}>{event.eventName}</Text>
                 <Text style={fonts.subheader}>
                   {`${moment(event.dateStart).format("MMM DD")} - ${moment(event.dateEnd).format(
@@ -47,8 +47,13 @@ export const EventDetailScreen = () => {
                   )}`}
                 </Text>
               </View>
-              <View style={{ paddingLeft: spacings.base, paddingBottom: spacings.small }}>
-                <Text style={{ color: colors.almostWhite, fontSize: 21 }}>{"Heats"}</Text>
+              <ButtonAdd
+                label={"Add Heat"}
+                onPress={() => addHeatModalRef.current?.open()}
+                style={{ marginVertical: spacings.base }}
+              />
+              <View style={{ paddingLeft: spacings.base, paddingBottom: spacings.xsmall }}>
+                <Text style={fonts.subheader}>{"Heats"}</Text>
               </View>
             </>
           }
@@ -69,7 +74,6 @@ export const EventDetailScreen = () => {
           }}
           ListFooterComponent={
             <>
-              <ButtonAdd label={"Add Heat"} onPress={() => addHeatModalRef.current?.open()} />
               <AddHeatModal
                 ref={addHeatModalRef}
                 onClose={() => addHeatModalRef.current?.close()}

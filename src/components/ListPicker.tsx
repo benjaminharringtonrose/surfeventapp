@@ -16,7 +16,7 @@ export interface ListPickerProps {
   items: Array<ListPickerItem>;
   headerTitle?: string;
   onBack: () => void;
-  onSelect: (value: string) => void;
+  onSelect: (value: ListPickerItem) => void;
   itemContainerStyle?: StyleProp<ViewStyle>;
 }
 
@@ -27,7 +27,7 @@ export const ListPicker = React.forwardRef((props: ListPickerProps, ref) => {
     return (
       <TouchableOpacity
         onPress={() => {
-          props.onSelect(item.label);
+          props.onSelect(item);
         }}
         style={[
           {

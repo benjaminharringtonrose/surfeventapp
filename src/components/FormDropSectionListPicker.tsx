@@ -1,26 +1,28 @@
 import React from "react";
 import { StyleProp, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { colors, fonts, shared, spacings } from "../common";
+import { colors, fonts, spacings } from "../common";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ListPicker, ListPickerItem } from "./ListPicker";
+import { SectionListPicker, SectionListPickerItem } from "./SectionListPicker";
+import { getHeatDivisionLabel } from "../common/util";
 
-interface FormDropdownPickerProps {
+interface FormDropSectionListPickerProps {
   title?: string;
   label?: string;
-  value?: string;
-  items: ListPickerItem[];
-  onSelect: (value: string | number) => void;
+  value?: ListPickerItem;
+  sections: SectionListPickerItem[];
+  onSelect: (value: ListPickerItem) => void;
   error?: string;
   touched?: boolean;
   style?: StyleProp<ViewStyle>;
 }
 
-export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
+export const FormDropSectionListPicker = (props: FormDropSectionListPickerProps) => {
   const pickerRef = React.useRef<Modalize>(null);
 
-  const onSelect = (id: string) => {
-    props.onSelect(id);
+  const onSelect = (item: ListPickerItem) => {
+    props.onSelect(item);
     pickerRef.current?.close();
   };
 
@@ -70,16 +72,16 @@ export const FormDropdownPicker = (props: FormDropdownPickerProps) => {
                 borderBottomWidth: 2,
                 borderBottomColor: colors.greyscale1,
               }}>
-              <Text style={[fonts.regular, { color: colors.almostWhite }]}>
-                {props.value || "Select..."}
+              <Text style={[fonts.regular, { color: colors.grey500 }]}>
+                {getHeatDivisionLabel(props.value?.id) || "Select..."}
               </Text>
-              <Icon name={"chevron-down"} size={16} color={colors.almostWhite} />
+              <Icon name={"chevron-down"} size={16} color={colors.grey500} />
             </View>
           </View>
-          <ListPicker
+          <SectionListPicker
             ref={pickerRef}
             headerTitle={props?.title || "Select An Option"}
-            items={props.items}
+            sections={props.sections}
             onBack={() => {
               pickerRef.current?.close();
             }}

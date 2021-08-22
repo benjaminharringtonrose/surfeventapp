@@ -8,13 +8,15 @@ import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { spacings, colors, ESA_DIVISIONS } from "../common";
 import { Button } from "../components/Button";
-import { FormDropdownPicker } from "../components/FormDropdownPicker";
+import { FormDropListPicker } from "../components/FormDropListPicker";
 import { ModalHeader } from "../components/ModalHeader";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppSelector } from "../hooks/redux";
+import { ListPickerItem } from "../components/ListPicker";
+import { FormDropSectionListPicker } from "../components/FormDropSectionListPicker";
 
 interface AddHeatFormProps {
-  division?: string;
+  division?: ListPickerItem;
   dateStart?: Date;
   timeStart?: Date;
 }
@@ -33,7 +35,7 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
   useEffect(() => {}, []);
 
   const onSubmit = async (values: AddHeatFormProps) => {
-    if (!values.division || !values.dateStart || !values.timeStart) {
+    if (!values.division?.id || !values.dateStart || !values.timeStart) {
       return;
     }
     try {
@@ -44,7 +46,7 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
         uid: uid || "",
         heatId,
         eventId: props?.eventId,
-        division: values.division,
+        division: values.division.id as string,
         dateStart: values.dateStart,
         timeStart: values.timeStart,
       });
@@ -57,7 +59,7 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
   };
 
   const ProfileSchema = Yup.object().shape({
-    division: Yup.string().required("Required"),
+    division: Yup.object().required("Required"),
     timeStart: Yup.date().required("Required"),
   });
 
@@ -78,17 +80,17 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
           initialValues={{
             division: undefined,
             dateStart: new Date(),
-            timeStart: undefined,
+            timeStart: new Date(new Date().setHours(6, 0, 0, 0)),
           }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
-          {({ handleChange, handleBlur, setFieldValue, handleSubmit, values, touched, errors }) => (
+          {({ setFieldValue, handleSubmit, values, touched, errors }) => (
             <View style={{ marginHorizontal: spacings.base }}>
-              <FormDropdownPicker
+              <FormDropSectionListPicker
                 title={"Select Division"}
                 label={"Division"}
                 value={values.division}
-                items={DIVISIONS}
+                sections={DATA}
                 error={errors.division}
                 touched={touched.division}
                 onSelect={value => setFieldValue("division", value)}
@@ -128,21 +130,21 @@ export const AddHeatModal = forwardRef((props: AddHeatModalProps, ref) => {
 });
 
 export const DIVISIONS = [
-  { id: ESA_DIVISIONS.BOYSU12, label: "Boys 11 & Under" },
-  { id: ESA_DIVISIONS.BOYSU14, label: "Boys 13 & Under" },
-  { id: ESA_DIVISIONS.BOYSU16, label: "Boys 15 & Under" },
-  { id: ESA_DIVISIONS.JMENU18, label: "Junior Men 17 & Under" },
-  { id: ESA_DIVISIONS.MEN, label: "Men 18-29" },
-  { id: ESA_DIVISIONS.GIRLSU12, label: "Girls 11 & Under" },
-  { id: ESA_DIVISIONS.GIRLSU14, label: "Girls 13 & Under" },
-  { id: ESA_DIVISIONS.GIRLSU16, label: "Girls 15 & Under" },
-  { id: ESA_DIVISIONS.JWOMENU18, label: "Junior Women 17 & Under" },
-  { id: ESA_DIVISIONS.WOMEN, label: "Women 18-39" },
-  { id: ESA_DIVISIONS.LADIES, label: "Ladies 40 & Over" },
-  { id: ESA_DIVISIONS.MASTERS, label: "Masters 30-39" },
-  { id: ESA_DIVISIONS.SMEN, label: "Senior Men 40-49" },
-  { id: ESA_DIVISIONS.LEGENDS, label: "Legends 50 & Over" },
-  { id: ESA_DIVISIONS.GLEGENDS, label: "Grand Legends 60 & Over" },
+  { id: ESA_DIVISIONS.BOYSU12, label: "Boys (11 & Under)" },
+  { id: ESA_DIVISIONS.BOYSU14, label: "Boys (13 & Under)" },
+  { id: ESA_DIVISIONS.BOYSU16, label: "Boys (15 & Under)" },
+  { id: ESA_DIVISIONS.JMENU18, label: "Junior Men (17 & Under)" },
+  { id: ESA_DIVISIONS.MEN, label: "Men (18-29)" },
+  { id: ESA_DIVISIONS.GIRLSU12, label: "Girls (11 & Under)" },
+  { id: ESA_DIVISIONS.GIRLSU14, label: "Girls (13 & Under)" },
+  { id: ESA_DIVISIONS.GIRLSU16, label: "Girls (15 & Under)" },
+  { id: ESA_DIVISIONS.JWOMENU18, label: "Junior Women (17 & Under)" },
+  { id: ESA_DIVISIONS.WOMEN, label: "Women (18-39)" },
+  { id: ESA_DIVISIONS.LADIES, label: "Ladies (40 & Over)" },
+  { id: ESA_DIVISIONS.MASTERS, label: "Masters (30-39)" },
+  { id: ESA_DIVISIONS.SMEN, label: "Senior Men (40-49)" },
+  { id: ESA_DIVISIONS.LEGENDS, label: "Legends (50 & Over)" },
+  { id: ESA_DIVISIONS.GLEGENDS, label: "Grand Legends (60 & Over)" },
 ];
 
 export const EVENTS = [
@@ -150,4 +152,49 @@ export const EVENTS = [
   { id: "EVENT2", label: "ESA Event #2" },
   { id: "EVENT3", label: "ESA Event #3" },
   { id: "EVENT4", label: "ESA Event #4" },
+];
+
+const DATA = [
+  {
+    title: "Boys",
+    data: [
+      { id: ESA_DIVISIONS.BOYSU12, label: "11 & Under" },
+      { id: ESA_DIVISIONS.BOYSU14, label: "13 & Under" },
+      { id: ESA_DIVISIONS.BOYSU16, label: "15 & Under" },
+    ],
+  },
+  {
+    title: "Junior Men",
+    data: [{ id: ESA_DIVISIONS.JMENU18, label: "17 & Under" }],
+  },
+  {
+    title: "Men",
+    data: [{ id: ESA_DIVISIONS.MEN, label: "18-29" }],
+  },
+  {
+    title: "Girls",
+    data: [
+      { id: ESA_DIVISIONS.GIRLSU12, label: "11 & Under" },
+      { id: ESA_DIVISIONS.GIRLSU14, label: "13 & Under" },
+      { id: ESA_DIVISIONS.GIRLSU16, label: "15 & Under" },
+    ],
+  },
+  {
+    title: "Junior Women",
+    data: [{ id: ESA_DIVISIONS.JWOMENU18, label: "Junior Women (17 & Under)" }],
+  },
+  {
+    title: "Women",
+    data: [{ id: ESA_DIVISIONS.WOMEN, label: "Women (18-39)" }],
+  },
+  {
+    title: "Other",
+    data: [
+      { id: ESA_DIVISIONS.LADIES, label: "Ladies (40 & Over)" },
+      { id: ESA_DIVISIONS.MASTERS, label: "Masters (30-39)" },
+      { id: ESA_DIVISIONS.SMEN, label: "Senior Men (40-49)" },
+      { id: ESA_DIVISIONS.LEGENDS, label: "Legends (50 & Over)" },
+      { id: ESA_DIVISIONS.GLEGENDS, label: "Grand Legends (60 & Over)" },
+    ],
+  },
 ];

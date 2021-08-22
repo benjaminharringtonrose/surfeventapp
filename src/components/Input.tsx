@@ -21,10 +21,9 @@ export const Input = React.forwardRef<TextInput, InputProps>((props: InputProps,
     <View
       style={[
         {
-          backgroundColor: colors.background,
           opacity: 0.8,
-          borderColor: colors.grey800,
-          borderBottomWidth: 1,
+          borderColor: colors.greyscale1,
+          borderBottomWidth: 2,
         },
         props.style,
         ,
@@ -35,7 +34,7 @@ export const Input = React.forwardRef<TextInput, InputProps>((props: InputProps,
             fonts.small,
             {
               paddingTop: spacings.xsmall,
-              fontWeight: "700",
+              fontWeight: "600",
               color: colors.grey200,
             },
           ]}>
@@ -51,7 +50,6 @@ export const Input = React.forwardRef<TextInput, InputProps>((props: InputProps,
         style={[
           {
             marginTop: spacings.tiny,
-            backgroundColor: colors.background,
             opacity: 0.8,
             minHeight: 40,
             paddingVertical: spacings.xsmall,

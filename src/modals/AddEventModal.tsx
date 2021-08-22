@@ -69,7 +69,7 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
         adjustToContentHeight={true}
         childrenStyle={{
           paddingBottom: insets.bottom,
-          backgroundColor: colors.background,
+          backgroundColor: colors.greyscale9,
         }}
         HeaderComponent={() => (
           <ModalHeader title={"Add Surf Event"} showCloseButton={true} onClose={props.onClose} />
@@ -88,12 +88,23 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
             <View style={{ marginHorizontal: spacings.base }}>
               <FormInput
                 label={"Event Name"}
-                placeholder={"...type here"}
+                placeholder={"NSSA Event #1"}
                 onChangeText={handleChange("eventName")}
                 onBlur={handleBlur("eventName")}
+                autoCapitalize={"words"}
+                autoCorrect={true}
                 value={values.eventName}
                 error={errors.eventName}
                 touched={touched.eventName}
+              />
+              <FormModalDatePicker
+                label={"Start Time"}
+                value={values.timeStart}
+                mode={"time"}
+                onSelectDate={timeStart => setFieldValue("timeStart", timeStart)}
+                error={errors.timeStart}
+                touched={touched.timeStart}
+                style={{ marginTop: spacings.base }}
               />
               <FormModalDatePicker
                 label={"Start Date"}
@@ -102,15 +113,6 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
                 onSelectDate={dateStart => setFieldValue("dateStart", dateStart)}
                 error={errors.dateStart}
                 touched={touched.dateStart}
-                style={{ marginTop: spacings.base }}
-              />
-              <FormModalDatePicker
-                label={"Time"}
-                value={values.timeStart}
-                mode={"time"}
-                onSelectDate={timeStart => setFieldValue("timeStart", timeStart)}
-                error={errors.timeStart}
-                touched={touched.timeStart}
                 style={{ marginTop: spacings.base }}
               />
               <FormModalDatePicker

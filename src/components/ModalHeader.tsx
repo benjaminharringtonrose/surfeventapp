@@ -20,14 +20,18 @@ export const ModalHeader = (props: ModalHeaderProps) => {
         {
           flexDirection: "row",
           alignItems: "center",
-          height: 60,
+
           backgroundColor: colors.greyscale9,
           borderTopLeftRadius: shared.borderRadius,
           borderTopRightRadius: shared.borderRadius,
+          paddingTop: spacings.base,
         },
         props.style,
       ]}>
-      <View style={{ width: 100 }}>
+      <View
+        style={{
+          width: 100,
+        }}>
         {props.showCloseButton && (
           <TouchableOpacity
             style={{
@@ -49,8 +53,17 @@ export const ModalHeader = (props: ModalHeaderProps) => {
           {props.title}
         </Text>
       </View>
-      <View style={{ width: 100 }}>
-        {props.showDoneButton && <NavigationTextButton label={"Done"} onPress={props.onDone} />}
+      <View
+        style={{
+          width: 100,
+          alignItems: "center",
+          justifyContent: "center",
+        }}>
+        {props.showDoneButton && (
+          <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+            <NavigationTextButton label={"Done"} onPress={props.onDone} />
+          </View>
+        )}
       </View>
     </View>
   );

@@ -41,10 +41,10 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
       case "date":
         return moment(value).format("dddd, MMMM Do YYYY");
       case "datetime":
-        return moment(value).format("dddd, MMMM Do YYYY, h:mm a");
+        return moment(value).format("dddd, MMMM Do YYYY, HH:MM A");
       case "time":
         console.log(value);
-        return moment(value).format("h:mm a");
+        return moment(value).format("HH:mm A");
       default:
         return "-";
     }
@@ -87,10 +87,10 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
                 borderBottomWidth: 2,
                 borderBottomColor: colors.greyscale1,
               }}>
-              <Text style={[fonts.regular, { color: colors.almostWhite }]}>
+              <Text style={[fonts.regular, { color: colors.grey500 }]}>
                 {!!props?.value ? getLabel(props.value, props.mode) : "Select..."}
               </Text>
-              <Icon name={"chevron-down"} size={16} color={colors.almostWhite} />
+              <Icon name={"chevron-down"} size={16} color={colors.grey500} />
             </View>
           </View>
         </View>
@@ -103,7 +103,7 @@ export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
           childrenStyle={{ backgroundColor: colors.background, paddingBottom: insets.bottom }}
           HeaderComponent={() => (
             <ModalHeader
-              title={getTitle(props.mode)}
+              title={props.label}
               showCloseButton={true}
               onClose={() => modalRef?.current?.close()}
               showDoneButton={true}

@@ -42,7 +42,7 @@ export const EventDashboardScreen = () => {
           ListHeaderComponent={
             <>
               <View style={{ marginLeft: spacings.base, marginVertical: spacings.base }}>
-                <Text style={[fonts.header]}>{"Surf Events"}</Text>
+                <Text style={[fonts.header]}>{"Events"}</Text>
                 <Text style={[fonts.subheader]}>{"view & create surf events"}</Text>
               </View>
               <ButtonAdd

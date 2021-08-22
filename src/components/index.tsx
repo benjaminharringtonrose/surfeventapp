@@ -4,7 +4,7 @@ export * from "./Button";
 export * from "./ButtonAdd";
 export * from "./ButtonBack";
 export * from "./FormDatePicker";
-export * from "./FormDropdownPicker";
+export * from "./FormDropListPicker";
 export * from "./FormInput";
 export * from "./FormModalDatePicker";
 export * from "./ModalHeader";
