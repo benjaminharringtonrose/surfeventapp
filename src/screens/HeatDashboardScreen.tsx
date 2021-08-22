@@ -5,11 +5,9 @@ import { Modalize } from "react-native-modalize";
 import Icon from "react-native-vector-icons/Ionicons";
 import { HeatNavProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
-import { AddHeatModal } from "../modals/AddHeatModal";
 import { ButtonAdd } from "../components/ButtonAdd";
 
 export const HeatDashboardScreen = () => {
-  const addHeatModalRef = useRef<Modalize>(null);
   const navigation = useNavigation<HeatNavProp>();
 
   useEffect(() => {
@@ -36,7 +34,7 @@ export const HeatDashboardScreen = () => {
       </View>
       <ButtonAdd
         label={"add surf heat"}
-        onPress={() => addHeatModalRef.current?.open()}
+        onPress={() => {}}
         style={{ marginHorizontal: spacings.base }}
       />
       <View style={{ padding: spacings.base }}>
@@ -51,7 +49,6 @@ export const HeatDashboardScreen = () => {
       <View style={styles.card}>
         <Text style={styles.cardText}>{"You haven't created any heats!"}</Text>
       </View>
-      <AddHeatModal ref={addHeatModalRef} onClose={() => addHeatModalRef.current?.close()} />
     </SafeAreaView>
   );
 };

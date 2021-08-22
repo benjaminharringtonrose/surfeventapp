@@ -1,22 +1,24 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef } from "react";
-import { View, Text, SafeAreaView, TouchableOpacity, StyleSheet, FlatList } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 
-import { ButtonAdd } from "../components";
+import { Button, ButtonAdd } from "../components";
 import { EventNavProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
 import { AddEventModal } from "../modals/AddEventModal";
 import { useEvents } from "../hooks/useEvents";
 import { EventButton } from "../components/EventButton";
+import { Alert } from "../components/Alert";
+import { useAppSelector } from "../hooks/redux";
 
 export const EventDashboardScreen = () => {
+  const [showAlert, setShowAlert] = useState<boolean>(false);
+
   const addEventModalRef = useRef<Modalize>(null);
   const navigation = useNavigation<EventNavProp>();
-
   const events = useEvents();
-
-  console.log(events);
+  const eventId = useAppSelector(state => state.events.eventId);
 
   useEffect(() => {
     navigation.setOptions({
@@ -72,7 +74,29 @@ export const EventDashboardScreen = () => {
           <Text style={styles.cardText}>{"You haven't created any events"}</Text>
         </View>
       )}
-      <AddEventModal ref={addEventModalRef} onClose={() => addEventModalRef.current?.close()} />
+      <AddEventModal
+        ref={addEventModalRef}
+        onClose={() => addEventModalRef.current?.close()}
+        onAlert={() => setShowAlert(true)}
+      />
+      <Alert
+        visible={showAlert}
+        label={"Would you like to start adding heats?"}
+        actions={[
+          {
+            label: "Add heat",
+            onPress: () => {
+              if (eventId) {
+                setShowAlert(false);
+                navigation.navigate("AddHeat", { eventId });
+              }
+            },
+            type: "contained",
+          },
+          { label: "Not right now", onPress: () => setShowAlert(false), type: "bordered" },
+        ]}
+        onClose={() => setShowAlert(false)}
+      />
     </SafeAreaView>
   );
 };

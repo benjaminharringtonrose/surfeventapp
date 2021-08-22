@@ -6,11 +6,9 @@ import { Modalize } from "react-native-modalize";
 import { EventDetailsNavProp, EventDetailsRouteProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
 import { ButtonAdd, ButtonBack } from "../components";
-import { EventButton } from "../components/EventButton";
 import { HeatCard } from "../components/HeatCard";
 import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
-import { AddHeatModal } from "../modals/AddHeatModal";
 
 export const EventDetailScreen = () => {
   const addHeatModalRef = useRef<Modalize>(null);
@@ -33,60 +31,55 @@ export const EventDetailScreen = () => {
         flex: 1,
         backgroundColor: colors.background,
       }}>
-      {!!heats ? (
-        <FlatList
-          data={heats}
-          keyExtractor={item => item.heatId}
-          ListHeaderComponent={
-            <>
-              <View style={{ marginLeft: spacings.base, marginTop: spacings.base }}>
-                <Text style={fonts.header}>{event.eventName}</Text>
-                <Text style={fonts.subheader}>
-                  {`${moment(event.dateStart).format("MMM DD")} - ${moment(event.dateEnd).format(
-                    "DD",
-                  )}`}
-                </Text>
+      <FlatList
+        data={heats}
+        keyExtractor={item => item.heatId}
+        ListHeaderComponent={
+          <>
+            <View style={{ marginLeft: spacings.base, marginTop: spacings.base }}>
+              <Text style={fonts.header}>{event.eventName}</Text>
+              <Text style={fonts.subheader}>
+                {`${moment(event.dateStart).format("MMM DD")} - ${moment(event.dateEnd).format(
+                  "DD",
+                )}`}
+              </Text>
+            </View>
+            <ButtonAdd
+              label={"Add Surf Heat"}
+              onPress={() => navigation.navigate("AddHeat", { eventId: event.eventId })}
+              style={{ marginVertical: spacings.base }}
+            />
+            <View style={{ paddingLeft: spacings.base, paddingBottom: spacings.xsmall }}>
+              <Text style={fonts.subheader}>{"Heats"}</Text>
+            </View>
+          </>
+        }
+        renderItem={({ item }) => {
+          return (
+            <HeatCard
+              title={item.title}
+              eventId={item.eventId}
+              heatId={item.heatId}
+              division={item.division}
+              surfers={item.surfers}
+              uid={item.uid}
+              dateStart={item.dateStart}
+              timeStart={item.timeStart}
+              onEditHeat={() => {}}
+              onStartHeat={() => {}}
+            />
+          );
+        }}
+        ListFooterComponent={
+          <>
+            {!heats.length && (
+              <View style={styles.card}>
+                <Text style={styles.cardText}>{"You haven't added any heats"}</Text>
               </View>
-              <ButtonAdd
-                label={"Add Heat"}
-                onPress={() => navigation.navigate("AddHeat", { eventId: event.eventId })}
-                style={{ marginVertical: spacings.base }}
-              />
-              <View style={{ paddingLeft: spacings.base, paddingBottom: spacings.xsmall }}>
-                <Text style={fonts.subheader}>{"Heats"}</Text>
-              </View>
-            </>
-          }
-          renderItem={({ item }) => {
-            return (
-              <HeatCard
-                title={item.title}
-                eventId={item.eventId}
-                heatId={item.heatId}
-                division={item.division}
-                surfers={item.surfers}
-                uid={item.uid}
-                dateStart={item.dateStart}
-                timeStart={item.timeStart}
-                onPress={() => {}}
-              />
-            );
-          }}
-          ListFooterComponent={
-            <>
-              <AddHeatModal
-                ref={addHeatModalRef}
-                onClose={() => addHeatModalRef.current?.close()}
-                eventId={params.eventId}
-              />
-            </>
-          }
-        />
-      ) : (
-        <View style={styles.card}>
-          <Text style={styles.cardText}>{"You haven't created any events"}</Text>
-        </View>
-      )}
+            )}
+          </>
+        }
+      />
     </SafeAreaView>
   );
 };

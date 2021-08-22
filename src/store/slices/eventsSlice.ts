@@ -2,14 +2,14 @@ import { Action, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
 
 interface EventsState {
-  value?: any;
+  eventId?: string;
 }
 
 const initialState: EventsState = {};
 
-interface IAction extends Action {
+interface ISetEventId extends Action {
   payload: {
-    value: any;
+    eventId: string;
   };
 }
 
@@ -17,14 +17,14 @@ export const eventsSlice = createSlice({
   name: "events",
   initialState,
   reducers: {
-    action: (state, action: IAction) => {
-      const { value } = action.payload;
-      state.value = value;
+    setEventId: (state, action: ISetEventId) => {
+      const { eventId } = action.payload;
+      state.eventId = eventId;
     },
   },
 });
 
-export const { action } = eventsSlice.actions;
+export const { setEventId } = eventsSlice.actions;
 export const eventsReducer = eventsSlice.reducer;
 
-export const valueSelector = (state: RootState) => state.events.value;
+export const eventIdSelector = (state: RootState) => state.events.eventId;

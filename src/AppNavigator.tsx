@@ -141,7 +141,9 @@ export function AuthStack() {
 }
 
 export type EventStackParamList = {
-  Events: undefined;
+  Events: {
+    showAlert?: boolean;
+  };
   EventDetails: {
     eventId: string;
   };
@@ -151,6 +153,9 @@ export type EventNavProp = CompositeNavigationProp<
   StackNavigationProp<EventStackParamList>,
   EventStackNavProp
 >;
+
+export type EventsRouteProp = RouteProp<EventStackParamList, "Events">;
+
 export type EventDetailsNavProp = CompositeNavigationProp<
   StackNavigationProp<EventStackParamList, "EventDetails">,
   EventStackNavProp

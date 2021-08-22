@@ -2,8 +2,9 @@ import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import moment from "moment";
 import React from "react";
 import { TouchableOpacity, View, Text, StyleSheet, FlatList } from "react-native";
-import { colors, ESA_DIVISIONS, shared, spacings } from "../common";
+import { colors, shared, spacings } from "../common";
 import { getHeatDivisionLabel } from "../common/util";
+import { Button } from "./Button";
 
 interface IHeatCardProps {
   eventId?: string;
@@ -15,12 +16,13 @@ interface IHeatCardProps {
   dateStart?: FirebaseFirestoreTypes.Timestamp;
   timeStart?: FirebaseFirestoreTypes.Timestamp;
   uid?: string;
-  onPress?: () => void;
+  onStartHeat?: () => void;
+  onEditHeat?: () => void;
 }
 
 export const HeatCard = (props: IHeatCardProps) => {
   return (
-    <TouchableOpacity style={styles.rootContainer} onPress={props?.onPress}>
+    <View style={styles.rootContainer}>
       <View style={{ flexDirection: "row", alignItems: "center", marginBottom: spacings.base }}>
         {!!props?.title && (
           <View>
@@ -70,10 +72,10 @@ export const HeatCard = (props: IHeatCardProps) => {
           <Text style={styles.font}>{"Surfers"}</Text>
         </View>
 
-        {!props.surfers && (
+        {!!props?.surfers && (
           <View style={{ flex: 2 }}>
             <FlatList
-              data={SURFERS}
+              data={props.surfers}
               keyExtractor={item => item}
               renderItem={({ item }) => {
                 return <Text style={styles.font}>{item}</Text>;
@@ -82,7 +84,21 @@ export const HeatCard = (props: IHeatCardProps) => {
           </View>
         )}
       </View>
-    </TouchableOpacity>
+      <View
+        style={{
+          flex: 2,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}>
+        <View style={{ flex: 1, marginHorizontal: spacings.tiny, marginTop: spacings.small }}>
+          <Button type={"bordered"} label={"Start Heat"} onPress={props.onStartHeat} />
+        </View>
+        <View style={{ flex: 1, marginHorizontal: spacings.tiny, marginTop: spacings.small }}>
+          <Button type={"bordered"} label={"Edit Heat"} onPress={props.onEditHeat} />
+        </View>
+      </View>
+    </View>
   );
 };
 

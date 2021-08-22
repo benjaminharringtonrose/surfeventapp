@@ -46,7 +46,6 @@ export const AddHeatScreen = forwardRef((props: AddHeatScreenProps, ref) => {
   }, []);
 
   const onSubmit = async (values: AddHeatFormProps) => {
-    console.log("onSubmit: ", values);
     if (
       !values.division?.id ||
       !values.dateStart ||
@@ -67,10 +66,23 @@ export const AddHeatScreen = forwardRef((props: AddHeatScreenProps, ref) => {
         division: values.division.id as string,
         dateStart: values.dateStart,
         timeStart: values.timeStart,
-        surfers: firestore.FieldValue.arrayUnion(values.surfer1, values.surfer2),
+        surfers: firestore.FieldValue.arrayUnion(
+          values.surfer1,
+          values.surfer2,
+          values.surfer3,
+          values.surfer4,
+        ),
       });
       setLoadingAddHeat(false);
-      navigation.pop();
+      navigation.navigate("MainStack", {
+        screen: "EventStack",
+        params: {
+          screen: "Events",
+          params: {
+            showAlert: true,
+          },
+        },
+      });
     } catch (error) {
       setLoadingAddHeat(false);
       console.warn(error);
@@ -184,7 +196,7 @@ export const AddHeatScreen = forwardRef((props: AddHeatScreenProps, ref) => {
               style={{ marginTop: spacings.base }}
             />
             <Button
-              type={"bordered"}
+              type={"contained"}
               label={"Add"}
               loading={loadingAddHeat}
               onPress={() => handleSubmit()}

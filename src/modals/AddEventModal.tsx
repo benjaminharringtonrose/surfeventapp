@@ -11,9 +11,10 @@ import { FormInput } from "../components/FormInput";
 import { Button } from "../components/Button";
 import { ModalHeader } from "../components/ModalHeader";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
-import { useAppSelector } from "../hooks/redux";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import moment from "moment";
 import { firebase } from "@react-native-firebase/messaging";
+import { setEventId } from "../store/slices/eventsSlice";
 
 interface AddEventFormProps {
   eventName?: string;
@@ -24,13 +25,14 @@ interface AddEventFormProps {
 
 interface AddEventModalProps {
   onClose: () => void;
+  onAlert: () => void;
 }
 export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
-  const formRef = React.useRef<FormikProps<AddEventFormProps>>(null);
   const [loadingAddEvent, setLoadingAddEvent] = useState<boolean>(false);
-
+  const formRef = React.useRef<FormikProps<AddEventFormProps>>(null);
   const uid = useAppSelector(state => state.auth.user?.uid);
   const insets = useSafeAreaInsets();
+  const dispatch = useAppDispatch();
 
   const onSubmit = async (values: AddEventFormProps) => {
     if (!values.eventName || !values.dateStart || !values.dateEnd || !values.timeStart) {
@@ -48,8 +50,10 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
         dateEnd: moment(values.dateEnd).format("YYYY-MM-DD"),
         timeStart: moment(values.timeStart).format("h:mma"),
       });
+      dispatch(setEventId({ eventId }));
       setLoadingAddEvent(false);
       props.onClose();
+      props.onAlert();
     } catch (error) {
       setLoadingAddEvent(false);
       console.warn(error);
