@@ -1,8 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import moment from "moment";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect } from "react";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
-import { Modalize } from "react-native-modalize";
 import { EventDetailsNavProp, EventDetailsRouteProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
 import { ButtonAdd, ButtonBack } from "../components";
@@ -11,7 +10,6 @@ import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
 
 export const EventDetailScreen = () => {
-  const addHeatModalRef = useRef<Modalize>(null);
   const navigation = useNavigation<EventDetailsNavProp>();
   const { params } = useRoute<EventDetailsRouteProp>();
   const event = useEvent(params.eventId);
@@ -19,6 +17,7 @@ export const EventDetailScreen = () => {
 
   useEffect(() => {
     navigation.setOptions({
+      title: "Event Details",
       headerLeft: () => <ButtonBack onPress={() => navigation.pop()} />,
     });
   }, []);
@@ -60,12 +59,14 @@ export const EventDetailScreen = () => {
               title={item.title}
               eventId={item.eventId}
               heatId={item.heatId}
-              division={item.division}
+              division={item.division as string}
               surfers={item.surfers}
               uid={item.uid}
               dateStart={item.dateStart}
               timeStart={item.timeStart}
-              onEditHeat={() => {}}
+              onEditHeat={() =>
+                navigation.navigate("EditHeat", { eventId: item.eventId, heatId: item.heatId })
+              }
               onStartHeat={() => {}}
             />
           );

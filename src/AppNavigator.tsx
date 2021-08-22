@@ -19,7 +19,8 @@ import {
   NavigatorScreenParams,
   RouteProp,
 } from "@react-navigation/native";
-import { AddHeatScreen } from "./screens/AddHeatScreen";
+import { HeatAddScreen } from "./screens/HeatAddScreen";
+import { HeatEditScreen } from "./screens/HeatEditScreen";
 
 const defaultNavigationOptions: StackNavigationOptions = {
   headerStyle: {
@@ -35,6 +36,10 @@ export type RootStackParamList = {
   AddHeat: {
     eventId: string;
   };
+  EditHeat: {
+    eventId: string;
+    heatId: string;
+  };
 };
 
 export type RootStackNavProp = StackNavigationProp<RootStackParamList>;
@@ -46,7 +51,16 @@ export function RootStack() {
       <Stack.Screen name={"MainStack"} component={MainStack} options={{ headerShown: false }} />
       <Stack.Screen
         name={"AddHeat"}
-        component={AddHeatScreen}
+        component={HeatAddScreen}
+        options={{
+          ...defaultNavigationOptions,
+          title: "SurfEvent",
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name={"EditHeat"}
+        component={HeatEditScreen}
         options={{
           ...defaultNavigationOptions,
           title: "SurfEvent",

@@ -12,7 +12,6 @@ interface AlertAction {
 
 interface AlertProps {
   visible: boolean;
-  onClose: () => void;
   label: string;
   actions: AlertAction[];
 }
@@ -23,7 +22,7 @@ export const Alert = (props: AlertProps) => {
   });
 
   return (
-    <Modal isVisible={props.visible} onDismiss={props.onClose}>
+    <Modal isVisible={props.visible}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <View>
@@ -35,6 +34,7 @@ export const Alert = (props: AlertProps) => {
             {actions.map(action => {
               return (
                 <Button
+                  key={action.key}
                   type={action.type}
                   label={action.label}
                   onPress={action.onPress}

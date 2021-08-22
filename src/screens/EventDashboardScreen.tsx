@@ -22,6 +22,7 @@ export const EventDashboardScreen = () => {
 
   useEffect(() => {
     navigation.setOptions({
+      title: "SurfEvent",
       headerRight: () => null,
     });
   });

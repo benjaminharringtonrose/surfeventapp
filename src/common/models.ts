@@ -1,4 +1,5 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
+import { ListPickerItem } from "../components/ListPicker";
 
 export interface AuthUser {
   emailVerified?: boolean;
@@ -65,12 +66,14 @@ export enum HeatType {
   final = "final",
 }
 
+export type Division = ListPickerItem | string;
+
 export interface Heat {
   title: string | undefined;
   eventId: string;
   heatId: string;
   uid: string;
-  division: ESA_DIVISIONS;
+  division?: (ListPickerItem & Division) | undefined;
   heatType: HeatType;
   surfers: string[];
   dateStart: FirebaseFirestoreTypes.Timestamp;
