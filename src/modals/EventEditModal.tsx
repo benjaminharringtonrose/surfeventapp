@@ -6,14 +6,15 @@ import { View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { spacings, colors } from "../common";
+import { spacings, colors, Event } from "../common";
 import { FormInput } from "../components/FormInput";
 import { Button } from "../components/Button";
 import { ModalHeader } from "../components/ModalHeader";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import moment from "moment";
 import { setEventId } from "../store/slices/eventsSlice";
+import { Alert } from "../components/Alert";
+import { EventDetailsNavProp } from "../AppNavigator";
 
 interface EventEditFormProps {
   eventName?: string;
@@ -23,11 +24,14 @@ interface EventEditFormProps {
 }
 
 interface EventEditModalProps {
+  event: Event;
   onClose: () => void;
-  onAlert: () => void;
+  navigation: EventDetailsNavProp;
 }
 export const EventEditModal = forwardRef((props: EventEditModalProps, ref) => {
   const [loadingEditEvent, setLoadingEditEvent] = useState<boolean>(false);
+  const [loadingRemoveEvent, setLoadingRemoveEvent] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
   const formRef = React.useRef<FormikProps<EventEditFormProps>>(null);
   const uid = useAppSelector(state => state.auth.user?.uid);
   const insets = useSafeAreaInsets();
@@ -55,10 +59,24 @@ export const EventEditModal = forwardRef((props: EventEditModalProps, ref) => {
       dispatch(setEventId({ eventId }));
       setLoadingEditEvent(false);
       props.onClose();
-      props.onAlert();
     } catch (error) {
       setLoadingEditEvent(false);
       console.warn(error);
+    }
+  };
+
+  const onRemove = async () => {
+    try {
+      setLoadingRemoveEvent(true);
+      await firestore().collection("events").doc(props.event.eventId).delete();
+      setShowAlert(false);
+      setLoadingRemoveEvent(false);
+      props.onClose();
+      props.navigation.popToTop();
+    } catch (e) {
+      console.warn(e);
+      setShowAlert(false);
+      setLoadingRemoveEvent(false);
     }
   };
 
@@ -78,15 +96,15 @@ export const EventEditModal = forwardRef((props: EventEditModalProps, ref) => {
           backgroundColor: colors.greyscale9,
         }}
         HeaderComponent={() => (
-          <ModalHeader title={"Add Surf Event"} showCloseButton={true} onClose={props.onClose} />
+          <ModalHeader title={"Edit Surf Event"} showCloseButton={true} onClose={props.onClose} />
         )}>
         <Formik
           innerRef={formRef}
           initialValues={{
-            eventName: undefined,
-            dateStart: new Date(),
-            timeStart: new Date(new Date().setHours(6, 0, 0, 0)),
-            dateEnd: new Date(),
+            eventName: props.event.eventName,
+            dateStart: props.event.dateStart.toDate(),
+            timeStart: props.event.timeStart.toDate(),
+            dateEnd: props.event.dateEnd.toDate(),
           }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
@@ -137,9 +155,32 @@ export const EventEditModal = forwardRef((props: EventEditModalProps, ref) => {
                 onPress={() => handleSubmit()}
                 style={{ marginTop: spacings.base }}
               />
+              <Button
+                type={"bordered"}
+                label={"Remove"}
+                loading={loadingRemoveEvent}
+                onPress={() => setShowAlert(true)}
+                style={{ marginTop: spacings.base }}
+              />
             </View>
           )}
         </Formik>
+        <Alert
+          visible={showAlert}
+          label={"Are you sure?"}
+          actions={[
+            {
+              label: "Remove",
+              onPress: onRemove,
+              type: "contained",
+            },
+            {
+              label: "Nevermind",
+              onPress: () => setShowAlert(false),
+              type: "bordered",
+            },
+          ]}
+        />
       </Modalize>
     </Portal>
   );

@@ -7,7 +7,6 @@ import { colors, shared, spacings } from "../common";
 interface IEventButtonProps {
   eventName?: string;
   dateStart?: string;
-  timeStart?: string;
   dateEnd?: string;
   onPress?: () => void;
 }
@@ -45,9 +44,7 @@ export const EventButton = (props: IEventButtonProps) => {
         <View style={{ flex: 4, flexDirection: "row" }}>
           {!!props.dateStart && !!props.dateEnd && (
             <Text style={{ fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
-              {`${moment(props.dateStart).format("MMM DD")} - ${moment(props.dateEnd).format(
-                "DD",
-              )}`}
+              {`${props.dateStart} - ${props.dateEnd}`}
             </Text>
           )}
         </View>

@@ -1,18 +1,19 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import moment from "moment";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef } from "react";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
+import { Modalize } from "react-native-modalize";
 import { EventDetailsNavProp, EventDetailsRouteProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
 import { ButtonAdd, ButtonBack } from "../components";
-import { Alert } from "../components/Alert";
 import { ButtonIcon } from "../components/ButtonIcon";
 import { HeatCard } from "../components/HeatCard";
 import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
+import { EventEditModal } from "../modals/EventEditModal";
 
 export const EventDetailScreen = () => {
-  const [showAlert, setShowAlert] = useState<boolean>(false);
+  const editEventModalRef = useRef<Modalize>(null);
   const navigation = useNavigation<EventDetailsNavProp>();
   const { params } = useRoute<EventDetailsRouteProp>();
   const event = useEvent(params.eventId);
@@ -22,7 +23,9 @@ export const EventDetailScreen = () => {
     navigation.setOptions({
       title: "Event Details",
       headerLeft: () => <ButtonBack onPress={() => navigation.pop()} />,
-      headerRight: () => <ButtonIcon name={"pencil"} onPress={() => setShowAlert(true)} />,
+      headerRight: () => (
+        <ButtonIcon name={"pencil"} onPress={() => editEventModalRef.current?.open()} />
+      ),
     });
   }, []);
 
@@ -87,21 +90,11 @@ export const EventDetailScreen = () => {
           </>
         }
       />
-      <Alert
-        visible={showAlert}
-        label={"What would you like to do?"}
-        actions={[
-          {
-            label: "Edit Event",
-            onPress: onEditEvent,
-            type: "contained",
-          },
-          {
-            label: "Cancel",
-            onPress: () => setShowAlert(false),
-            type: "bordered",
-          },
-        ]}
+      <EventEditModal
+        ref={editEventModalRef}
+        event={event}
+        onClose={() => editEventModalRef.current?.close()}
+        navigation={navigation}
       />
     </SafeAreaView>
   );

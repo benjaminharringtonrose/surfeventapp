@@ -2,9 +2,10 @@ import { useState, useEffect } from "react";
 import { firebase } from "@react-native-firebase/firestore";
 import { Collection } from "../common/models";
 import { useAppSelector } from "./redux";
+import { Event } from "../common";
 
 export const useEvent = (eventId: string) => {
-  const [event, setEvent] = useState<any>(undefined);
+  const [event, setEvent] = useState<Event | undefined>(undefined);
   const uid = useAppSelector(state => state.auth.user?.uid);
 
   useEffect(() => {
@@ -17,7 +18,7 @@ export const useEvent = (eventId: string) => {
       .doc(eventId)
       .onSnapshot(doc => {
         if (doc.exists) {
-          setEvent(doc.data());
+          setEvent(doc.data() as Event);
         }
       });
     return function cleanup() {

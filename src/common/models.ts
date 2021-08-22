@@ -84,7 +84,7 @@ export interface Event {
   uid: string;
   eventId: string;
   eventName: string;
-  timeStart: Date;
-  dateStart: Date;
-  dateEnd: Date;
+  timeStart: FirebaseFirestoreTypes.Timestamp;
+  dateStart: FirebaseFirestoreTypes.Timestamp;
+  dateEnd: FirebaseFirestoreTypes.Timestamp;
 }

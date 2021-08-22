@@ -1,16 +1,25 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, SafeAreaView, StyleSheet, FlatList, TouchableOpacity } from "react-native";
+import {
+  View,
+  Text,
+  SafeAreaView,
+  StyleSheet,
+  FlatList,
+  TouchableOpacity,
+  ListRenderItem,
+} from "react-native";
 import { Modalize } from "react-native-modalize";
 
 import { ButtonAdd } from "../components";
 import { EventNavProp } from "../AppNavigator";
-import { colors, fonts, shared, spacings } from "../common";
+import { colors, Event, fonts, shared, spacings } from "../common";
 import { EventAddModal } from "../modals/EventAddModal";
 import { useEvents } from "../hooks/useEvents";
 import { EventButton } from "../components/EventButton";
 import { Alert } from "../components/Alert";
 import { useAppSelector } from "../hooks/redux";
+import moment from "moment";
 
 export const EventDashboardScreen = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
@@ -65,13 +74,12 @@ export const EventDashboardScreen = () => {
               </View>
             </>
           }
-          renderItem={({ item }) => {
+          renderItem={({ item }: { item: Event }) => {
             return (
               <EventButton
                 eventName={item.eventName}
-                dateStart={item.dateStart}
-                dateEnd={item.dateEnd}
-                timeStart={item.timeStart}
+                dateStart={moment(item.dateStart.toDate()).format("MMM DD")}
+                dateEnd={moment(item.dateEnd.toDate()).format("DD")}
                 onPress={() => navigation.navigate("EventDetails", { eventId: item.eventId })}
               />
             );
