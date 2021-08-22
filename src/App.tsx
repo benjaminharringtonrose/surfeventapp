@@ -5,6 +5,7 @@ import { Alert, StatusBar, useColorScheme } from "react-native";
 import { AuthStack, RootStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import messaging from "@react-native-firebase/messaging";
+import { firebase } from "@react-native-firebase/firestore";
 
 import { store } from "./store";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";

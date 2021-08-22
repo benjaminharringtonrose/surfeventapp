@@ -70,10 +70,10 @@ export const HeatEditScreen = () => {
           dateStart: values.dateStart,
           timeStart: values.timeStart,
           surfers: firestore.FieldValue.arrayUnion(
-            values.surfer1,
-            values.surfer2,
-            values.surfer3,
-            values.surfer4,
+            values?.surfer1,
+            values?.surfer2,
+            values?.surfer3,
+            values?.surfer4,
           ),
         },
         { merge: true },
@@ -100,6 +100,7 @@ export const HeatEditScreen = () => {
       await firestore().collection("heats").doc(heatId).delete();
       setShowAlert(false);
       setLoadingRemoveHeat(false);
+      navigation.pop();
     } catch (e) {
       setShowAlert(false);
       setLoadingRemoveHeat(false);

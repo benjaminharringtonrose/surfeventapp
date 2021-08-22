@@ -58,6 +58,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
     }
     try {
       setLoadingAddHeat(true);
+      firebase.firestore().settings({ ignoreUndefinedProperties: true });
       const heatsCollectionRef = firestore().collection("heats");
       const heatId = heatsCollectionRef.doc().id;
       await heatsCollectionRef.doc(heatId).set({
@@ -67,13 +68,18 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
         division: values.division.id as string,
         dateStart: values.dateStart,
         timeStart: values.timeStart,
-        surfers: firestore.FieldValue.arrayUnion(
-          values.surfer1,
-          values.surfer2,
-          values.surfer3,
-          values.surfer4,
-        ),
+        surfers: firestore.FieldValue.arrayUnion(values.surfer1, values.surfer2),
       });
+      if (values.surfer3) {
+        await heatsCollectionRef.doc(heatId).set({
+          surfers: firestore.FieldValue.arrayUnion(values.surfer3),
+        });
+      }
+      if (values.surfer4) {
+        await heatsCollectionRef.doc(heatId).set({
+          surfers: firestore.FieldValue.arrayUnion(values.surfer4),
+        });
+      }
       setLoadingAddHeat(false);
       navigation.navigate("MainStack", {
         screen: "EventStack",
