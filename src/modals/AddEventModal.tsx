@@ -78,9 +78,9 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
           innerRef={formRef}
           initialValues={{
             eventName: undefined,
-            dateStart: undefined,
-            timeStart: undefined,
-            dateEnd: undefined,
+            dateStart: new Date(),
+            timeStart: new Date(new Date().setHours(6, 0, 0, 0)),
+            dateEnd: new Date(),
           }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>

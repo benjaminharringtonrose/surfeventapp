@@ -14,26 +14,67 @@ import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
 import { AuthLoginScreen } from "./screens/AuthLoginScreen";
 import { colors, fonts } from "./common";
 import { EventDetailScreen } from "./screens/EventDetailScreen";
-import { RouteProp } from "@react-navigation/native";
+import {
+  CompositeNavigationProp,
+  NavigatorScreenParams,
+  RouteProp,
+} from "@react-navigation/native";
+import { AddHeatScreen } from "./screens/AddHeatScreen";
 
 const defaultNavigationOptions: StackNavigationOptions = {
   headerStyle: {
-    backgroundColor: colors.background,
+    backgroundColor: colors.greyscale9,
     shadowColor: "transparent",
   },
   headerTitleStyle: fonts.navHeader,
   cardStyle: { backgroundColor: "transparent" },
 };
 
-type MainStackParamList = {
-  EventStack: undefined;
-  HeatStack: undefined;
-  SettingsStack: undefined;
+export type RootStackParamList = {
+  MainStack: NavigatorScreenParams<MainStackParamList>;
+  AddHeat: {
+    eventId: string;
+  };
 };
 
-export type EventStackNavProp = StackNavigationProp<MainStackParamList, "EventStack">;
-export type HeatStackNavProp = StackNavigationProp<MainStackParamList, "HeatStack">;
-export type SettingsStackNavProp = StackNavigationProp<MainStackParamList, "SettingsStack">;
+export type RootStackNavProp = StackNavigationProp<RootStackParamList>;
+
+export function RootStack() {
+  const Stack = createStackNavigator<RootStackParamList>();
+  return (
+    <Stack.Navigator screenOptions={{ presentation: "modal", headerShown: false }}>
+      <Stack.Screen name={"MainStack"} component={MainStack} options={{ headerShown: false }} />
+      <Stack.Screen
+        name={"AddHeat"}
+        component={AddHeatScreen}
+        options={{
+          ...defaultNavigationOptions,
+          title: "SurfEvent",
+          headerShown: true,
+        }}
+      />
+    </Stack.Navigator>
+  );
+}
+
+type MainStackParamList = {
+  EventStack: NavigatorScreenParams<EventStackParamList>;
+  HeatStack: NavigatorScreenParams<HeatStackParamList>;
+  SettingsStack: NavigatorScreenParams<SettingsStackParamList>;
+};
+
+export type EventStackNavProp = CompositeNavigationProp<
+  StackNavigationProp<MainStackParamList, "EventStack">,
+  StackNavigationProp<RootStackParamList>
+>;
+export type HeatStackNavProp = CompositeNavigationProp<
+  StackNavigationProp<MainStackParamList, "HeatStack">,
+  StackNavigationProp<RootStackParamList>
+>;
+export type SettingsStackNavProp = CompositeNavigationProp<
+  StackNavigationProp<MainStackParamList, "SettingsStack">,
+  StackNavigationProp<RootStackParamList>
+>;
 
 export function MainStack() {
   const Tab = createBottomTabNavigator<MainStackParamList>();
@@ -106,8 +147,14 @@ export type EventStackParamList = {
   };
 };
 
-export type EventNavProp = StackNavigationProp<EventStackParamList, "Events">;
-export type EventDetailsNavProp = StackNavigationProp<EventStackParamList, "EventDetails">;
+export type EventNavProp = CompositeNavigationProp<
+  StackNavigationProp<EventStackParamList>,
+  EventStackNavProp
+>;
+export type EventDetailsNavProp = CompositeNavigationProp<
+  StackNavigationProp<EventStackParamList, "EventDetails">,
+  EventStackNavProp
+>;
 export type EventDetailsRouteProp = RouteProp<EventStackParamList, "EventDetails">;
 
 export function EventStack() {

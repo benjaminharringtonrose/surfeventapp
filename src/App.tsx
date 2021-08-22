@@ -2,7 +2,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import React, { useEffect, useState } from "react";
 import { Alert, StatusBar, useColorScheme } from "react-native";
-import { AuthStack, MainStack } from "./AppNavigator";
+import { AuthStack, RootStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import messaging from "@react-native-firebase/messaging";
 
@@ -82,7 +82,7 @@ const Root = () => {
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
         <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: colors.background } }}>
           {user ? (
-            <Stack.Screen name="Main" component={MainStack} options={{ headerShown: false }} />
+            <Stack.Screen name="Root" component={RootStack} options={{ headerShown: false }} />
           ) : (
             <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
           )}

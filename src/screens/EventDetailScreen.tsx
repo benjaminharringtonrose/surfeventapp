@@ -49,7 +49,7 @@ export const EventDetailScreen = () => {
               </View>
               <ButtonAdd
                 label={"Add Heat"}
-                onPress={() => addHeatModalRef.current?.open()}
+                onPress={() => navigation.navigate("AddHeat", { eventId: event.eventId })}
                 style={{ marginVertical: spacings.base }}
               />
               <View style={{ paddingLeft: spacings.base, paddingBottom: spacings.xsmall }}>

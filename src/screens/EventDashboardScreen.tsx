@@ -8,7 +8,6 @@ import { EventNavProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
 import { AddEventModal } from "../modals/AddEventModal";
 import { useEvents } from "../hooks/useEvents";
-import { EventCard } from "../components/EventCard";
 import { EventButton } from "../components/EventButton";
 
 export const EventDashboardScreen = () => {
@@ -17,15 +16,11 @@ export const EventDashboardScreen = () => {
 
   const events = useEvents();
 
+  console.log(events);
+
   useEffect(() => {
     navigation.setOptions({
-      headerRight: () => {
-        return (
-          <TouchableOpacity onPress={() => {}} style={{ marginHorizontal: spacings.base }}>
-            {/* <Icon name={"timer"} size={32} color={colors.almostWhite} /> */}
-          </TouchableOpacity>
-        );
-      },
+      headerRight: () => null,
     });
   });
 
