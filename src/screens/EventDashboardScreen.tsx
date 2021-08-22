@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 
-import { Button, ButtonAdd } from "../components";
+import { ButtonAdd } from "../components";
 import { EventNavProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
 import { AddEventModal } from "../modals/AddEventModal";

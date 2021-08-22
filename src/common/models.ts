@@ -76,3 +76,12 @@ export interface Heat {
   dateStart: FirebaseFirestoreTypes.Timestamp;
   timeStart: FirebaseFirestoreTypes.Timestamp;
 }
+
+export interface Event {
+  uid: string;
+  eventId: string;
+  eventName: string;
+  timeStart: Date;
+  dateStart: Date;
+  dateEnd: Date;
+}

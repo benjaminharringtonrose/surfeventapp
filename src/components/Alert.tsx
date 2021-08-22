@@ -18,6 +18,10 @@ interface AlertProps {
 }
 
 export const Alert = (props: AlertProps) => {
+  const actions = props.actions.map((action, index) => {
+    return { ...action, key: index + 1 };
+  });
+
   return (
     <Modal isVisible={props.visible} onDismiss={props.onClose}>
       <View style={styles.centeredView}>
@@ -28,7 +32,7 @@ export const Alert = (props: AlertProps) => {
             </Text>
           </View>
           <View style={{ marginTop: spacings.base }}>
-            {props.actions.map(action => {
+            {actions.map(action => {
               return (
                 <Button
                   type={action.type}
