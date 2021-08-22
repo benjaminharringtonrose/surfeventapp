@@ -5,7 +5,7 @@ import { Alert, StatusBar, useColorScheme } from "react-native";
 import { AuthStack, RootStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import messaging from "@react-native-firebase/messaging";
-import { firebase } from "@react-native-firebase/firestore";
+import admin from "firebase-admin";
 
 import { store } from "./store";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
@@ -42,8 +42,10 @@ const Root = () => {
   }, []);
 
   useEffect(() => {
-    const unsubscribe = messaging().onMessage(async remoteMessage => {
-      Alert.alert("A new FCM message arrived!", JSON.stringify(remoteMessage));
+    const unsubscribe = messaging().onMessage(async message => {
+      const title = message.notification?.title || "";
+      const body = message.notification?.body || "";
+      Alert.alert(title, body);
     });
     return unsubscribe;
   }, []);

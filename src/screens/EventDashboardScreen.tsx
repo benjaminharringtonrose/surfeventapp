@@ -1,12 +1,12 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
-import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { Modalize } from "react-native-modalize";
 
 import { ButtonAdd } from "../components";
 import { EventNavProp } from "../AppNavigator";
 import { colors, fonts, shared, spacings } from "../common";
-import { AddEventModal } from "../modals/AddEventModal";
+import { EventAddModal } from "../modals/EventAddModal";
 import { useEvents } from "../hooks/useEvents";
 import { EventButton } from "../components/EventButton";
 import { Alert } from "../components/Alert";
@@ -82,7 +82,7 @@ export const EventDashboardScreen = () => {
           <Text style={styles.cardText}>{"You haven't created any events"}</Text>
         </View>
       )}
-      <AddEventModal
+      <EventAddModal
         ref={addEventModalRef}
         onClose={() => addEventModalRef.current?.close()}
         onAlert={() => setShowAlert(true)}

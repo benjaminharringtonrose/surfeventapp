@@ -1,7 +1,7 @@
 import React, { forwardRef, Ref } from "react";
 import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
-import { colors, fonts, spacings } from "../common";
+import { colors, fonts, shared, spacings } from "../common";
 import { Button } from "./Button";
 
 interface AlertAction {
@@ -26,7 +26,15 @@ export const Alert = (props: AlertProps) => {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <View>
-            <Text style={[fonts.regular, { fontSize: 23, textAlign: "center" }]}>
+            <Text
+              style={[
+                {
+                  fontSize: 23,
+                  textAlign: "center",
+                  fontWeight: "400",
+                  color: colors.almostWhite,
+                },
+              ]}>
               {props.label}
             </Text>
           </View>
@@ -59,7 +67,7 @@ const styles = StyleSheet.create({
   modalView: {
     margin: 20,
     backgroundColor: colors.greyscale9,
-    borderRadius: 20,
+    borderRadius: shared.borderRadius,
     padding: 35,
     alignItems: "center",
     shadowColor: "#000",

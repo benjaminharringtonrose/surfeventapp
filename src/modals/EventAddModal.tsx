@@ -2,7 +2,7 @@ import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import firestore from "@react-native-firebase/firestore";
 import React, { forwardRef, Ref, useState } from "react";
-import { ActivityIndicatorComponent, Platform, View } from "react-native";
+import { View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -12,29 +12,27 @@ import { Button } from "../components/Button";
 import { ModalHeader } from "../components/ModalHeader";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import moment from "moment";
-import { firebase } from "@react-native-firebase/messaging";
 import { setEventId } from "../store/slices/eventsSlice";
 
-interface AddEventFormProps {
+interface EventAddFormProps {
   eventName?: string;
   dateStart?: Date;
   timeStart?: Date;
   dateEnd?: Date;
 }
 
-interface AddEventModalProps {
+interface EventAddModalProps {
   onClose: () => void;
   onAlert: () => void;
 }
-export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
+export const EventAddModal = forwardRef((props: EventAddModalProps, ref) => {
   const [loadingAddEvent, setLoadingAddEvent] = useState<boolean>(false);
-  const formRef = React.useRef<FormikProps<AddEventFormProps>>(null);
+  const formRef = React.useRef<FormikProps<EventAddFormProps>>(null);
   const uid = useAppSelector(state => state.auth.user?.uid);
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
-  const onSubmit = async (values: AddEventFormProps) => {
+  const onSubmit = async (values: EventAddFormProps) => {
     if (!values.eventName || !values.dateStart || !values.dateEnd || !values.timeStart) {
       return;
     }
@@ -46,9 +44,9 @@ export const AddEventModal = forwardRef((props: AddEventModalProps, ref) => {
         uid: uid || "",
         eventId,
         eventName: values.eventName,
-        dateStart: moment(values.dateStart).format("YYYY-MM-DD"),
-        dateEnd: moment(values.dateEnd).format("YYYY-MM-DD"),
-        timeStart: moment(values.timeStart).format("h:mma"),
+        dateStart: values.dateStart,
+        dateEnd: values.dateEnd,
+        timeStart: values.timeStart,
       });
       dispatch(setEventId({ eventId }));
       setLoadingAddEvent(false);
