@@ -9,7 +9,7 @@ import { ModalHeader } from "./ModalHeader";
 
 export interface ListPickerItem {
   id: any;
-  label: string;
+  label: any;
 }
 
 export interface ListPickerProps {

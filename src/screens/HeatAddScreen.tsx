@@ -9,18 +9,18 @@ import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppSelector } from "../hooks/redux";
 import { ListPickerItem } from "../components/ListPicker";
 import { FormDropSectionListPicker } from "../components/FormDropSectionListPicker";
-import { FormInput } from "../components";
+import { FormDropListPicker, FormInput } from "../components";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackNavProp, RootStackParamList } from "../AppNavigator";
 import { ButtonX } from "../components/ButtonX";
 import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useEvent } from "../hooks/useEvent";
-import { getDatesBetweenDates } from "../util/dates";
+import { getEventDaysListPickerItems } from "../common/util";
 
 interface HeatAddFormProps {
   division?: ListPickerItem;
   timeStart?: Date;
-  dateStart?: Date;
+  dateStart?: ListPickerItem;
   surfer1?: string;
   surfer2?: string;
   surfer3?: string;
@@ -69,7 +69,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
         heatId,
         eventId,
         division: values.division.id as string,
-        dateStart: values.dateStart,
+        dateStart: values.dateStart.id, // beware changing this
         timeStart: values.timeStart,
         surfers: firestore.FieldValue.arrayUnion(values.surfer1, values.surfer2),
       });
@@ -109,10 +109,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
 
   if (!event) return null;
 
-  console.log("event?.dateStart.toDate(): ", event?.dateStart.toDate());
-  console.log("event?.dateEnd.toDate(): ", event?.dateEnd.toDate());
-
-  const dates = getDatesBetweenDates(event?.dateStart.toDate(), event?.dateEnd.toDate());
+  const dates = getEventDaysListPickerItems(event?.dateStart.toDate(), event?.dateEnd.toDate());
 
   console.log(dates);
 
@@ -126,7 +123,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
         innerRef={formRef}
         initialValues={{
           division: undefined,
-          dateStart: new Date(),
+          dateStart: { id: 0, label: new Date() },
           timeStart: new Date(new Date().setHours(6, 0, 0, 0)),
           surfer1: undefined,
           surfer2: undefined,
@@ -156,16 +153,16 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
               touched={touched.timeStart}
               style={{ marginTop: spacings.base }}
             />
-            <FormModalDatePicker
-              label={"Start Date"}
+            <FormDropListPicker
+              title={"Select Day"}
+              label={"Day"}
               value={values.dateStart}
-              mode={"date"}
-              onSelectDate={value => setFieldValue("dateStart", value)}
+              items={dates}
               error={errors.dateStart}
               touched={touched.dateStart}
+              onSelect={value => setFieldValue("dateStart", value)}
               style={{ marginTop: spacings.base }}
             />
-
             <FormInput
               label={"Surfer #1 Name"}
               placeholder={""}

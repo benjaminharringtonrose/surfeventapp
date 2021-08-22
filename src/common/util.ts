@@ -1,4 +1,6 @@
+import moment from "moment";
 import { Division, ESA_DIVISIONS } from ".";
+import { getDatesBetweenDates } from "../util/dates";
 import { DIVISIONS } from "./constants";
 
 export const getDivisionById = (id?: Division) => {
@@ -39,4 +41,14 @@ export const getHeatDivisionLabel = (id: string) => {
     case ESA_DIVISIONS.GLEGENDS:
       return "Grand Legends (60 & Over)";
   }
+};
+
+export const getEventDaysListPickerItems = (startDate: Date, endDate: Date) => {
+  const dates = getDatesBetweenDates(startDate, endDate);
+  return dates.map(d => {
+    return {
+      id: d,
+      label: moment(d).format("dddd, MMMM Do YYYY"),
+    };
+  });
 };
