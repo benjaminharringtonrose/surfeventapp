@@ -16,6 +16,7 @@ import { ButtonX } from "../components/ButtonX";
 import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useEvent } from "../hooks/useEvent";
 import { getEventDaysListPickerItems } from "../common/util";
+import moment from "moment";
 
 interface HeatAddFormProps {
   division?: ListPickerItem;
@@ -69,7 +70,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
         heatId,
         eventId,
         division: values.division.id as string,
-        dateStart: values.dateStart.id, // beware changing this
+        dateStart: values.dateStart.id, // beware changing
         timeStart: values.timeStart,
         surfers: firestore.FieldValue.arrayUnion(values.surfer1, values.surfer2),
       });
@@ -123,7 +124,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
         innerRef={formRef}
         initialValues={{
           division: undefined,
-          dateStart: { id: 0, label: new Date() },
+          dateStart: dates[0],
           timeStart: new Date(new Date().setHours(6, 0, 0, 0)),
           surfer1: undefined,
           surfer2: undefined,
