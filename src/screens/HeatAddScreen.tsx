@@ -13,7 +13,7 @@ import { FormInput } from "../components";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackNavProp, RootStackParamList } from "../AppNavigator";
 import { ButtonX } from "../components/ButtonX";
-import { DIVISIONS_SECTIONS } from "../common/util";
+import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useEvent } from "../hooks/useEvent";
 import { getDatesBetweenDates } from "../util/dates";
 
@@ -109,7 +109,12 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
 
   if (!event) return null;
 
-  getDatesBetweenDates(event?.dateStart.toDate(), event?.dateEnd.toDate());
+  console.log("event?.dateStart.toDate(): ", event?.dateStart.toDate());
+  console.log("event?.dateEnd.toDate(): ", event?.dateEnd.toDate());
+
+  const dates = getDatesBetweenDates(event?.dateStart.toDate(), event?.dateEnd.toDate());
+
+  console.log(dates);
 
   return (
     <SafeAreaView
