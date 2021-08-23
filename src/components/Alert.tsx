@@ -1,7 +1,7 @@
-import React, { forwardRef, Ref } from "react";
-import { Text, StyleSheet, View, TouchableOpacity } from "react-native";
+import React from "react";
+import { Text, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
-import { colors, fonts, shared, spacings } from "../common";
+import { colors, shared, spacings } from "../common";
 import { Button } from "./Button";
 
 interface AlertAction {

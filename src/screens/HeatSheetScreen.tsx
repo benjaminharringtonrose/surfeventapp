@@ -8,6 +8,7 @@ import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flat
 import { useHeat } from "../hooks/useHeat";
 import Orientation from "react-native-orientation-locker";
 import { COLORS } from "../common/constants";
+import { ScorePopUpCard } from "../components/ScorePopUpCard";
 
 interface Item {
   key: string;
@@ -17,6 +18,7 @@ interface Item {
 
 export const HeatSheetScreen = () => {
   const [data, setData] = useState<Item[]>([]);
+  const [scoreCardVisible, setScoreCardVisible] = useState<boolean>(false);
   const navigation = useNavigation<RootStackNavProp>();
   const { heatId } = useRoute<HeatSheetRouteProp>().params;
   const heat = useHeat(heatId);
@@ -57,6 +59,10 @@ export const HeatSheetScreen = () => {
       label: String(index + 1),
     };
   });
+
+  const onScorePress = () => {
+    setScoreCardVisible(true);
+  };
 
   const renderItem = useCallback(({ item, drag, isActive }: RenderItemParams<Item>) => {
     return (
@@ -103,7 +109,8 @@ export const HeatSheetScreen = () => {
           data={waveData}
           renderItem={({ item }) => {
             return (
-              <View
+              <TouchableOpacity
+                onPress={onScorePress}
                 style={{
                   width: 80,
                   height: 80,
@@ -113,7 +120,7 @@ export const HeatSheetScreen = () => {
                 <Text style={{ color: colors.grey700, paddingLeft: spacings.xsmall }}>
                   {item.label}
                 </Text>
-              </View>
+              </TouchableOpacity>
             );
           }}
         />
@@ -178,6 +185,11 @@ export const HeatSheetScreen = () => {
         onDragEnd={({ data }) => setData(data)}
         initialNumToRender={heatData.length}
         contentContainerStyle={{ borderBottomColor: colors.greyscale1, borderBottomWidth: 1 }}
+      />
+      <ScorePopUpCard
+        label={"Score"}
+        visible={scoreCardVisible}
+        onPress={() => setScoreCardVisible(false)}
       />
     </SafeAreaView>
   );

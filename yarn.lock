@@ -804,6 +804,13 @@
     xmlbuilder "^14.0.0"
     xmldom "~0.5.0"
 
+"@gregfrench/react-native-wheel-picker@^1.2.15":
+  version "1.2.15"
+  resolved "https://registry.yarnpkg.com/@gregfrench/react-native-wheel-picker/-/react-native-wheel-picker-1.2.15.tgz#b6262842c59c4508668d013e9e73bc8493e2755c"
+  integrity sha512-d0zFcoZNIu1iiGJ3pEgPePJUzn/LmbXutr+7AEjCr4XG9Es57RSJQKeFFbnjoYfhB7p8HBE/VDykCIxJsKNOtg==
+  dependencies:
+    "@react-native-picker/picker" "^1.9.4"
+
 "@hapi/hoek@^9.0.0":
   version "9.2.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.2.0.tgz#f3933a44e365864f4dad5db94158106d511e8131"
@@ -1215,6 +1222,11 @@
   version "12.7.2"
   resolved "https://registry.yarnpkg.com/@react-native-firebase/messaging/-/messaging-12.7.2.tgz#57af3a85b312557057f59e3641491746852449e0"
   integrity sha512-8ZS7K3JdLU64zIPQt4rsGlPqJg4lxT5nK1OoLVvjZnt1cClIIA/KJmWx3h3nlCTS43X0kw+clk0o2MQ12GbkLA==
+
+"@react-native-picker/picker@^1.16.6", "@react-native-picker/picker@^1.9.4":
+  version "1.16.6"
+  resolved "https://registry.yarnpkg.com/@react-native-picker/picker/-/picker-1.16.6.tgz#6af7e69e4bf2b70ca713392c467c9e52477a6289"
+  integrity sha512-Vc/SRqKp/TWG6dcmKAbvTknS35L9/qhfinGkDzpOeephxiTOdUwKw8G0KEwuwvJyE0KwgglH5AeNHNS+4uYR8w==
 
 "@react-native/assets@1.0.0":
   version "1.0.0"
@@ -6277,6 +6289,11 @@ react-native-vector-icons@^8.1.0:
     lodash.template "^4.5.0"
     prop-types "^15.7.2"
     yargs "^16.1.1"
+
+react-native-wheel-scrollview-picker@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/react-native-wheel-scrollview-picker/-/react-native-wheel-scrollview-picker-1.2.2.tgz#ee9d73416951f9e249ad2e94754dc6f0911ee5a1"
+  integrity sha512-Fl/tzrkQl9R0q3mNaoY2nePA69CgjMP8uEiSFcPHumGpa6z9KALHoSIes3jJs9CIpz/E5Vlg50m5a/CnwDzf0A==
 
 react-native@0.64.2:
   version "0.64.2"
