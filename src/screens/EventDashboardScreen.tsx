@@ -1,14 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect, useRef, useState } from "react";
-import {
-  View,
-  Text,
-  SafeAreaView,
-  StyleSheet,
-  FlatList,
-  TouchableOpacity,
-  ListRenderItem,
-} from "react-native";
+import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 
 import { ButtonAdd } from "../components";

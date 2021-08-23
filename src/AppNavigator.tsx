@@ -21,6 +21,7 @@ import {
 } from "@react-navigation/native";
 import { HeatAddScreen } from "./screens/HeatAddScreen";
 import { HeatEditScreen } from "./screens/HeatEditScreen";
+import { HeatSheetScreen } from "./screens/HeatSheetScreen";
 
 const defaultNavigationOptions: StackNavigationOptions = {
   headerStyle: {
@@ -40,9 +41,14 @@ export type RootStackParamList = {
     eventId: string;
     heatId: string;
   };
+  HeatSheet: {
+    eventId: string;
+    heatId: string;
+  };
 };
 
 export type RootStackNavProp = StackNavigationProp<RootStackParamList>;
+export type HeatSheetRouteProp = RouteProp<RootStackParamList, "HeatSheet">;
 
 export function RootStack() {
   const Stack = createStackNavigator<RootStackParamList>();
@@ -64,6 +70,15 @@ export function RootStack() {
         options={{
           ...defaultNavigationOptions,
           title: "SurfEvent",
+          headerShown: true,
+        }}
+      />
+      <Stack.Screen
+        name={"HeatSheet"}
+        component={HeatSheetScreen}
+        options={{
+          ...defaultNavigationOptions,
+          title: "Heat Sheet",
           headerShown: true,
         }}
       />

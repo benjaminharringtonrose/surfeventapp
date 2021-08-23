@@ -16,7 +16,6 @@ import { ButtonX } from "../components/ButtonX";
 import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useEvent } from "../hooks/useEvent";
 import { getEventDaysListPickerItems } from "../common/util";
-import moment from "moment";
 
 interface HeatAddFormProps {
   division?: ListPickerItem;
@@ -53,7 +52,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
   const onSubmit = async (values: HeatAddFormProps) => {
     if (
       !values.division?.id ||
-      !values.dateStart ||
+      !values.dateStart?.id ||
       !values.timeStart ||
       !values.surfer1 ||
       !values.surfer2
@@ -62,7 +61,6 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
     }
     try {
       setLoadingAddHeat(true);
-      firebase.firestore().settings({ ignoreUndefinedProperties: true });
       const heatsCollectionRef = firestore().collection("heats");
       const heatId = heatsCollectionRef.doc().id;
       await heatsCollectionRef.doc(heatId).set({
@@ -70,19 +68,25 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
         heatId,
         eventId,
         division: values.division.id as string,
-        dateStart: values.dateStart.id, // beware changing
+        dateStart: values.dateStart.id as Date, // beware changing
         timeStart: values.timeStart,
         surfers: firestore.FieldValue.arrayUnion(values.surfer1, values.surfer2),
       });
       if (values.surfer3) {
-        await heatsCollectionRef.doc(heatId).set({
-          surfers: firestore.FieldValue.arrayUnion(values.surfer3),
-        });
+        await heatsCollectionRef.doc(heatId).set(
+          {
+            surfers: firestore.FieldValue.arrayUnion(values.surfer3),
+          },
+          { merge: true },
+        );
       }
       if (values.surfer4) {
-        await heatsCollectionRef.doc(heatId).set({
-          surfers: firestore.FieldValue.arrayUnion(values.surfer4),
-        });
+        await heatsCollectionRef.doc(heatId).set(
+          {
+            surfers: firestore.FieldValue.arrayUnion(values.surfer4),
+          },
+          { merge: true },
+        );
       }
       setLoadingAddHeat(false);
       navigation.navigate("MainStack", {
@@ -103,7 +107,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
   const ProfileSchema = Yup.object().shape({
     division: Yup.object().required("Division required"),
     timeStart: Yup.date().required("Start time required"),
-    dateStart: Yup.date().required("Start date required"),
+    dateStart: Yup.object().required("Start date required"),
     surfer1: Yup.string().required("At least 2 surfers required"),
     surfer2: Yup.string().required("At least 2 surfers required"),
   });

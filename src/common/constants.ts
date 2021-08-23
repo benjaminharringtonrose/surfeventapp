@@ -62,3 +62,5 @@ export const DIVISIONS_SECTIONS = [
     ],
   },
 ];
+
+export const COLORS = ["red", "green", "blue", "white", "orange", "black"];

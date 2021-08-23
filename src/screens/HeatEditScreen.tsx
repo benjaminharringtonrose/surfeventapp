@@ -13,7 +13,7 @@ import { FormInput } from "../components";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
 import { RootStackNavProp, RootStackParamList } from "../AppNavigator";
 import { ButtonX } from "../components/ButtonX";
-import { DIVISIONS_SECTIONS } from "../common/util";
+import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useHeat } from "../hooks/useHeat";
 import { Alert } from "../components/Alert";
 
@@ -43,7 +43,7 @@ export const HeatEditScreen = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "Edit Surf Heat",
+      title: "Edit Heat",
       headerLeft: () => <ButtonX onPress={() => navigation.pop()} />,
     });
   }, []);
@@ -218,7 +218,7 @@ export const HeatEditScreen = () => {
             />
             <Button
               type={"contained"}
-              label={"Add"}
+              label={"Edit"}
               loading={loadingEditHeat}
               onPress={() => handleSubmit()}
               style={{ marginTop: spacings.base }}

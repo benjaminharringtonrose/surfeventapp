@@ -5,8 +5,6 @@ import { Alert, StatusBar, useColorScheme } from "react-native";
 import { AuthStack, RootStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import messaging from "@react-native-firebase/messaging";
-import admin from "firebase-admin";
-
 import { store } from "./store";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -16,6 +14,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAppDispatch } from "./hooks/redux";
 import { setAuthUser } from "./store/slices/authSlice";
 import { updateMessagingToken } from "./util/cloudMessaging";
+import { LogBox } from "react-native";
+import Orientation from "react-native-orientation-locker";
+
+LogBox.ignoreLogs([
+  "ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.",
+]);
 
 const App = () => {
   return (
@@ -37,6 +41,7 @@ const Root = () => {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
+    Orientation.lockToPortrait();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);

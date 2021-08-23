@@ -96,7 +96,7 @@ export const EventEditModal = forwardRef((props: EventEditModalProps, ref) => {
           backgroundColor: colors.greyscale9,
         }}
         HeaderComponent={() => (
-          <ModalHeader title={"Edit Surf Event"} showCloseButton={true} onClose={props.onClose} />
+          <ModalHeader title={"Edit Event"} showCloseButton={true} onClose={props.onClose} />
         )}>
         <Formik
           innerRef={formRef}

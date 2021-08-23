@@ -21,7 +21,7 @@ export const EventDetailScreen = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "Event Details",
+      title: "Surf Event Details",
       headerLeft: () => <ButtonBack onPress={() => navigation.pop()} />,
       headerRight: () => (
         <ButtonIcon name={"pencil"} onPress={() => editEventModalRef.current?.open()} />
@@ -31,7 +31,7 @@ export const EventDetailScreen = () => {
 
   const onEditEvent = () => {};
 
-  if (!event) return null;
+  if (!event || !heats) return null;
 
   return (
     <SafeAreaView
@@ -53,7 +53,7 @@ export const EventDetailScreen = () => {
               </Text>
             </View>
             <ButtonAdd
-              label={"Add Surf Heat"}
+              label={"Add Heat"}
               onPress={() => navigation.navigate("AddHeat", { eventId: event.eventId })}
               style={{ marginVertical: spacings.base }}
             />
@@ -73,10 +73,18 @@ export const EventDetailScreen = () => {
               uid={item.uid}
               dateStart={item.dateStart}
               timeStart={item.timeStart}
-              onEditHeat={() =>
-                navigation.navigate("EditHeat", { eventId: item.eventId, heatId: item.heatId })
-              }
-              onStartHeat={() => {}}
+              onEditHeat={() => {
+                navigation.navigate("EditHeat", {
+                  eventId: item.eventId,
+                  heatId: item.heatId,
+                });
+              }}
+              onStartHeat={() => {
+                navigation.navigate("HeatSheet", {
+                  eventId: item.eventId,
+                  heatId: item.heatId,
+                });
+              }}
             />
           );
         }}

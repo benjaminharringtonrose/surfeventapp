@@ -1,15 +1,11 @@
 import { useState, useEffect } from "react";
 import { firebase } from "@react-native-firebase/firestore";
-import { Collection } from "../common/models";
+import { Collection, Event } from "../common/models";
 import { useAppSelector } from "./redux";
 
 export const useEvents = () => {
   const [events, setEvents] = useState<any>(undefined);
   const uid = useAppSelector(state => state.auth.user?.uid);
-
-  const user = useAppSelector(state => state.auth.user);
-
-  console.log(user);
 
   useEffect(() => {
     if (!uid) {
@@ -20,12 +16,13 @@ export const useEvents = () => {
       .collection(Collection.events)
       .where("uid", "==", uid)
       .onSnapshot(querySnapshot => {
-        const events: any[] = [];
+        const events: Event[] = [];
         querySnapshot?.forEach(doc => {
-          events.push(doc.data());
+          events.push(doc.data() as Event);
         });
         events.sort(
-          (d1, d2) => new Date(d1.dateStart).getTime() - new Date(d2.dateStart).getTime(),
+          (d1, d2) =>
+            new Date(d1.dateStart.toDate()).getTime() - new Date(d2.dateStart.toDate()).getTime(),
         );
         setEvents(events);
       });
