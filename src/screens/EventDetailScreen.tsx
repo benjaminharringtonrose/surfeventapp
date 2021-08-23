@@ -47,9 +47,9 @@ export const EventDetailScreen = () => {
             <View style={{ marginLeft: spacings.base, marginTop: spacings.base }}>
               <Text style={fonts.header}>{event.eventName}</Text>
               <Text style={fonts.subheader}>
-                {`${moment(event.dateStart).format("MMM DD")} - ${moment(event.dateEnd).format(
-                  "DD",
-                )}`}
+                {`${moment(event.dateStart.toDate()).format("MMM DD")} - ${moment(
+                  event.dateEnd.toDate(),
+                ).format("DD")}`}
               </Text>
             </View>
             <ButtonAdd
