@@ -26,6 +26,7 @@ export interface HeatData {
 export const HeatSheetScreen = () => {
   const [scoreCardVisible, setScoreCardVisible] = useState<boolean>(false);
   const [surferIndex, setSurferIndex] = useState<number>(0);
+  const [surfer, setSurfer] = useState<string | undefined>(undefined);
   const [waveIndex, setWaveIndex] = useState<number>(0);
   const navigation = useNavigation<RootStackNavProp>();
   const { heatId } = useRoute<HeatSheetRouteProp>().params;
@@ -63,14 +64,28 @@ export const HeatSheetScreen = () => {
     dispatch(initializeHeat({ heatData: initialHeatData }));
   }, [heat]);
 
-  const onScorePress = (surferIndex: number, waveIndex: number) => {
+  const onScorePress = (surfer: string, surferIndex: number, waveIndex: number) => {
+    setSurfer(surfer);
     setSurferIndex(surferIndex);
     setWaveIndex(waveIndex);
     setScoreCardVisible(true);
   };
 
+  const onSubmitWave = async (score: number) => {
+    try {
+      const wavesCollection = firestore().collection("waves");
+      const waveId = wavesCollection.doc().id;
+      await wavesCollection.doc(waveId).set({ heatId, waveId, surfer, score });
+    } catch (e) {
+      console.warn(e);
+    }
+    dispatch(addWave({ surferIndex, waveIndex, score }));
+    setScoreCardVisible(false);
+  };
+
   const renderItem = useCallback(({ item, drag, isActive, index }: RenderItemParams<HeatData>) => {
     const surferIndex = index || 0;
+    const surfer = item.surfer;
     const waveData: Array<number | string> = [...Array(5)].map((_, index) => index);
     waveData.push("ADD");
 
@@ -123,18 +138,8 @@ export const HeatSheetScreen = () => {
               return (
                 <TouchableOpacity
                   key={item}
-                  onPress={() => onScorePress(surferIndex, waveIndex)}
-                  style={{
-                    width: 80,
-                    height: 80,
-                    borderRightWidth: 1,
-                    borderRightColor: colors.greyscale1,
-                    borderRadius: shared.borderRadius,
-                    backgroundColor: colors.greyscale1,
-                    margin: spacings.tiny,
-                    alignItems: "center",
-                    justifyContent: "center",
-                  }}>
+                  onPress={() => onScorePress(surfer, surferIndex, waveIndex)}
+                  style={styles.addWaveCell}>
                   <Icon name={"add"} color={colors.almostWhite} size={30} />
                 </TouchableOpacity>
               );
@@ -142,16 +147,8 @@ export const HeatSheetScreen = () => {
               return (
                 <TouchableOpacity
                   key={item}
-                  onPress={() => onScorePress(surferIndex, waveIndex)}
-                  style={{
-                    width: 80,
-                    height: 80,
-                    borderRightWidth: 1,
-                    borderRightColor: colors.greyscale1,
-                    borderRadius: shared.borderRadius,
-                    backgroundColor: colors.greyscale1,
-                    margin: spacings.tiny,
-                  }}>
+                  onPress={() => onScorePress(surfer, surferIndex, waveIndex)}
+                  style={styles.waveCell}>
                   <Text style={{ color: colors.grey700, paddingLeft: spacings.xsmall }}>
                     {(index + 1).toString()}
                   </Text>
@@ -168,36 +165,12 @@ export const HeatSheetScreen = () => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <View style={styles.heatSheetContainer}>
-        <View
-          style={{
-            width: 150,
-            borderRightWidth: 1,
-            borderTopLeftRadius: shared.borderRadius,
-            borderRightColor: colors.greyscale1,
-            borderLeftWidth: 1,
-            borderLeftColor: colors.greyscale1,
-
-            justifyContent: "flex-end",
-          }}>
-          <Text
-            style={{
-              color: colors.almostWhite,
-              paddingLeft: spacings.xsmall,
-              paddingBottom: spacings.xsmall,
-            }}>
-            {"Surfers"}
-          </Text>
+      <View style={styles.headerContainer}>
+        <View style={styles.headerSubcontainer}>
+          <Text style={styles.headerText}>{"Surfers"}</Text>
         </View>
         <View style={{ justifyContent: "flex-end" }}>
-          <Text
-            style={{
-              color: colors.almostWhite,
-              paddingLeft: spacings.xsmall,
-              paddingBottom: spacings.xsmall,
-            }}>
-            {"Waves"}
-          </Text>
+          <Text style={styles.headerText}>{"Waves"}</Text>
         </View>
       </View>
       <DraggableFlatList
@@ -208,14 +181,7 @@ export const HeatSheetScreen = () => {
         initialNumToRender={heatData.length}
         contentContainerStyle={{ borderBottomColor: colors.greyscale1, borderBottomWidth: 1 }}
       />
-      <ScorePopUpCard
-        label={"Score"}
-        visible={scoreCardVisible}
-        onPress={async score => {
-          dispatch(addWave({ surferIndex, waveIndex, score }));
-          setScoreCardVisible(false);
-        }}
-      />
+      <ScorePopUpCard label={"Score"} visible={scoreCardVisible} onPress={onSubmitWave} />
     </SafeAreaView>
   );
 };
@@ -225,7 +191,7 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.greyscale9,
   },
-  heatSheetContainer: {
+  headerContainer: {
     flexDirection: "row",
     height: 50,
     borderTopColor: colors.greyscale1,
@@ -234,6 +200,40 @@ const styles = StyleSheet.create({
     borderRightWidth: 1,
     borderTopRightRadius: shared.borderRadius,
     borderTopLeftRadius: shared.borderRadius,
+  },
+  headerSubcontainer: {
+    width: 150,
+    borderRightWidth: 1,
+    borderTopLeftRadius: shared.borderRadius,
+    borderRightColor: colors.greyscale1,
+    borderLeftWidth: 1,
+    borderLeftColor: colors.greyscale1,
+    justifyContent: "flex-end",
+  },
+  headerText: {
+    color: colors.almostWhite,
+    paddingLeft: spacings.xsmall,
+    paddingBottom: spacings.xsmall,
+  },
+  addWaveCell: {
+    width: 80,
+    height: 80,
+    borderRightWidth: 1,
+    borderRightColor: colors.greyscale1,
+    borderRadius: shared.borderRadius,
+    backgroundColor: colors.greyscale1,
+    margin: spacings.tiny,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  waveCell: {
+    width: 80,
+    height: 80,
+    borderRightWidth: 1,
+    borderRightColor: colors.greyscale1,
+    borderRadius: shared.borderRadius,
+    backgroundColor: colors.greyscale1,
+    margin: spacings.tiny,
   },
 });
 
