@@ -25,7 +25,7 @@ const WheelPicker = (props: WheelPickerProps) => {
           itemStyle={{ color: colors.almostWhite, fontSize: 26 }}
           onValueChange={props.onValueChange}>
           {props.list.map((number, i) => (
-            <PickerItem label={number} value={i} key={i} />
+            <PickerItem label={number.toString()} value={i} key={i} />
           ))}
         </Picker>
       </Text>

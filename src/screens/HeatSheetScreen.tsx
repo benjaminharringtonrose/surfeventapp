@@ -1,6 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
 import { SafeAreaView, TouchableOpacity, View, Text, FlatList } from "react-native";
+import firestore from "@react-native-firebase/firestore";
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
 import { colors, shared, spacings } from "../common";
 import { ButtonX } from "../components/ButtonX";
@@ -9,19 +10,55 @@ import { useHeat } from "../hooks/useHeat";
 import Orientation from "react-native-orientation-locker";
 import { COLORS } from "../common/constants";
 import { ScorePopUpCard } from "../components/ScorePopUpCard";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { addWave, initializeHeat } from "../store/slices/heatSlice";
+import * as _ from "lodash";
+import { Icon } from "../components";
 
 interface Item {
-  key: string;
   surfer: string;
+  waveScores: (number | string)[];
   color: string;
 }
 
+export interface HeatData {
+  surfer: string;
+  waveScores: (number | string)[];
+  color: string;
+}
+
+const mockHeatData = [
+  {
+    key: 0,
+    surfer: "Billy Barrels",
+    waveScores: [4.6, 5.3, 2.3, 1.7],
+    color: "red",
+  },
+  {
+    key: 1,
+    surfer: "Timmy Tubes",
+    waveScores: [2.1, 3.3, 7.4, 3.7, 1.2, 2.7],
+    color: "red",
+  },
+  {
+    key: 3,
+    surfer: "Ricky Rails",
+    waveScores: [8.6, 4.3],
+    color: "red",
+  },
+];
+
 export const HeatSheetScreen = () => {
-  const [data, setData] = useState<Item[]>([]);
   const [scoreCardVisible, setScoreCardVisible] = useState<boolean>(false);
+  const [surferIndex, setSurferIndex] = useState<number>(0);
+  const [waveIndex, setWaveIndex] = useState<number>(0);
+
   const navigation = useNavigation<RootStackNavProp>();
   const { heatId } = useRoute<HeatSheetRouteProp>().params;
   const heat = useHeat(heatId);
+
+  const dispatch = useAppDispatch();
+  const heatData = useAppSelector(state => state.heat.heatData);
 
   useEffect(() => {
     Orientation.lockToLandscapeLeft();
@@ -39,32 +76,37 @@ export const HeatSheetScreen = () => {
     });
   }, []);
 
-  useEffect(() => {
-    setData(heatData);
-  }, [heat]);
-
-  const heatData: Item[] = heat?.surfers
+  const initialHeatData: HeatData[] = heat?.surfers
     ? heat.surfers.map((surfer, index) => {
         return {
-          key: index.toString(),
           surfer,
           color: COLORS[index],
+          waveScores: [],
         };
       })
     : [];
 
-  const waveData = [...Array(10)].map((d, index) => {
-    return {
-      key: index,
-      label: String(index + 1),
-    };
-  });
+  useEffect(() => {
+    dispatch(initializeHeat({ heatData: initialHeatData }));
+  }, [heat]);
 
-  const onScorePress = () => {
+  const onScorePress = (surferIndex: number, waveIndex: number) => {
+    setSurferIndex(surferIndex);
+    setWaveIndex(waveIndex);
     setScoreCardVisible(true);
   };
 
-  const renderItem = useCallback(({ item, drag, isActive }: RenderItemParams<Item>) => {
+  const renderItem = useCallback(({ item, drag, isActive, index }: RenderItemParams<Item>) => {
+    const surferIndex = index || 0;
+
+    const waveData: ({ key: number; score: string } | string)[] = [...Array(5)].map((_, index) => {
+      return {
+        key: index,
+        score: String(index + 1),
+      };
+    });
+    waveData.push("ADD");
+
     return (
       <View
         style={{
@@ -107,21 +149,47 @@ export const HeatSheetScreen = () => {
         <FlatList
           horizontal
           data={waveData}
-          renderItem={({ item }) => {
-            return (
-              <TouchableOpacity
-                onPress={onScorePress}
-                style={{
-                  width: 80,
-                  height: 80,
-                  borderRightWidth: 1,
-                  borderRightColor: colors.greyscale1,
-                }}>
-                <Text style={{ color: colors.grey700, paddingLeft: spacings.xsmall }}>
-                  {item.label}
-                </Text>
-              </TouchableOpacity>
-            );
+          renderItem={({ item, index }) => {
+            const waveIndex = index;
+            if (item === "ADD") {
+              return (
+                <TouchableOpacity
+                  key={item}
+                  onPress={() => onScorePress(surferIndex, waveIndex)}
+                  style={{
+                    width: 80,
+                    height: 80,
+                    borderRightWidth: 1,
+                    borderRightColor: colors.greyscale1,
+                    borderRadius: shared.borderRadius,
+                    backgroundColor: colors.greyscale1,
+                    margin: spacings.tiny,
+                    alignItems: "center",
+                    justifyContent: "center",
+                  }}>
+                  <Icon name={"add"} color={colors.almostWhite} size={30} />
+                </TouchableOpacity>
+              );
+            } else {
+              return (
+                <TouchableOpacity
+                  key={item.key}
+                  onPress={() => onScorePress(surferIndex, waveIndex)}
+                  style={{
+                    width: 80,
+                    height: 80,
+                    borderRightWidth: 1,
+                    borderRightColor: colors.greyscale1,
+                    borderRadius: shared.borderRadius,
+                    backgroundColor: colors.greyscale1,
+                    margin: spacings.tiny,
+                  }}>
+                  <Text style={{ color: colors.grey700, paddingLeft: spacings.xsmall }}>
+                    {(index + 1).toString()}
+                  </Text>
+                </TouchableOpacity>
+              );
+            }
           }}
         />
       </View>
@@ -179,17 +247,20 @@ export const HeatSheetScreen = () => {
         </View>
       </View>
       <DraggableFlatList
-        data={data}
+        data={heatData}
         renderItem={renderItem}
-        keyExtractor={(item, index) => `draggable-item-${item.key}`}
-        onDragEnd={({ data }) => setData(data)}
+        keyExtractor={(item, index) => `draggable-item-${item.surfer}`}
+        onDragEnd={({ data }) => dispatch(initializeHeat({ heatData: data }))}
         initialNumToRender={heatData.length}
         contentContainerStyle={{ borderBottomColor: colors.greyscale1, borderBottomWidth: 1 }}
       />
       <ScorePopUpCard
         label={"Score"}
         visible={scoreCardVisible}
-        onPress={() => setScoreCardVisible(false)}
+        onPress={async score => {
+          dispatch(addWave({ surferIndex, waveIndex, score }));
+          setScoreCardVisible(false);
+        }}
       />
     </SafeAreaView>
   );

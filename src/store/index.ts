@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { authReducer } from "./slices/authSlice";
 import { eventsReducer } from "./slices/eventsSlice";
-import { judgeReducer } from "./slices/judgeSlice";
+import { heatReducer } from "./slices/heatSlice";
 import { userReducer } from "./slices/userSlice";
 
 export const store = configureStore({
@@ -9,7 +9,7 @@ export const store = configureStore({
     auth: authReducer,
     user: userReducer,
     events: eventsReducer,
-    judge: judgeReducer,
+    heat: heatReducer,
   },
 });
 

@@ -3,30 +3,27 @@ import { Text, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import { colors, shared, spacings } from "../common";
 import { Button } from "./Button";
-import ScrollPicker from "react-native-wheel-scrollview-picker";
 import WheelPicker from "./WheelPicker";
-
-interface ScoreAction {
-  label: string;
-  onPress: () => void;
-  type: "text" | "bordered" | "contained" | undefined;
-}
 
 interface ScorePopUpCardProps {
   visible: boolean;
   label: string;
-  onPress: () => void;
+  onPress: (score: number) => void;
 }
+
+const integers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const tenths = [1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
   const [selectedIntegerIndex, setSelectedIntegerIndex] = useState(4);
   const [selectedTenthIndex, setSelectedTenthIndex] = useState(4);
-  const [score, setScore] = useState<string | number | undefined>(undefined);
+  const [score, setScore] = useState<number>(
+    Number(integers[selectedIntegerIndex]) + Number(tenths[selectedTenthIndex]) / 10,
+  );
 
-  const numbers = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"];
-
-  const onSelectScore = (score: string | number) => {
-    setScore(score);
+  const onSelectScore = () => {
+    const score = Number(integers[selectedIntegerIndex]) + Number(tenths[selectedTenthIndex]) / 10;
+    props.onPress(score);
   };
   return (
     <Modal isVisible={props.visible}>
@@ -40,25 +37,31 @@ export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
                 color: colors.almostWhite,
               },
             ]}>
-            {`Score of ${numbers[selectedIntegerIndex]}.${numbers[selectedTenthIndex]}`}
+            {`Score of ${integers[selectedIntegerIndex].toString()}.${tenths[
+              selectedTenthIndex
+            ].toString()}`}
           </Text>
           <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
             <WheelPicker
-              list={numbers}
+              list={integers}
               value={selectedIntegerIndex}
-              onValueChange={(index: any) => setSelectedIntegerIndex(index)}
+              onValueChange={(index: number) => {
+                setSelectedIntegerIndex(index);
+              }}
             />
             <WheelPicker
-              list={numbers}
+              list={tenths}
               value={selectedTenthIndex}
-              onValueChange={(index: any) => setSelectedTenthIndex(index)}
+              onValueChange={(index: number) => {
+                setSelectedTenthIndex(index);
+              }}
             />
           </View>
           <View style={{ alignItems: "center" }}>
             <Button
               type={"contained"}
               label={"Judge"}
-              onPress={props.onPress}
+              onPress={onSelectScore}
               style={{ marginTop: spacings.xsmall }}
             />
           </View>
