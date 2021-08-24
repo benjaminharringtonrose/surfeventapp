@@ -86,39 +86,15 @@ export const HeatSheetScreen = () => {
     const surfer = item.surfer;
     const waveData: Array<number | string> = [...Array(5)].map((_, index) => index);
     waveData.push("ADD");
-
     return (
       <View
         style={[
           styles.rowRootContainer,
           { backgroundColor: isActive ? colors.greyscale7 : colors.greyscale9 },
         ]}>
-        <TouchableOpacity
-          onLongPress={drag}
-          style={{
-            width: 150,
-            paddingVertical: spacings.xsmall,
-            borderRightWidth: 1,
-            borderRightColor: colors.greyscale1,
-            borderLeftWidth: 1,
-            borderLeftColor: colors.greyscale1,
-          }}>
-          <View
-            style={{
-              flex: 1,
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-            }}>
-            <View
-              style={{
-                width: 10,
-                height: 10,
-                borderRadius: 5,
-                backgroundColor: item.color,
-                marginLeft: spacings.xsmall,
-              }}
-            />
+        <TouchableOpacity onLongPress={drag} style={styles.rowTouchable}>
+          <View style={styles.rowSurferTextContainer}>
+            <View style={[styles.rowJerseyCircle, { backgroundColor: item.color }]} />
             <Text style={{ color: colors.almostWhite, paddingLeft: spacings.xsmall }}>
               {item.surfer}
             </Text>
@@ -215,6 +191,27 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     borderTopColor: colors.greyscale1,
     borderTopWidth: 1,
+  },
+  rowTouchable: {
+    width: 150,
+    paddingVertical: spacings.xsmall,
+    borderRightWidth: 1,
+    borderRightColor: colors.greyscale1,
+    borderLeftWidth: 1,
+    borderLeftColor: colors.greyscale1,
+  },
+  rowSurferTextContainer: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  rowJerseyCircle: {
+    width: 10,
+    height: 10,
+    borderRadius: 5,
+
+    marginLeft: spacings.xsmall,
   },
   addWaveCell: {
     width: 80,
