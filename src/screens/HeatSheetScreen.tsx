@@ -12,10 +12,8 @@ import { COLORS } from "../common/constants";
 import { ScorePopUpCard } from "../components/ScorePopUpCard";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { addWave, initializeHeat } from "../store/slices/heatSlice";
-import * as _ from "lodash";
+import _ from "lodash";
 import { Icon } from "../components";
-
-type WaveData = { key: number; score: string };
 
 export interface HeatData {
   surfer: string;
@@ -91,12 +89,10 @@ export const HeatSheetScreen = () => {
 
     return (
       <View
-        style={{
-          flexDirection: "row",
-          backgroundColor: isActive ? colors.greyscale7 : colors.greyscale9,
-          borderTopColor: colors.greyscale1,
-          borderTopWidth: 1,
-        }}>
+        style={[
+          styles.rowRootContainer,
+          { backgroundColor: isActive ? colors.greyscale7 : colors.greyscale9 },
+        ]}>
         <TouchableOpacity
           onLongPress={drag}
           style={{
@@ -214,6 +210,11 @@ const styles = StyleSheet.create({
     color: colors.almostWhite,
     paddingLeft: spacings.xsmall,
     paddingBottom: spacings.xsmall,
+  },
+  rowRootContainer: {
+    flexDirection: "row",
+    borderTopColor: colors.greyscale1,
+    borderTopWidth: 1,
   },
   addWaveCell: {
     width: 80,
