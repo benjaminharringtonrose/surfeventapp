@@ -39,6 +39,7 @@ export enum Collection {
   user = "user",
   mail = "mail",
   messages = "messages",
+  waves = "waves",
 }
 
 export enum ESA_DIVISIONS {
@@ -76,6 +77,7 @@ export interface Heat {
   division?: (ListPickerItem & Division) | undefined;
   heatType: HeatType;
   surfers: string[];
+  waves?: string[];
   dateStart: FirebaseFirestoreTypes.Timestamp;
   timeStart: FirebaseFirestoreTypes.Timestamp;
 }
@@ -87,4 +89,11 @@ export interface Event {
   timeStart: FirebaseFirestoreTypes.Timestamp;
   dateStart: FirebaseFirestoreTypes.Timestamp;
   dateEnd: FirebaseFirestoreTypes.Timestamp;
+}
+
+export interface Wave {
+  heatId: string;
+  waveId: string;
+  surfer: string;
+  score: number;
 }

@@ -30,6 +30,5 @@ export const useEvents = () => {
       unsubscribe();
     };
   }, []);
-
   return events;
 };
