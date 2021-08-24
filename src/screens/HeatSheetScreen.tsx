@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
-import { SafeAreaView, TouchableOpacity, View, Text, FlatList } from "react-native";
+import { SafeAreaView, TouchableOpacity, View, Text, FlatList, StyleSheet } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
 import { colors, shared, spacings } from "../common";
@@ -15,11 +15,7 @@ import { addWave, initializeHeat } from "../store/slices/heatSlice";
 import * as _ from "lodash";
 import { Icon } from "../components";
 
-interface Item {
-  surfer: string;
-  waveScores: (number | string)[];
-  color: string;
-}
+type WaveData = { key: number; score: string };
 
 export interface HeatData {
   surfer: string;
@@ -27,36 +23,13 @@ export interface HeatData {
   color: string;
 }
 
-const mockHeatData = [
-  {
-    key: 0,
-    surfer: "Billy Barrels",
-    waveScores: [4.6, 5.3, 2.3, 1.7],
-    color: "red",
-  },
-  {
-    key: 1,
-    surfer: "Timmy Tubes",
-    waveScores: [2.1, 3.3, 7.4, 3.7, 1.2, 2.7],
-    color: "red",
-  },
-  {
-    key: 3,
-    surfer: "Ricky Rails",
-    waveScores: [8.6, 4.3],
-    color: "red",
-  },
-];
-
 export const HeatSheetScreen = () => {
   const [scoreCardVisible, setScoreCardVisible] = useState<boolean>(false);
   const [surferIndex, setSurferIndex] = useState<number>(0);
   const [waveIndex, setWaveIndex] = useState<number>(0);
-
   const navigation = useNavigation<RootStackNavProp>();
   const { heatId } = useRoute<HeatSheetRouteProp>().params;
   const heat = useHeat(heatId);
-
   const dispatch = useAppDispatch();
   const heatData = useAppSelector(state => state.heat.heatData);
 
@@ -96,15 +69,9 @@ export const HeatSheetScreen = () => {
     setScoreCardVisible(true);
   };
 
-  const renderItem = useCallback(({ item, drag, isActive, index }: RenderItemParams<Item>) => {
+  const renderItem = useCallback(({ item, drag, isActive, index }: RenderItemParams<HeatData>) => {
     const surferIndex = index || 0;
-
-    const waveData: ({ key: number; score: string } | string)[] = [...Array(5)].map((_, index) => {
-      return {
-        key: index,
-        score: String(index + 1),
-      };
-    });
+    const waveData: Array<number | string> = [...Array(5)].map((_, index) => index);
     waveData.push("ADD");
 
     return (
@@ -149,6 +116,7 @@ export const HeatSheetScreen = () => {
         <FlatList
           horizontal
           data={waveData}
+          keyExtractor={(item, index) => index.toString()}
           renderItem={({ item, index }) => {
             const waveIndex = index;
             if (item === "ADD") {
@@ -173,7 +141,7 @@ export const HeatSheetScreen = () => {
             } else {
               return (
                 <TouchableOpacity
-                  key={item.key}
+                  key={item}
                   onPress={() => onScorePress(surferIndex, waveIndex)}
                   style={{
                     width: 80,
@@ -199,22 +167,8 @@ export const HeatSheetScreen = () => {
   if (!heat) return null;
 
   return (
-    <SafeAreaView
-      style={{
-        flex: 1,
-        backgroundColor: colors.greyscale9,
-      }}>
-      <View
-        style={{
-          flexDirection: "row",
-          height: 50,
-          borderTopColor: colors.greyscale1,
-          borderTopWidth: 1,
-          borderRightColor: colors.greyscale1,
-          borderRightWidth: 1,
-          borderTopRightRadius: shared.borderRadius,
-          borderTopLeftRadius: shared.borderRadius,
-        }}>
+    <SafeAreaView style={styles.rootContainer}>
+      <View style={styles.heatSheetContainer}>
         <View
           style={{
             width: 150,
@@ -265,3 +219,41 @@ export const HeatSheetScreen = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  rootContainer: {
+    flex: 1,
+    backgroundColor: colors.greyscale9,
+  },
+  heatSheetContainer: {
+    flexDirection: "row",
+    height: 50,
+    borderTopColor: colors.greyscale1,
+    borderTopWidth: 1,
+    borderRightColor: colors.greyscale1,
+    borderRightWidth: 1,
+    borderTopRightRadius: shared.borderRadius,
+    borderTopLeftRadius: shared.borderRadius,
+  },
+});
+
+const mockHeatData = [
+  {
+    key: 0,
+    surfer: "Billy Barrels",
+    waveScores: [4.6, 5.3, 2.3, 1.7],
+    color: "red",
+  },
+  {
+    key: 1,
+    surfer: "Timmy Tubes",
+    waveScores: [2.1, 3.3, 7.4, 3.7, 1.2, 2.7],
+    color: "red",
+  },
+  {
+    key: 3,
+    surfer: "Ricky Rails",
+    waveScores: [8.6, 4.3],
+    color: "red",
+  },
+];
