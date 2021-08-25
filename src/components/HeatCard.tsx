@@ -1,7 +1,7 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import moment from "moment";
 import React from "react";
-import { TouchableOpacity, View, Text, StyleSheet, FlatList } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { colors, shared, spacings } from "../common";
 import { getHeatDivisionLabel } from "../common/util";
 import { Button } from "./Button";

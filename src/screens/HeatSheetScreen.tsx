@@ -1,6 +1,14 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useCallback, useEffect, useState } from "react";
-import { SafeAreaView, TouchableOpacity, View, Text, FlatList, StyleSheet } from "react-native";
+import {
+  SafeAreaView,
+  TouchableOpacity,
+  View,
+  Text,
+  FlatList,
+  StyleSheet,
+  Dimensions,
+} from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
 import { colors, fonts, Score, shared, spacings, Wave } from "../common";
@@ -13,10 +21,11 @@ import _ from "lodash";
 import { Icon } from "../components";
 import { useWaves } from "../hooks/useWaves";
 import { useScores } from "../hooks/useScores";
-import { number } from "yup";
+
+const { width, height } = Dimensions.get("window");
 
 export interface HeatState {
-  draggableFlatListData?: Score[];
+  scores?: Score[];
   selectedSurfer: string;
   selectedKey: string;
   scoreCardVisible: boolean;
@@ -24,7 +33,7 @@ export interface HeatState {
 
 export const HeatSheetScreen = () => {
   const [state, setState] = useState<HeatState>({
-    draggableFlatListData: undefined,
+    scores: undefined,
     selectedSurfer: "",
     selectedKey: "",
     scoreCardVisible: false,
@@ -50,6 +59,12 @@ export const HeatSheetScreen = () => {
       ),
     });
   }, []);
+
+  useEffect(() => {
+    if (scores) {
+      setState({ ...state, scores });
+    }
+  }, [scores]);
 
   const onScorePress = (key: string, surfer: string) => {
     setState({
@@ -138,14 +153,17 @@ export const HeatSheetScreen = () => {
           <Text style={styles.headerText}>{"Waves"}</Text>
         </View>
       </View>
-      <DraggableFlatList
-        data={scores || []}
-        renderItem={renderItem}
-        keyExtractor={item => `draggable-item-${item.key}`}
-        onDragEnd={({ data }) => setState({ ...state, draggableFlatListData: data })}
-        initialNumToRender={scores.length}
-        contentContainerStyle={{ borderBottomColor: colors.greyscale1, borderBottomWidth: 1 }}
-      />
+      <View style={{ flex: 1, flexDirection: "row" }}>
+        <DraggableFlatList
+          data={state.scores || []}
+          renderItem={renderItem}
+          keyExtractor={item => `draggable-item-${item.key}`}
+          onDragEnd={({ data }) => setState({ ...state, scores: data })}
+          initialNumToRender={scores.length}
+          contentContainerStyle={{ borderBottomColor: colors.greyscale1, borderBottomWidth: 1 }}
+        />
+        <View style={{ width: 100, height, backgroundColor: "red" }}></View>
+      </View>
       <ScorePopUpCard
         label={"Score"}
         visible={state.scoreCardVisible}
