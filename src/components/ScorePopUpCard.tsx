@@ -9,6 +9,7 @@ interface ScorePopUpCardProps {
   visible: boolean;
   label: string;
   onPress: (score: number) => void;
+  onClose: () => void;
 }
 
 const integers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -26,27 +27,32 @@ export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
     props.onPress(score);
   };
   return (
-    <Modal isVisible={props.visible}>
+    <Modal isVisible={props.visible} onBackdropPress={() => props.onClose()}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <Text
-            style={[
-              {
-                fontSize: 24,
-                fontWeight: "300",
-                color: colors.almostWhite,
-              },
-            ]}>
-            {`Score of ${integers[selectedIntegerIndex].toString()}.${tenths[
-              selectedTenthIndex
-            ].toString()}`}
-          </Text>
-          <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "center" }}>
+          <View
+            style={{
+              flexDirection: "row",
+              alignItems: "center",
+              justifyContent: "center",
+              borderWidth: 2,
+              borderRadius: shared.borderRadius,
+              borderColor: colors.greyscale1,
+            }}>
             <WheelPicker
               list={integers}
               value={selectedIntegerIndex}
               onValueChange={(index: number) => {
                 setSelectedIntegerIndex(index);
+              }}
+            />
+            <View
+              style={{
+                width: 6,
+                height: 6,
+                borderRadius: 3,
+                backgroundColor: colors.grey700,
+                marginTop: spacings.small + 4,
               }}
             />
             <WheelPicker
@@ -60,9 +66,9 @@ export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
           <View style={{ alignItems: "center" }}>
             <Button
               type={"contained"}
-              label={"Judge"}
+              label={"Score"}
               onPress={onSelectScore}
-              style={{ marginTop: spacings.xsmall }}
+              style={{ marginTop: spacings.base }}
             />
           </View>
         </View>
