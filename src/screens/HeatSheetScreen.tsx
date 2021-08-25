@@ -25,15 +25,14 @@ import { useScores } from "../hooks/useScores";
 const { width, height } = Dimensions.get("window");
 
 export interface HeatState {
-  scores?: Score[];
   selectedSurfer: string;
   selectedKey: string;
   scoreCardVisible: boolean;
 }
 
 export const HeatSheetScreen = () => {
+  const [data, setData] = useState<Score[]>([]);
   const [state, setState] = useState<HeatState>({
-    scores: undefined,
     selectedSurfer: "",
     selectedKey: "",
     scoreCardVisible: false,
@@ -41,7 +40,6 @@ export const HeatSheetScreen = () => {
   const navigation = useNavigation<RootStackNavProp>();
   const { heatId } = useRoute<HeatSheetRouteProp>().params;
   const heat = useHeat(heatId);
-  const allWaves = useWaves(heatId);
   const scores = useScores(heatId);
 
   useEffect(() => {
@@ -62,7 +60,8 @@ export const HeatSheetScreen = () => {
 
   useEffect(() => {
     if (scores) {
-      setState({ ...state, scores });
+      console.log("scores: ", scores);
+      setData(scores);
     }
   }, [scores]);
 
@@ -141,16 +140,16 @@ export const HeatSheetScreen = () => {
     );
   }, []);
 
-  if (!heat || !allWaves || !scores) return null;
+  if (!heat || !scores) return null;
 
   return (
     <SafeAreaView style={styles.rootContainer}>
       <View style={{ flex: 1, flexDirection: "row" }}>
         <DraggableFlatList
-          data={state.scores || []}
+          data={data}
           renderItem={renderItem}
           keyExtractor={item => `draggable-item-${item.key}`}
-          onDragEnd={({ data }) => setState({ ...state, scores: data })}
+          onDragEnd={({ data }) => setData(data)}
           initialNumToRender={scores.length}
           contentContainerStyle={{ borderBottomColor: colors.greyscale1, borderBottomWidth: 1 }}
         />
