@@ -1,6 +1,10 @@
 import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import { ListPickerItem } from "../components/ListPicker";
 
+export interface IStringMap<T> {
+  [x: string]: T;
+}
+
 export interface AuthUser {
   emailVerified?: boolean;
   uid: string;
@@ -69,6 +73,13 @@ export enum HeatType {
 
 export type Division = ListPickerItem | string;
 
+export interface Score {
+  key: string;
+  surfer: string;
+  color: string;
+  waves: number[];
+}
+
 export interface Heat {
   title: string | undefined;
   eventId: string;
@@ -76,8 +87,7 @@ export interface Heat {
   uid: string;
   division?: (ListPickerItem & Division) | undefined;
   heatType: HeatType;
-  surfers: string[];
-  waves?: string[];
+  scores: IStringMap<Score>;
   dateStart: FirebaseFirestoreTypes.Timestamp;
   timeStart: FirebaseFirestoreTypes.Timestamp;
 }

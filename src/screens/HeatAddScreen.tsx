@@ -16,6 +16,7 @@ import { ButtonX } from "../components/ButtonX";
 import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useEvent } from "../hooks/useEvent";
 import { getEventDaysListPickerItems } from "../common/util";
+import { v4 as uuidv4 } from "uuid";
 
 interface HeatAddFormProps {
   division?: ListPickerItem;
@@ -70,12 +71,26 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
         division: values.division.id as string,
         dateStart: values.dateStart.id as Date, // beware changing
         timeStart: values.timeStart,
-        surfers: firestore.FieldValue.arrayUnion(values.surfer1, values.surfer2),
+        scores: {
+          [uuidv4()]: {
+            surfer: values.surfer1,
+            waves: [],
+          },
+          [uuidv4()]: {
+            surfer: values.surfer2,
+            waves: [],
+          },
+        },
       });
       if (values.surfer3) {
         await heatsCollectionRef.doc(heatId).set(
           {
-            surfers: firestore.FieldValue.arrayUnion(values.surfer3),
+            scores: {
+              [uuidv4()]: {
+                surfer: values.surfer3,
+                waves: [],
+              },
+            },
           },
           { merge: true },
         );
@@ -83,7 +98,12 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
       if (values.surfer4) {
         await heatsCollectionRef.doc(heatId).set(
           {
-            surfers: firestore.FieldValue.arrayUnion(values.surfer4),
+            scores: {
+              [uuidv4()]: {
+                surfer: values.surfer4,
+                waves: [],
+              },
+            },
           },
           { merge: true },
         );

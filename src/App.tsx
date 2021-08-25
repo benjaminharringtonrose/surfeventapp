@@ -1,5 +1,6 @@
 import { NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
+import "react-native-get-random-values";
 import React, { useEffect, useState } from "react";
 import { Alert, StatusBar, useColorScheme } from "react-native";
 import { AuthStack, RootStack } from "./AppNavigator";
