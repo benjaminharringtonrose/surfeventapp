@@ -1,6 +1,8 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, StyleProp, ViewStyle, TextStyle } from "react-native";
 import { colors } from "../common";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { setTime } from "../store/slices/heatSlice";
 
 interface ICountdownTimerProps {
   timer: {
@@ -14,23 +16,29 @@ interface ICountdownTimerProps {
 
 export const CountdownTimer = (props: ICountdownTimerProps) => {
   const { hours = 0, minutes = 0, seconds = 60 } = props.timer;
-  const [[hrs, mins, secs], setTime] = React.useState([hours, minutes, seconds]);
+  const dispatch = useAppDispatch();
+  const { hrs, mins, secs } = useAppSelector(state => state.heat.timer);
+
+  useEffect(() => {
+    dispatch(setTime({ timer: { hrs: hours, mins: minutes, secs: seconds } }));
+  }, []);
 
   const tick = () => {
     if (mins === 0 && secs === 0) {
-      setTime([hrs - 1, 59, 59]);
+      dispatch(setTime({ timer: { hrs: hrs - 1, mins: 59, secs: 59 } }));
     } else if (secs === 0) {
-      setTime([hrs, mins - 1, 59]);
+      dispatch(setTime({ timer: { hrs, mins: mins - 1, secs: 59 } }));
     } else {
-      setTime([hrs, mins, secs - 1]);
+      dispatch(setTime({ timer: { hrs, mins: mins, secs: secs - 1 } }));
     }
   };
 
-  const reset = () => setTime([hours, minutes, seconds]);
+  const reset = () => dispatch(setTime({ timer: { hrs: hours, mins: minutes, secs: seconds } }));
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      if (hrs === 0 && mins === 0 && secs === 0) {
+      const timesUp = hrs === 0 && mins === 0 && secs === 0;
+      if (timesUp) {
         clearInterval(timerId);
       } else {
         tick();
