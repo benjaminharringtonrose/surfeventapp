@@ -19,7 +19,6 @@ import Orientation from "react-native-orientation-locker";
 import { ScorePopUpCard } from "../components/ScorePopUpCard";
 import _ from "lodash";
 import { Icon } from "../components";
-import { useWaves } from "../hooks/useWaves";
 import { useScores } from "../hooks/useScores";
 
 const { width, height } = Dimensions.get("window");
@@ -183,7 +182,6 @@ const styles = StyleSheet.create({
   rightContainer: {
     marginLeft: spacings.xsmall,
     flexDirection: "row",
-    height,
     borderColor: colors.greyscale1,
     borderWidth: 1,
     borderRadius: shared.borderRadius,

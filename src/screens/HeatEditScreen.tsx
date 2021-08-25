@@ -117,7 +117,11 @@ export const HeatEditScreen = () => {
   });
 
   if (!heat) return null;
-
+  let scores = [];
+  for (const score in heat.scores) {
+    scores.push(heat.scores[score]);
+  }
+  const surfers = scores.map(s => s.surfer);
   return (
     <SafeAreaView
       style={{
@@ -130,10 +134,10 @@ export const HeatEditScreen = () => {
           division: heat?.division,
           timeStart: heat?.timeStart.toDate(),
           dateStart: heat?.dateStart.toDate(),
-          surfer1: heat?.surfers[0],
-          surfer2: heat?.surfers[1],
-          surfer3: heat?.surfers[2],
-          surfer4: heat?.surfers[3],
+          surfer1: surfers[0],
+          surfer2: surfers[1],
+          surfer3: surfers[2],
+          surfer4: surfers[3],
         }}
         validationSchema={ProfileSchema}
         onSubmit={onSubmit}>
