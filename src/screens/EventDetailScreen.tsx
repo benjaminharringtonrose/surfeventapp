@@ -29,8 +29,6 @@ export const EventDetailScreen = () => {
     });
   }, []);
 
-  const onEditEvent = () => {};
-
   if (!event || !heats) return null;
 
   return (
@@ -63,13 +61,18 @@ export const EventDetailScreen = () => {
           </>
         }
         renderItem={({ item }) => {
+          let scores = [];
+          for (const score in item.scores) {
+            scores.push(item.scores[score]);
+          }
+          const surfers = scores.map(s => s.surfer);
           return (
             <HeatCard
               title={item.title}
               eventId={item.eventId}
               heatId={item.heatId}
               division={item.division as string}
-              surfers={item.surfers}
+              surfers={surfers}
               uid={item.uid}
               dateStart={item.dateStart}
               timeStart={item.timeStart}

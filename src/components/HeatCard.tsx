@@ -24,21 +24,20 @@ export const HeatCard = (props: IHeatCardProps) => {
   return (
     <View style={styles.rootContainer}>
       <View style={{ flexDirection: "row", alignItems: "center", marginBottom: spacings.base }}>
-        {!!props?.title && (
+        {!!props?.title && !!props?.division && (
           <View>
             <Text style={{ fontSize: 21, fontWeight: "400", color: colors.almostWhite }}>
-              {props.title}
+              {`${props.title}:`}
             </Text>
-          </View>
-        )}
-        {!!props?.division && (
-          <View>
             <Text
               style={{
                 fontSize: 21,
                 fontWeight: "400",
                 color: colors.almostWhite,
-              }}>{` - ${getHeatDivisionLabel(props.division)}`}</Text>
+                paddingTop: spacings.xsmall,
+              }}>
+              {getHeatDivisionLabel(props.division)}
+            </Text>
           </View>
         )}
       </View>
