@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleProp, ViewStyle, TextStyle } from "react-native";
+import * as Progress from "react-native-progress";
 import { colors } from "../common";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setTime } from "../store/slices/heatSlice";
@@ -51,9 +52,16 @@ export const CountdownTimer = (props: ICountdownTimerProps) => {
   const formattedMins = mins.toString().padStart(2, "0");
   const formattedSecs = secs.toString().padStart(2, "0");
 
+  const progress = (hrs * 3600 + mins * 60 + secs) / (hours * 3600 + minutes * 60 + seconds);
+
   return (
     <View style={[props.style]}>
-      <Text style={[props.textStyle]}>{`${fomattedHrs}:${formattedMins}:${formattedSecs}`}</Text>
+      <Progress.Circle
+        size={60}
+        progress={progress}
+        showsText
+        formatText={_ => `${formattedMins}:${formattedSecs}`}
+      />
     </View>
   );
 };
