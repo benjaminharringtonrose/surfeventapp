@@ -9,17 +9,15 @@ import {
   StyleSheet,
   Dimensions,
 } from "react-native";
-import firestore from "@react-native-firebase/firestore";
-import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
-import { colors, fonts, Score, shared, spacings } from "../common";
-import { ButtonX } from "../components/ButtonX";
-import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
-import { useHeat } from "../hooks/useHeat";
-import Orientation from "react-native-orientation-locker";
-import { ScorePopUpCard } from "../components/ScorePopUpCard";
 import _ from "lodash";
-import { Icon } from "../components";
+import firestore from "@react-native-firebase/firestore";
+import Orientation from "react-native-orientation-locker";
+import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
+import { colors, Score, shared, spacings } from "../common";
+import { useHeat } from "../hooks/useHeat";
+import { Icon, ButtonX, ScorePopUpCard, DraggableFlatList, RenderItemParams } from "../components";
 import { useScores } from "../hooks/useScores";
+import { CountdownTimer } from "../components/CountdownTimer";
 
 const { width, height } = Dimensions.get("window");
 
@@ -31,28 +29,6 @@ export interface HeatState {
 }
 
 export const HeatSheetScreen = () => {
-  const hoursMinSecs = { hours: 1, minutes: 20, seconds: 40 };
-  const { hours = 0, minutes = 0, seconds = 60 } = hoursMinSecs;
-  const [[hrs, mins, secs], setTime] = React.useState([hours, minutes, seconds]);
-
-  const tick = () => {
-    if (hrs === 0 && mins === 0 && secs === 0) {
-      reset();
-    } else if (mins === 0 && secs === 0) {
-      setTime([hrs - 1, 59, 59]);
-    } else if (secs === 0) {
-      setTime([hrs, mins - 1, 59]);
-    } else {
-      setTime([hrs, mins, secs - 1]);
-    }
-  };
-  const reset = () => setTime([hours, minutes, seconds]);
-
-  useEffect(() => {
-    const timerId = setInterval(() => tick(), 1000);
-    return () => clearInterval(timerId);
-  });
-
   const [data, setData] = useState<Score[]>([]);
   const [state, setState] = useState<HeatState>({
     selectedSurfer: "",
@@ -187,10 +163,11 @@ export const HeatSheetScreen = () => {
           showsVerticalScrollIndicator={false}
         />
         <View style={[styles.rightContainer, { width: 100 }]}>
-          <View style={{ width: 100, alignItems: "center", paddingTop: spacings.tiny }}>
-            <Text
-              style={{ color: colors.almostWhite, fontSize: 17 }}>{`${hrs}:${mins}:${secs}`}</Text>
-          </View>
+          <CountdownTimer
+            timer={{ hours: 0, minutes: 0, seconds: 30 }}
+            style={{ width: 100, alignItems: "center", paddingTop: spacings.tiny }}
+            textStyle={{ color: colors.almostWhite, fontSize: 17 }}
+          />
         </View>
       </View>
       <ScorePopUpCard
