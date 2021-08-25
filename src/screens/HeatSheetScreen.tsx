@@ -106,10 +106,12 @@ export const HeatSheetScreen = () => {
         style={[styles.rowRootContainer, { backgroundColor }]}>
         <TouchableOpacity onLongPress={drag} style={styles.rowTouchable}>
           <View style={styles.rowSurferTextContainer}>
-            <View style={[styles.rowJerseyCircle, { backgroundColor: data.color }]} />
-            <Text style={{ color: colors.almostWhite, paddingLeft: spacings.xsmall }}>
-              {data.surfer}
-            </Text>
+            <View style={{ flex: 2 }}>
+              <View style={[styles.rowJerseyCircle, { backgroundColor: data.color }]} />
+            </View>
+            <View style={{ flex: 8 }}>
+              <Text style={{ color: colors.almostWhite }}>{data.surfer}</Text>
+            </View>
           </View>
         </TouchableOpacity>
         <FlatList
@@ -183,24 +185,19 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   rowTouchable: {
-    width: 80,
+    width: 100,
     paddingVertical: spacings.xsmall,
-    borderRightWidth: 1,
-    borderRightColor: colors.greyscale1,
-    borderLeftWidth: 1,
-    borderLeftColor: colors.greyscale1,
   },
   rowSurferTextContainer: {
-    flex: 1,
+    flex: 10,
     flexDirection: "row",
-    justifyContent: "center",
     alignItems: "center",
   },
   rowJerseyCircle: {
+    flex: 2,
     width: 10,
     height: 10,
     borderRadius: 5,
-    marginLeft: spacings.xsmall,
   },
   addWaveCell: {
     width: 80,
@@ -225,24 +222,3 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
 });
-
-const mockHeatData = [
-  {
-    key: 0,
-    surfer: "Billy Barrels",
-    waveScores: [4.6, 5.3, 2.3, 1.7],
-    color: "red",
-  },
-  {
-    key: 1,
-    surfer: "Timmy Tubes",
-    waveScores: [2.1, 3.3, 7.4, 3.7, 1.2, 2.7],
-    color: "red",
-  },
-  {
-    key: 3,
-    surfer: "Ricky Rails",
-    waveScores: [8.6, 4.3],
-    color: "red",
-  },
-];
