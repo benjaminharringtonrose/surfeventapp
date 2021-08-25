@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Text, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import { colors, shared, spacings } from "../common";
@@ -13,14 +13,17 @@ interface ScorePopUpCardProps {
 }
 
 const integers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const tenths = [1, 2, 3, 4, 5, 6, 7, 8, 9];
+const tenths = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
   const [selectedIntegerIndex, setSelectedIntegerIndex] = useState(4);
   const [selectedTenthIndex, setSelectedTenthIndex] = useState(4);
-  const [score, setScore] = useState<number>(
-    Number(integers[selectedIntegerIndex]) + Number(tenths[selectedTenthIndex]) / 10,
-  );
+
+  useEffect(() => {
+    if (selectedIntegerIndex === 9) {
+      setSelectedTenthIndex(0);
+    }
+  });
 
   const onSelectScore = () => {
     const score = Number(integers[selectedIntegerIndex]) + Number(tenths[selectedTenthIndex]) / 10;
@@ -30,15 +33,7 @@ export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
     <Modal isVisible={props.visible} onBackdropPress={() => props.onClose()}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <View
-            style={{
-              flexDirection: "row",
-              alignItems: "center",
-              justifyContent: "center",
-              borderWidth: 2,
-              borderRadius: shared.borderRadius,
-              borderColor: colors.greyscale1,
-            }}>
+          <View style={styles.scorePickerContainer}>
             <WheelPicker
               list={integers}
               value={selectedIntegerIndex}
@@ -46,15 +41,7 @@ export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
                 setSelectedIntegerIndex(index);
               }}
             />
-            <View
-              style={{
-                width: 6,
-                height: 6,
-                borderRadius: 3,
-                backgroundColor: colors.grey700,
-                marginTop: spacings.small + 4,
-              }}
-            />
+            <View style={styles.scorePickerContainer} />
             <WheelPicker
               list={tenths}
               value={selectedTenthIndex}
@@ -98,5 +85,13 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
     elevation: 5,
+  },
+  scorePickerContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 2,
+    borderRadius: shared.borderRadius,
+    borderColor: colors.greyscale1,
   },
 });

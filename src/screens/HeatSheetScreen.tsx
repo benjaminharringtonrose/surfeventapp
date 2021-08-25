@@ -108,7 +108,9 @@ export const HeatSheetScreen = () => {
                 key={index}
                 onPress={() => onScorePress(data.key, data.surfer)}
                 style={styles.waveCell}>
-                <Text style={fonts.header}>{item.toString()}</Text>
+                <Text style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
+                  {item.toString()}
+                </Text>
               </TouchableOpacity>
             );
           }}
