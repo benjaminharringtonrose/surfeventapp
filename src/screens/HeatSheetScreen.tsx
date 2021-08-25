@@ -153,9 +153,17 @@ export const HeatSheetScreen = () => {
           keyExtractor={item => `draggable-item-${item.key}`}
           onDragEnd={({ data }) => setData(data)}
           initialNumToRender={scores.length}
-          contentContainerStyle={{ borderBottomColor: colors.greyscale1, borderBottomWidth: 1 }}
+          contentContainerStyle={{
+            borderColor: colors.greyscale1,
+            borderWidth: 1,
+            borderRadius: shared.borderRadius,
+          }}
+          ItemSeparatorComponent={() => (
+            <View style={{ backgroundColor: colors.greyscale1, height: 1 }} />
+          )}
+          showsVerticalScrollIndicator={false}
         />
-        <View style={[styles.headerContainer, { width: 100 }]}></View>
+        <View style={[styles.rightContainer, { width: 100 }]}></View>
       </View>
       <ScorePopUpCard
         label={"Score"}
@@ -172,21 +180,24 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: colors.greyscale9,
   },
-  headerContainer: {
+  rightContainer: {
+    marginLeft: spacings.xsmall,
     flexDirection: "row",
     height,
     borderColor: colors.greyscale1,
     borderWidth: 1,
     borderRadius: shared.borderRadius,
+    backgroundColor: colors.greyscale7,
   },
   rowRootContainer: {
     flexDirection: "row",
-    borderTopColor: colors.greyscale1,
-    borderTopWidth: 1,
+    margin: spacings.tiny,
   },
   rowTouchable: {
     width: 100,
+    borderRadius: shared.borderRadius,
     paddingVertical: spacings.xsmall,
+    paddingLeft: spacings.xsmall,
   },
   rowSurferTextContainer: {
     flex: 10,
