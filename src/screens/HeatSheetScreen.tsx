@@ -145,14 +145,6 @@ export const HeatSheetScreen = () => {
 
   return (
     <SafeAreaView style={styles.rootContainer}>
-      <View style={styles.headerContainer}>
-        <View style={styles.headerSubcontainer}>
-          <Text style={styles.headerText}>{"Surfers"}</Text>
-        </View>
-        <View style={{ justifyContent: "flex-end" }}>
-          <Text style={styles.headerText}>{"Waves"}</Text>
-        </View>
-      </View>
       <View style={{ flex: 1, flexDirection: "row" }}>
         <DraggableFlatList
           data={state.scores || []}
@@ -162,7 +154,7 @@ export const HeatSheetScreen = () => {
           initialNumToRender={scores.length}
           contentContainerStyle={{ borderBottomColor: colors.greyscale1, borderBottomWidth: 1 }}
         />
-        <View style={{ width: 100, height, backgroundColor: "red" }}></View>
+        <View style={[styles.headerContainer, { width: 100 }]}></View>
       </View>
       <ScorePopUpCard
         label={"Score"}
@@ -181,27 +173,10 @@ const styles = StyleSheet.create({
   },
   headerContainer: {
     flexDirection: "row",
-    height: 50,
-    borderTopColor: colors.greyscale1,
-    borderTopWidth: 1,
-    borderRightColor: colors.greyscale1,
-    borderRightWidth: 1,
-    borderTopRightRadius: shared.borderRadius,
-    borderTopLeftRadius: shared.borderRadius,
-  },
-  headerSubcontainer: {
-    width: 150,
-    borderRightWidth: 1,
-    borderTopLeftRadius: shared.borderRadius,
-    borderRightColor: colors.greyscale1,
-    borderLeftWidth: 1,
-    borderLeftColor: colors.greyscale1,
-    justifyContent: "flex-end",
-  },
-  headerText: {
-    color: colors.almostWhite,
-    paddingLeft: spacings.xsmall,
-    paddingBottom: spacings.xsmall,
+    height,
+    borderColor: colors.greyscale1,
+    borderWidth: 1,
+    borderRadius: shared.borderRadius,
   },
   rowRootContainer: {
     flexDirection: "row",
@@ -209,7 +184,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   rowTouchable: {
-    width: 150,
+    width: 80,
     paddingVertical: spacings.xsmall,
     borderRightWidth: 1,
     borderRightColor: colors.greyscale1,
@@ -226,7 +201,6 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
-
     marginLeft: spacings.xsmall,
   },
   addWaveCell: {
