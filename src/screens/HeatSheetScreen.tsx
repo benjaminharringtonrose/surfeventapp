@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
-import { colors, fonts, Score, shared, spacings, Wave } from "../common";
+import { colors, fonts, Score, shared, spacings } from "../common";
 import { ButtonX } from "../components/ButtonX";
 import DraggableFlatList, { RenderItemParams } from "react-native-draggable-flatlist";
 import { useHeat } from "../hooks/useHeat";
@@ -27,14 +27,38 @@ export interface HeatState {
   selectedSurfer: string;
   selectedKey: string;
   scoreCardVisible: boolean;
+  cellWidth: number;
 }
 
 export const HeatSheetScreen = () => {
+  const hoursMinSecs = { hours: 1, minutes: 20, seconds: 40 };
+  const { hours = 0, minutes = 0, seconds = 60 } = hoursMinSecs;
+  const [[hrs, mins, secs], setTime] = React.useState([hours, minutes, seconds]);
+
+  const tick = () => {
+    if (hrs === 0 && mins === 0 && secs === 0) {
+      reset();
+    } else if (mins === 0 && secs === 0) {
+      setTime([hrs - 1, 59, 59]);
+    } else if (secs === 0) {
+      setTime([hrs, mins - 1, 59]);
+    } else {
+      setTime([hrs, mins, secs - 1]);
+    }
+  };
+  const reset = () => setTime([hours, minutes, seconds]);
+
+  useEffect(() => {
+    const timerId = setInterval(() => tick(), 1000);
+    return () => clearInterval(timerId);
+  });
+
   const [data, setData] = useState<Score[]>([]);
   const [state, setState] = useState<HeatState>({
     selectedSurfer: "",
     selectedKey: "",
     scoreCardVisible: false,
+    cellWidth: 60,
   });
   const navigation = useNavigation<RootStackNavProp>();
   const { heatId } = useRoute<HeatSheetRouteProp>().params;
@@ -59,7 +83,7 @@ export const HeatSheetScreen = () => {
 
   useEffect(() => {
     if (scores) {
-      console.log("scores: ", scores);
+      setState({ ...state, cellWidth: height / 4 - spacings.tiny * 8 });
       setData(scores);
     }
   }, [scores]);
@@ -122,7 +146,7 @@ export const HeatSheetScreen = () => {
               <TouchableOpacity
                 key={index}
                 onPress={() => onScorePress(data.key, data.surfer)}
-                style={styles.waveCell}>
+                style={[styles.waveCell, { width: state.cellWidth, height: state.cellWidth }]}>
                 <Text style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
                   {item.toString()}
                 </Text>
@@ -132,7 +156,7 @@ export const HeatSheetScreen = () => {
           ListHeaderComponent={
             <TouchableOpacity
               onPress={() => onScorePress(data.key, data.surfer)}
-              style={styles.addWaveCell}>
+              style={[styles.addWaveCell, { width: state.cellWidth, height: state.cellWidth }]}>
               <Icon name={"add"} color={colors.almostWhite} size={30} />
             </TouchableOpacity>
           }
@@ -162,7 +186,12 @@ export const HeatSheetScreen = () => {
           )}
           showsVerticalScrollIndicator={false}
         />
-        <View style={[styles.rightContainer, { width: 100 }]}></View>
+        <View style={[styles.rightContainer, { width: 100 }]}>
+          <View style={{ width: 100, alignItems: "center", paddingTop: spacings.tiny }}>
+            <Text
+              style={{ color: colors.almostWhite, fontSize: 17 }}>{`${hrs}:${mins}:${secs}`}</Text>
+          </View>
+        </View>
       </View>
       <ScorePopUpCard
         label={"Score"}
@@ -186,6 +215,7 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: shared.borderRadius,
     backgroundColor: colors.greyscale7,
+    marginBottom: spacings.tiny,
   },
   rowRootContainer: {
     flexDirection: "row",
@@ -209,8 +239,6 @@ const styles = StyleSheet.create({
     borderRadius: 5,
   },
   addWaveCell: {
-    width: 80,
-    height: 80,
     borderRightWidth: 1,
     borderRightColor: colors.greyscale1,
     borderRadius: shared.borderRadius,
@@ -220,8 +248,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   waveCell: {
-    width: 80,
-    height: 80,
     borderRightWidth: 1,
     borderRightColor: colors.greyscale1,
     borderRadius: shared.borderRadius,
