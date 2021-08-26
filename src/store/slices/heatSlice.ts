@@ -1,13 +1,11 @@
 import { Action, createSlice } from "@reduxjs/toolkit";
 
 interface ITimer {
-  hrs: number;
   mins: number;
   secs: number;
 }
 
 interface IInitTimer {
-  initHrs: number;
   initMins: number;
   initSecs: number;
 }
@@ -20,12 +18,10 @@ interface HeatState {
 
 const initialState: HeatState = {
   timer: {
-    hrs: 0,
     mins: 0,
     secs: 0,
   },
   initialTime: {
-    initHrs: 0,
     initMins: 0,
     initSecs: 0,
   },

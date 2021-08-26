@@ -52,3 +52,8 @@ export const getEventDaysListPickerItems = (startDate: Date, endDate: Date) => {
     };
   });
 };
+
+export const abbreviateName = (name: string) => {
+  const [firstName, lastName] = name.split(" ");
+  return `${firstName[0]}. ${lastName}`;
+};

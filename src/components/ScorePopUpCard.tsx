@@ -12,12 +12,12 @@ interface ScorePopUpCardProps {
   onClose: () => void;
 }
 
-const integers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const integers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const tenths = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
-  const [selectedIntegerIndex, setSelectedIntegerIndex] = useState(4);
-  const [selectedTenthIndex, setSelectedTenthIndex] = useState(4);
+  const [selectedIntegerIndex, setSelectedIntegerIndex] = useState(0);
+  const [selectedTenthIndex, setSelectedTenthIndex] = useState(0);
 
   useEffect(() => {
     if (selectedIntegerIndex === 9) {

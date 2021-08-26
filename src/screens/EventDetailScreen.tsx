@@ -8,13 +8,16 @@ import { colors, fonts, shared, spacings } from "../common";
 import { ButtonAdd, ButtonBack } from "../components";
 import { ButtonIcon } from "../components/ButtonIcon";
 import { HeatCard } from "../components/HeatCard";
+import { useAppDispatch } from "../hooks/redux";
 import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
 import { EventEditModal } from "../modals/EventEditModal";
+import { setTime } from "../store/slices/heatSlice";
 
 export const EventDetailScreen = () => {
   const editEventModalRef = useRef<Modalize>(null);
   const navigation = useNavigation<EventDetailsNavProp>();
+  const dispatch = useAppDispatch();
   const { params } = useRoute<EventDetailsRouteProp>();
   const event = useEvent(params.eventId);
   const heats = useHeats(params.eventId);
@@ -83,6 +86,7 @@ export const EventDetailScreen = () => {
                 });
               }}
               onStartHeat={() => {
+                dispatch(setTime({ timer: { mins: 35, secs: 0 } }));
                 navigation.navigate("HeatSheet", {
                   eventId: item.eventId,
                   heatId: item.heatId,

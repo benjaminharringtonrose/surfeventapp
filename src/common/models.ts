@@ -78,6 +78,7 @@ export interface Score {
   surfer: string;
   color: string;
   waves: number[];
+  total: number;
 }
 
 export interface Heat {

@@ -1,67 +1,97 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, StyleProp, ViewStyle, TextStyle } from "react-native";
 import * as Progress from "react-native-progress";
-import { colors } from "../common";
+import { colors, spacings } from "../common";
+import PushNotification from "react-native-push-notification";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
-import { setTime } from "../store/slices/heatSlice";
+import { setIsRunning, setTime } from "../store/slices/heatSlice";
+import { Button } from "./Button";
 
 interface ICountdownTimerProps {
   timer: {
-    hours: number;
     minutes: number;
     seconds: number;
   };
+  color: string;
+  size: number;
   style?: StyleProp<ViewStyle>;
   textStyle?: StyleProp<TextStyle>;
+  startLabel?: string;
+  stopLabel?: string;
 }
 
 export const CountdownTimer = (props: ICountdownTimerProps) => {
-  const { hours = 0, minutes = 0, seconds = 60 } = props.timer;
+  const { minutes = 0, seconds = 60 } = props.timer;
   const dispatch = useAppDispatch();
-  const { hrs, mins, secs } = useAppSelector(state => state.heat.timer);
-
-  useEffect(() => {
-    dispatch(setTime({ timer: { hrs: hours, mins: minutes, secs: seconds } }));
-  }, []);
+  const { mins, secs } = useAppSelector(state => state.heat.timer);
+  const isRunning = useAppSelector(state => state.heat.isRunning);
+  const uid = useAppSelector(state => state.auth.user?.uid);
 
   const tick = () => {
-    if (mins === 0 && secs === 0) {
-      dispatch(setTime({ timer: { hrs: hrs - 1, mins: 59, secs: 59 } }));
-    } else if (secs === 0) {
-      dispatch(setTime({ timer: { hrs, mins: mins - 1, secs: 59 } }));
+    if (secs === 0) {
+      dispatch(setTime({ timer: { mins: mins - 1, secs: 59 } }));
     } else {
-      dispatch(setTime({ timer: { hrs, mins: mins, secs: secs - 1 } }));
+      dispatch(setTime({ timer: { mins: mins, secs: secs - 1 } }));
     }
   };
 
-  const reset = () => dispatch(setTime({ timer: { hrs: hours, mins: minutes, secs: seconds } }));
+  const reset = () => dispatch(setTime({ timer: { mins: minutes, secs: seconds } }));
 
   useEffect(() => {
     const timerId = setInterval(() => {
-      const timesUp = hrs === 0 && mins === 0 && secs === 0;
+      const timesUp = mins === 0 && secs === 0;
       if (timesUp) {
         clearInterval(timerId);
       } else {
-        tick();
+        if (isRunning) {
+          tick();
+        }
       }
     }, 1000);
     return () => clearInterval(timerId);
   });
 
-  const fomattedHrs = hrs.toString().padStart(2, "0");
+  useEffect(() => {
+    if (mins === 5 && secs === 0) {
+      if (uid) {
+        //
+      }
+    }
+  });
+
   const formattedMins = mins.toString().padStart(2, "0");
   const formattedSecs = secs.toString().padStart(2, "0");
 
-  const progress = (hrs * 3600 + mins * 60 + secs) / (hours * 3600 + minutes * 60 + seconds);
+  const progress = (mins * 60 + secs) / (minutes * 60 + seconds);
 
   return (
     <View style={[props.style]}>
       <Progress.Circle
-        size={60}
+        size={props.size}
         progress={progress}
         showsText
         formatText={_ => `${formattedMins}:${formattedSecs}`}
+        direction={"counter-clockwise"}
+        color={colors.grey500}
       />
+      <View style={{ flexDirection: "row" }}>
+        <Button
+          label={props?.startLabel || "Start"}
+          onPress={() => {
+            dispatch(setIsRunning({ isRunning: true }));
+          }}
+          type={"bordered"}
+          style={{ marginTop: spacings.small, marginRight: spacings.small }}
+        />
+        <Button
+          label={props?.stopLabel || "Stop"}
+          onPress={() => {
+            dispatch(setIsRunning({ isRunning: false }));
+          }}
+          type={"bordered"}
+          style={{ marginTop: spacings.small }}
+        />
+      </View>
     </View>
   );
 };

@@ -13,11 +13,12 @@ import _ from "lodash";
 import firestore from "@react-native-firebase/firestore";
 import Orientation from "react-native-orientation-locker";
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
-import { colors, Score, shared, spacings } from "../common";
+import { colors, Heat, Score, shared, spacings } from "../common";
 import { useHeat } from "../hooks/useHeat";
 import { Icon, ButtonX, ScorePopUpCard, DraggableFlatList, RenderItemParams } from "../components";
 import { useScores } from "../hooks/useScores";
 import { CountdownTimer } from "../components/CountdownTimer";
+import { abbreviateName } from "../common/util";
 
 const { width, height } = Dimensions.get("window");
 
@@ -44,7 +45,7 @@ export const HeatSheetScreen = () => {
   useEffect(() => {
     Orientation.lockToLandscapeLeft();
     navigation.setOptions({
-      title: "Heat Sheet",
+      title: "HEAT SHEET",
       gestureEnabled: false,
       headerLeft: () => (
         <ButtonX
@@ -87,6 +88,25 @@ export const HeatSheetScreen = () => {
         },
         { merge: true },
       );
+
+      const response = await heatsCollection.doc(heatId).get();
+      const heat = response.data() as Heat;
+
+      const total = heat.scores[state.selectedKey].waves
+        .sort((a, b) => b - a)
+        .filter((_, index) => index < 2)
+        .reduce((acc, value) => acc + value);
+
+      await heatsCollection.doc(heatId).set(
+        {
+          scores: {
+            [state.selectedKey]: {
+              total,
+            },
+          },
+        },
+        { merge: true },
+      );
     } catch (e) {
       console.warn(e);
     }
@@ -99,6 +119,7 @@ export const HeatSheetScreen = () => {
   const renderItem = useCallback(({ item, drag, isActive }: RenderItemParams<Score>) => {
     const data = item; // needed to change name because of nested FlatLists
     const backgroundColor = isActive ? colors.greyscale7 : colors.greyscale9;
+    const [firstName, lastName] = data.surfer.split(" ");
     return (
       <View
         key={`${data.surfer}${data.color}`}
@@ -109,7 +130,8 @@ export const HeatSheetScreen = () => {
               <View style={[styles.rowJerseyCircle, { backgroundColor: data.color }]} />
             </View>
             <View style={{ flex: 8 }}>
-              <Text style={{ color: colors.almostWhite }}>{data.surfer}</Text>
+              <Text style={{ color: colors.almostWhite }}>{firstName}</Text>
+              <Text style={{ color: colors.almostWhite }}>{lastName}</Text>
             </View>
           </View>
         </TouchableOpacity>
@@ -162,16 +184,57 @@ export const HeatSheetScreen = () => {
           )}
           showsVerticalScrollIndicator={false}
         />
-        <View style={[styles.rightContainer, { width: 100 }]}>
+        <View style={[styles.rightContainer, { width: 200 }]}>
+          <Text
+            style={{
+              color: colors.almostWhite,
+              textAlign: "right",
+              paddingRight: spacings.small,
+              paddingTop: spacings.small,
+            }}>
+            {"TOTAL"}
+          </Text>
+          <View style={{ marginBottom: spacings.small }}>
+            {scores.map(score => {
+              return (
+                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                  <View
+                    style={{
+                      backgroundColor: score.color,
+                      width: 10,
+                      height: 10,
+                      margin: spacings.xsmall,
+                    }}
+                  />
+                  <Text style={{ flex: 1, color: colors.almostWhite }}>
+                    {abbreviateName(score.surfer)}
+                  </Text>
+                  <Text style={{ flex: 1, color: colors.almostWhite }}>
+                    {score.total?.toString()}
+                  </Text>
+                </View>
+              );
+            })}
+          </View>
           <CountdownTimer
-            timer={{ hours: 0, minutes: 0, seconds: 30 }}
-            style={{ width: 100, alignItems: "center", paddingTop: spacings.tiny }}
+            timer={{ minutes: 35, seconds: 0 }}
+            color={colors.almostWhite}
+            size={90}
+            style={{
+              flex: 1,
+              alignItems: "center",
+              justifyContent: "flex-end",
+              paddingTop: spacings.tiny,
+              paddingBottom: spacings.small,
+            }}
+            startLabel={"START"}
+            stopLabel={"STOP"}
             textStyle={{ color: colors.almostWhite, fontSize: 17 }}
           />
         </View>
       </View>
       <ScorePopUpCard
-        label={"Score"}
+        label={"SCORE"}
         visible={state.scoreCardVisible}
         onPress={onSubmitWave}
         onClose={() => setState({ ...state, scoreCardVisible: false })}
@@ -186,8 +249,8 @@ const styles = StyleSheet.create({
     backgroundColor: colors.greyscale9,
   },
   rightContainer: {
+    justifyContent: "space-between",
     marginLeft: spacings.xsmall,
-    flexDirection: "row",
     borderColor: colors.greyscale1,
     borderWidth: 1,
     borderRadius: shared.borderRadius,
