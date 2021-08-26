@@ -185,32 +185,20 @@ export const HeatSheetScreen = () => {
           showsVerticalScrollIndicator={false}
         />
         <View style={[styles.rightContainer, { width: 200 }]}>
-          <Text
-            style={{
-              color: colors.almostWhite,
-              textAlign: "right",
-              paddingRight: spacings.small,
-              paddingTop: spacings.small,
-            }}>
-            {"TOTAL"}
-          </Text>
           <View style={{ marginBottom: spacings.small }}>
+            <View style={{ flexDirection: "row", alignItems: "center" }}>
+              <View style={{ flex: 2 }} />
+              <Text style={{ flex: 1, color: colors.almostWhite }}>{"TOTAL"}</Text>
+            </View>
             {scores.map(score => {
               return (
                 <View style={{ flexDirection: "row", alignItems: "center" }}>
-                  <View
-                    style={{
-                      backgroundColor: score.color,
-                      width: 10,
-                      height: 10,
-                      margin: spacings.xsmall,
-                    }}
-                  />
-                  <Text style={{ flex: 1, color: colors.almostWhite }}>
+                  <View style={[styles.jerseySquare, { backgroundColor: score.color }]} />
+                  <Text style={{ flex: 2, color: colors.almostWhite }}>
                     {abbreviateName(score.surfer)}
                   </Text>
                   <Text style={{ flex: 1, color: colors.almostWhite }}>
-                    {score.total?.toString()}
+                    {score?.total ? score.total.toFixed(1) : "---"}
                   </Text>
                 </View>
               );
@@ -295,5 +283,10 @@ const styles = StyleSheet.create({
     margin: spacings.tiny,
     alignItems: "center",
     justifyContent: "center",
+  },
+  jerseySquare: {
+    width: 10,
+    height: 10,
+    margin: spacings.xsmall,
   },
 });

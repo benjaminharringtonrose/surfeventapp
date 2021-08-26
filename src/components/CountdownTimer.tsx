@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleProp, ViewStyle, TextStyle } from "react-native";
 import * as Progress from "react-native-progress";
 import { colors, spacings } from "../common";
-import PushNotification from "react-native-push-notification";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setIsRunning, setTime } from "../store/slices/heatSlice";
 import { Button } from "./Button";
