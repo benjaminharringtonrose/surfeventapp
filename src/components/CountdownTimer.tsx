@@ -1,10 +1,13 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, StyleProp, ViewStyle, TextStyle } from "react-native";
+import { View, Text, StyleProp, ViewStyle, TextStyle, Platform } from "react-native";
 import * as Progress from "react-native-progress";
+import BackgroundTimer from "react-native-background-timer";
 import { colors, spacings } from "../common";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setIsRunning, setTime } from "../store/slices/heatSlice";
 import { Button } from "./Button";
+import PushNotification, { PushNotificationScheduleObject } from "react-native-push-notification";
+import { AddMinutesToDate } from "../util/dates";
 
 interface ICountdownTimerProps {
   timer: {
@@ -37,7 +40,10 @@ export const CountdownTimer = (props: ICountdownTimerProps) => {
   const reset = () => dispatch(setTime({ timer: { mins: minutes, secs: seconds } }));
 
   useEffect(() => {
-    const timerId = setInterval(() => {
+    if (Platform.OS == "ios") {
+      BackgroundTimer.start();
+    }
+    const timerId = BackgroundTimer.setInterval(() => {
       const timesUp = mins === 0 && secs === 0;
       if (timesUp) {
         clearInterval(timerId);
@@ -47,7 +53,7 @@ export const CountdownTimer = (props: ICountdownTimerProps) => {
         }
       }
     }, 1000);
-    return () => clearInterval(timerId);
+    return () => BackgroundTimer.clearInterval(timerId);
   });
 
   useEffect(() => {
@@ -78,6 +84,13 @@ export const CountdownTimer = (props: ICountdownTimerProps) => {
           label={props?.startLabel || "Start"}
           onPress={() => {
             dispatch(setIsRunning({ isRunning: true }));
+            const notification: PushNotificationScheduleObject = {
+              date: AddMinutesToDate(new Date(), 10),
+              message: "5 minutes left!",
+              vibrate: true,
+              playSound: true,
+            };
+            PushNotification.localNotificationSchedule(notification);
           }}
           type={"bordered"}
           style={{ marginTop: spacings.small, marginRight: spacings.small }}

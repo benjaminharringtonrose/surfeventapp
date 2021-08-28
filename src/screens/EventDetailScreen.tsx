@@ -13,6 +13,7 @@ import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
 import { EventEditModal } from "../modals/EventEditModal";
 import { setTime } from "../store/slices/heatSlice";
+import PushNotification, { PushNotificationScheduleObject } from "react-native-push-notification";
 
 export const EventDetailScreen = () => {
   const editEventModalRef = useRef<Modalize>(null);
@@ -86,7 +87,7 @@ export const EventDetailScreen = () => {
                 });
               }}
               onStartHeat={() => {
-                dispatch(setTime({ timer: { mins: 35, secs: 0 } }));
+                dispatch(setTime({ timer: { mins: 15, secs: 0 } }));
                 navigation.navigate("HeatSheet", {
                   eventId: item.eventId,
                   heatId: item.heatId,

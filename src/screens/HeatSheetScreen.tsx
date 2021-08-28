@@ -13,7 +13,7 @@ import _ from "lodash";
 import firestore from "@react-native-firebase/firestore";
 import Orientation from "react-native-orientation-locker";
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
-import { colors, Heat, Score, shared, spacings } from "../common";
+import { colors, FirebaseHeat, Heat, IStringMap, Score, shared, spacings, Wave } from "../common";
 import { useHeat } from "../hooks/useHeat";
 import { Icon, ButtonX, ScorePopUpCard, DraggableFlatList, RenderItemParams } from "../components";
 import { useScores } from "../hooks/useScores";
@@ -77,12 +77,15 @@ export const HeatSheetScreen = () => {
   const onSubmitWave = async (score: number) => {
     try {
       const heatsCollection = firestore().collection("heats");
+      const waveId = heatsCollection.doc().id;
       await heatsCollection.doc(heatId).set(
         {
           scores: {
             [state.selectedKey]: {
               surfer: state.selectedSurfer,
-              waves: firestore.FieldValue.arrayUnion(score),
+              waves: {
+                [waveId]: score,
+              },
             },
           },
         },
@@ -90,18 +93,24 @@ export const HeatSheetScreen = () => {
       );
 
       const response = await heatsCollection.doc(heatId).get();
-      const heat = response.data() as Heat;
+      const heat = response.data() as FirebaseHeat;
+      const waves = [] as Wave[];
+      const waveData = heat.scores[state.selectedKey].waves;
 
-      const total = heat.scores[state.selectedKey].waves
-        .sort((a, b) => b - a)
+      for (const key in waveData) {
+        waves.push({ waveId: key, score: waveData[key] });
+      }
+
+      const topTwoTotal = waves
+        ?.sort((a, b) => b.score - a.score)
         .filter((_, index) => index < 2)
-        .reduce((acc, value) => acc + value);
+        .reduce((acc, value) => acc + value.score, 0);
 
       await heatsCollection.doc(heatId).set(
         {
           scores: {
             [state.selectedKey]: {
-              total,
+              total: topTwoTotal,
             },
           },
         },
@@ -138,15 +147,15 @@ export const HeatSheetScreen = () => {
         <FlatList
           horizontal
           data={data.waves}
-          keyExtractor={index => index.toString()}
+          keyExtractor={item => item.waveId}
           renderItem={({ item, index }) => {
             return (
               <TouchableOpacity
-                key={index}
+                key={item.waveId}
                 onPress={() => onScorePress(data.key, data.surfer)}
                 style={[styles.waveCell, { width: state.cellWidth, height: state.cellWidth }]}>
                 <Text style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
-                  {item.toString()}
+                  {item.score.toString()}
                 </Text>
               </TouchableOpacity>
             );
@@ -186,13 +195,16 @@ export const HeatSheetScreen = () => {
         />
         <View style={[styles.rightContainer, { width: 200 }]}>
           <View style={{ marginBottom: spacings.small }}>
-            <View style={{ flexDirection: "row", alignItems: "center" }}>
+            <View
+              style={{ flexDirection: "row", alignItems: "center", paddingTop: spacings.xsmall }}>
               <View style={{ flex: 2 }} />
               <Text style={{ flex: 1, color: colors.almostWhite }}>{"TOTAL"}</Text>
             </View>
-            {scores.map(score => {
+            {scores.map((score, index) => {
               return (
-                <View style={{ flexDirection: "row", alignItems: "center" }}>
+                <View
+                  key={`${score}-${index}`}
+                  style={{ flexDirection: "row", alignItems: "center" }}>
                   <View style={[styles.jerseySquare, { backgroundColor: score.color }]} />
                   <Text style={{ flex: 2, color: colors.almostWhite }}>
                     {abbreviateName(score.surfer)}
@@ -204,21 +216,6 @@ export const HeatSheetScreen = () => {
               );
             })}
           </View>
-          <CountdownTimer
-            timer={{ minutes: 35, seconds: 0 }}
-            color={colors.almostWhite}
-            size={90}
-            style={{
-              flex: 1,
-              alignItems: "center",
-              justifyContent: "flex-end",
-              paddingTop: spacings.tiny,
-              paddingBottom: spacings.small,
-            }}
-            startLabel={"START"}
-            stopLabel={"STOP"}
-            textStyle={{ color: colors.almostWhite, fontSize: 17 }}
-          />
         </View>
       </View>
       <ScorePopUpCard

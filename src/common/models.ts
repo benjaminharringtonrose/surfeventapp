@@ -71,14 +71,39 @@ export enum HeatType {
   final = "final",
 }
 
+export interface Wave {
+  waveId: string;
+  score: number;
+}
+
 export type Division = ListPickerItem | string;
+
+export interface FirebaseScore {
+  key: string;
+  surfer: string;
+  color: string;
+  waves: IStringMap<number>;
+  total?: number;
+}
+
+export interface FirebaseHeat {
+  title: string | undefined;
+  eventId: string;
+  heatId: string;
+  uid: string;
+  division?: (ListPickerItem & Division) | undefined;
+  heatType: HeatType;
+  scores: IStringMap<FirebaseScore>;
+  dateStart: FirebaseFirestoreTypes.Timestamp;
+  timeStart: FirebaseFirestoreTypes.Timestamp;
+}
 
 export interface Score {
   key: string;
   surfer: string;
   color: string;
-  waves: number[];
-  total: number;
+  waves: Wave[];
+  total?: number;
 }
 
 export interface Heat {
@@ -100,11 +125,4 @@ export interface Event {
   timeStart: FirebaseFirestoreTypes.Timestamp;
   dateStart: FirebaseFirestoreTypes.Timestamp;
   dateEnd: FirebaseFirestoreTypes.Timestamp;
-}
-
-export interface Wave {
-  heatId: string;
-  waveId: string;
-  surfer: string;
-  score: number;
 }

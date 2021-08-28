@@ -8,3 +8,7 @@ export const getDatesBetweenDates = (startDate: Date, endDate: Date) => {
   }
   return dates;
 };
+
+export const AddMinutesToDate = (date: Date, minutes: number) => {
+  return new Date(date.getTime() + minutes * 60000);
+};

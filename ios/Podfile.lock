@@ -702,6 +702,8 @@ PODS:
     - React-jsi (= 0.64.2)
     - React-perflogger (= 0.64.2)
   - React-jsinspector (0.64.2)
+  - react-native-background-timer (2.4.1):
+    - React-Core
   - react-native-date-picker (3.4.0):
     - React-Core
   - react-native-get-random-values (1.7.0):
@@ -779,6 +781,8 @@ PODS:
   - RNCMaskedView (0.1.11):
     - React
   - RNCPicker (1.16.6):
+    - React-Core
+  - RNCPushNotificationIOS (1.10.0):
     - React-Core
   - RNFBApp (12.7.2):
     - Firebase/CoreOnly (= 8.6.0)
@@ -874,6 +878,7 @@ DEPENDENCIES:
   - React-jsi (from `../node_modules/react-native/ReactCommon/jsi`)
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
+  - react-native-background-timer (from `../node_modules/react-native-background-timer`)
   - react-native-date-picker (from `../node_modules/react-native-date-picker`)
   - react-native-get-random-values (from `../node_modules/react-native-get-random-values`)
   - react-native-orientation-locker (from `../node_modules/react-native-orientation-locker`)
@@ -893,6 +898,7 @@ DEPENDENCIES:
   - "RNCAsyncStorage (from `../node_modules/@react-native-async-storage/async-storage`)"
   - "RNCMaskedView (from `../node_modules/@react-native-community/masked-view`)"
   - "RNCPicker (from `../node_modules/@react-native-picker/picker`)"
+  - "RNCPushNotificationIOS (from `../node_modules/@react-native-community/push-notification-ios`)"
   - "RNFBApp (from `../node_modules/@react-native-firebase/app`)"
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
@@ -967,6 +973,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsiexecutor"
   React-jsinspector:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
+  react-native-background-timer:
+    :path: "../node_modules/react-native-background-timer"
   react-native-date-picker:
     :path: "../node_modules/react-native-date-picker"
   react-native-get-random-values:
@@ -1005,6 +1013,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-community/masked-view"
   RNCPicker:
     :path: "../node_modules/@react-native-picker/picker"
+  RNCPushNotificationIOS:
+    :path: "../node_modules/@react-native-community/push-notification-ios"
   RNFBApp:
     :path: "../node_modules/@react-native-firebase/app"
   RNFBAuth:
@@ -1070,6 +1080,7 @@ SPEC CHECKSUMS:
   React-jsi: 67747b9722f6dab2ffe15b011bcf6b3f2c3f1427
   React-jsiexecutor: 80c46bd381fd06e418e0d4f53672dc1d1945c4c3
   React-jsinspector: cc614ec18a9ca96fd275100c16d74d62ee11f0ae
+  react-native-background-timer: 17ea5e06803401a379ebf1f20505b793ac44d0fe
   react-native-date-picker: 8c5a9cbf6d311ae85230543ae0d8d378c7be0c74
   react-native-get-random-values: 237bffb1c7e05fb142092681531810a29ba53015
   react-native-orientation-locker: 998c0744e26624407dac068c04c605b4af7304a2
@@ -1089,6 +1100,7 @@ SPEC CHECKSUMS:
   RNCAsyncStorage: b7c6564ce662366dd44d0189456183ef7eda2d4d
   RNCMaskedView: 0e1bc4bfa8365eba5fbbb71e07fbdc0555249489
   RNCPicker: c3a3d481bec16624ed84a3c2a64c92fdc5515960
+  RNCPushNotificationIOS: 5ee247e594d0b5df3cd7be74b51035a0d91807eb
   RNFBApp: 9c4eb84da8418346829c0d0220c4794d1de7b1f6
   RNFBAuth: 9a1a0e6fb9b3ccba2159a5f52a2891df437f0ce4
   RNFBFirestore: 72fea4b9cce6a88280e00188f8474113ec741fd5
