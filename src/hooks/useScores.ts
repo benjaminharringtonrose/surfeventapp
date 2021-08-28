@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { firebase } from "@react-native-firebase/firestore";
-import { Collection, Heat, IStringMap, Score } from "../common/models";
+import { Collection, FirebaseHeat, Heat, IStringMap, Score } from "../common/models";
 import { useAppSelector } from "./redux";
 import { COLORS } from "../common/constants";
 
@@ -21,7 +21,7 @@ export const useScores = (heatId: string) => {
           let index = 0;
           const scores = [];
           let waves = [];
-          const data = doc.data() as Heat;
+          const data = doc.data() as FirebaseHeat;
           const surferData = data.scores;
           for (const key in surferData) {
             for (const innerKey in surferData[key].waves) {

@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
 import { firebase } from "@react-native-firebase/firestore";
-import { Collection, Heat } from "../common/models";
+import { Collection, FirebaseHeat } from "../common/models";
 import { useAppSelector } from "./redux";
 import { getDivisionById } from "../common/util";
 
 export const useHeat = (heatId: string) => {
-  const [heat, setHeat] = useState<Heat | undefined>(undefined);
+  const [heat, setHeat] = useState<FirebaseHeat | undefined>(undefined);
   const uid = useAppSelector(state => state.auth.user?.uid);
 
   useEffect(() => {
@@ -18,7 +18,7 @@ export const useHeat = (heatId: string) => {
       .doc(heatId)
       .onSnapshot(doc => {
         if (doc.exists) {
-          const data = doc.data() as Heat;
+          const data = doc.data() as FirebaseHeat;
           const division = getDivisionById(data.division);
           const heat = { ...data, division };
           setHeat(heat);

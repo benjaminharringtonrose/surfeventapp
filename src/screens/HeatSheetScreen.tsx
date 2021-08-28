@@ -13,16 +13,15 @@ import _ from "lodash";
 import firestore from "@react-native-firebase/firestore";
 import Orientation from "react-native-orientation-locker";
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
-import { colors, FirebaseHeat, Heat, IStringMap, Score, shared, spacings, Wave } from "../common";
+import { colors, FirebaseHeat, Score, shared, spacings, Wave } from "../common";
 import { useHeat } from "../hooks/useHeat";
 import { Icon, ButtonX, ScorePopUpCard, DraggableFlatList, RenderItemParams } from "../components";
 import { useScores } from "../hooks/useScores";
-import { CountdownTimer } from "../components/CountdownTimer";
 import { abbreviateName } from "../common/util";
 
 const { width, height } = Dimensions.get("window");
 
-export interface HeatState {
+export interface LocalState {
   selectedSurfer: string;
   selectedKey: string;
   scoreCardVisible: boolean;
@@ -31,7 +30,7 @@ export interface HeatState {
 
 export const HeatSheetScreen = () => {
   const [data, setData] = useState<Score[]>([]);
-  const [state, setState] = useState<HeatState>({
+  const [state, setState] = useState<LocalState>({
     selectedSurfer: "",
     selectedKey: "",
     scoreCardVisible: false,
