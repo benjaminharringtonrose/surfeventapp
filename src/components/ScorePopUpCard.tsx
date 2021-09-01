@@ -1,62 +1,101 @@
 import React, { useEffect, useState } from "react";
-import { Text, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
 import { colors, shared, spacings } from "../common";
 import { Button } from "./Button";
+import { ButtonX } from "./ButtonX";
+import { IRadioButtonOption, RadioButton } from "./RadioButton";
+import { RadioButtonGroup } from "./RadioButtonGroup";
 import WheelPicker from "./WheelPicker";
 
-interface ScorePopUpCardProps {
+interface IScorePopUpCardProps {
   visible: boolean;
   label: string;
-  onPress: (score: number) => void;
+  onApply: (score: number) => void;
+  onRemove: () => void;
   onClose: () => void;
 }
 
 const integers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const tenths = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-export const ScorePopUpCard = (props: ScorePopUpCardProps) => {
+export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
   const [selectedIntegerIndex, setSelectedIntegerIndex] = useState(0);
   const [selectedTenthIndex, setSelectedTenthIndex] = useState(0);
+  const [radioOption, setRadioOption] = useState<IRadioButtonOption>({
+    id: 0,
+    label: "Disqualify",
+    selected: false,
+  });
 
   useEffect(() => {
-    if (selectedIntegerIndex === 9) {
+    if (selectedIntegerIndex === 10) {
       setSelectedTenthIndex(0);
     }
   });
 
   const onSelectScore = () => {
     const score = Number(integers[selectedIntegerIndex]) + Number(tenths[selectedTenthIndex]) / 10;
-    props.onPress(score);
+    props.onApply(score);
   };
+
   return (
     <Modal isVisible={props.visible} onBackdropPress={() => props.onClose()}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
-          <View style={styles.scorePickerContainer}>
-            <WheelPicker
-              list={integers}
-              value={selectedIntegerIndex}
-              onValueChange={(index: number) => {
-                setSelectedIntegerIndex(index);
-              }}
-            />
-            <View style={styles.scorePickerContainer} />
-            <WheelPicker
-              list={tenths}
-              value={selectedTenthIndex}
-              onValueChange={(index: number) => {
-                setSelectedTenthIndex(index);
-              }}
-            />
-          </View>
-          <View style={{ alignItems: "center" }}>
-            <Button
-              type={"contained"}
-              label={"Score"}
-              onPress={onSelectScore}
-              style={{ marginTop: spacings.base }}
-            />
+          <View style={{ flexDirection: "row" }}>
+            <View style={{ justifyContent: "center" }}>
+              <RadioButton
+                onPress={() => setRadioOption({ ...radioOption, selected: !radioOption.selected })}
+                selected={radioOption.selected}
+                key={radioOption.id}
+                label={radioOption.label}
+                labelStyle={{ color: colors.almostWhite }}
+                style={{ marginBottom: spacings.small, marginRight: spacings.base }}
+              />
+              <View
+                style={{
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  paddingRight: spacings.small,
+                }}>
+                <View style={{ flex: 1 }}>
+                  <Button
+                    type={"contained"}
+                    label={"Apply"}
+                    onPress={onSelectScore}
+                    style={{ marginTop: spacings.xsmall, marginRight: spacings.tiny }}
+                  />
+                  <Button
+                    type={"bordered"}
+                    label={"Remove"}
+                    onPress={props.onRemove}
+                    style={{ marginTop: spacings.xsmall }}
+                  />
+                </View>
+              </View>
+            </View>
+            <View>
+              <View style={styles.scorePickerContainer}>
+                <WheelPicker
+                  list={integers}
+                  value={selectedIntegerIndex}
+                  onValueChange={(index: number) => {
+                    setSelectedIntegerIndex(index);
+                  }}
+                />
+                <WheelPicker
+                  list={tenths}
+                  value={selectedTenthIndex}
+                  onValueChange={(index: number) => {
+                    setSelectedTenthIndex(index);
+                  }}
+                />
+              </View>
+            </View>
+            <View>
+              <ButtonX onPress={() => props.onClose()} style={{ paddingLeft: spacings.base }} />
+            </View>
           </View>
         </View>
       </View>

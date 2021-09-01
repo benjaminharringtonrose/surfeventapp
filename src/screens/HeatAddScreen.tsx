@@ -46,7 +46,9 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
   useEffect(() => {
     navigation.setOptions({
       title: "Add Surf Heat",
-      headerLeft: () => <ButtonX onPress={() => navigation.pop()} />,
+      headerLeft: () => (
+        <ButtonX onPress={() => navigation.pop()} style={{ paddingHorizontal: spacings.base }} />
+      ),
     });
   }, []);
 

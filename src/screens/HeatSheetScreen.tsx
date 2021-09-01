@@ -18,12 +18,15 @@ import { useHeat } from "../hooks/useHeat";
 import { Icon, ButtonX, ScorePopUpCard, DraggableFlatList, RenderItemParams } from "../components";
 import { useScores } from "../hooks/useScores";
 import { abbreviateName } from "../common/util";
+import { number } from "yup";
 
 const { width, height } = Dimensions.get("window");
 
 export interface LocalState {
   selectedSurfer: string;
   selectedKey: string;
+  selectedWaveId?: string;
+  selectedScoreTotal?: number;
   scoreCardVisible: boolean;
   cellWidth: number;
 }
@@ -33,7 +36,9 @@ export const HeatSheetScreen = () => {
   const [state, setState] = useState<LocalState>({
     selectedSurfer: "",
     selectedKey: "",
+    selectedWaveId: undefined,
     scoreCardVisible: false,
+    selectedScoreTotal: undefined,
     cellWidth: 60,
   });
   const navigation = useNavigation<RootStackNavProp>();
@@ -52,6 +57,7 @@ export const HeatSheetScreen = () => {
             Orientation.lockToPortrait();
             navigation.pop();
           }}
+          style={{ paddingHorizontal: spacings.base }}
         />
       ),
     });
@@ -64,11 +70,12 @@ export const HeatSheetScreen = () => {
     }
   }, [scores]);
 
-  const onScorePress = (key: string, surfer: string) => {
+  const onScorePress = (key: string, surfer: string, waveId?: string) => {
     setState({
       ...state,
       selectedKey: key,
       selectedSurfer: surfer,
+      selectedWaveId: waveId,
       scoreCardVisible: true,
     });
   };
@@ -124,6 +131,43 @@ export const HeatSheetScreen = () => {
     });
   };
 
+  const onRemoveWave = async () => {
+    try {
+      if (state.selectedWaveId) {
+        const total =
+          scores
+            .filter(score => score.key === state.selectedKey)
+            ?.pop()
+            ?.waves?.filter(wave => wave.waveId !== state.selectedWaveId)
+            .sort((a, b) => b.score - a.score)
+            .filter((_, index) => index < 2)
+            .reduce((acc, value) => acc + value.score, 0) || 0;
+
+        const heatsCollection = firestore().collection("heats");
+        await heatsCollection.doc(heatId).set(
+          {
+            scores: {
+              [state.selectedKey]: {
+                surfer: state.selectedSurfer,
+                total: total,
+                waves: {
+                  [state.selectedWaveId]: firestore.FieldValue.delete(),
+                },
+              },
+            },
+          },
+          { merge: true },
+        );
+      }
+    } catch (e) {
+      console.warn(e);
+    }
+    setState({
+      ...state,
+      scoreCardVisible: false,
+    });
+  };
+
   const renderItem = useCallback(({ item, drag, isActive }: RenderItemParams<Score>) => {
     const data = item; // needed to change name because of nested FlatLists
     const backgroundColor = isActive ? colors.greyscale7 : colors.greyscale9;
@@ -151,7 +195,7 @@ export const HeatSheetScreen = () => {
             return (
               <TouchableOpacity
                 key={item.waveId}
-                onPress={() => onScorePress(data.key, data.surfer)}
+                onPress={() => onScorePress(data.key, data.surfer, item.waveId)}
                 style={[styles.waveCell, { width: state.cellWidth, height: state.cellWidth }]}>
                 <Text style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
                   {item.score.toString()}
@@ -209,7 +253,7 @@ export const HeatSheetScreen = () => {
                     {abbreviateName(score.surfer)}
                   </Text>
                   <Text style={{ flex: 1, color: colors.almostWhite }}>
-                    {score?.total ? score.total.toFixed(1) : "---"}
+                    {!!score?.total ? score.total.toFixed(1) : "---"}
                   </Text>
                 </View>
               );
@@ -220,7 +264,8 @@ export const HeatSheetScreen = () => {
       <ScorePopUpCard
         label={"SCORE"}
         visible={state.scoreCardVisible}
-        onPress={onSubmitWave}
+        onApply={onSubmitWave}
+        onRemove={onRemoveWave}
         onClose={() => setState({ ...state, scoreCardVisible: false })}
       />
     </SafeAreaView>

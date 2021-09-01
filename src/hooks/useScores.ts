@@ -25,7 +25,10 @@ export const useScores = (heatId: string) => {
           const surferData = data.scores;
           for (const key in surferData) {
             for (const innerKey in surferData[key].waves) {
-              waves.push({ waveId: innerKey, score: surferData[key].waves[innerKey] });
+              waves.push({
+                waveId: innerKey,
+                score: surferData[key].waves[innerKey],
+              });
             }
             scores.push({ ...surferData[key], color: COLORS[index], key, waves });
             waves = [];

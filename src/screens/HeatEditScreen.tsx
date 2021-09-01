@@ -44,7 +44,9 @@ export const HeatEditScreen = () => {
   useEffect(() => {
     navigation.setOptions({
       title: "Edit Heat",
-      headerLeft: () => <ButtonX onPress={() => navigation.pop()} />,
+      headerLeft: () => (
+        <ButtonX onPress={() => navigation.pop()} style={{ paddingHorizontal: spacings.base }} />
+      ),
     });
   }, []);
 
