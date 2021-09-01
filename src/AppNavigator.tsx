@@ -42,6 +42,7 @@ export type RootStackParamList = {
     heatId: string;
   };
   HeatSheet: {
+    title: string;
     eventId: string;
     heatId: string;
   };

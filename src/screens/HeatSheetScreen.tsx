@@ -27,9 +27,10 @@ export const HeatSheetScreen = () => {
     selectedWaveId: undefined,
     scoreCardVisible: false,
     selectedScoreTotal: undefined,
-    cellWidth: 61.75,
+    cellWidth: 62,
   });
   const navigation = useNavigation<RootStackNavProp>();
+  const route = useRoute<HeatSheetRouteProp>();
   const { heatId } = useRoute<HeatSheetRouteProp>().params;
   const heat = useHeat(heatId);
   const scores = useScores(heatId);
@@ -37,7 +38,7 @@ export const HeatSheetScreen = () => {
   useEffect(() => {
     Orientation.lockToLandscapeLeft();
     navigation.setOptions({
-      title: "HEAT SHEET",
+      title: route.params.title,
       gestureEnabled: false,
       headerLeft: () => (
         <ButtonX
@@ -52,7 +53,6 @@ export const HeatSheetScreen = () => {
   }, []);
 
   const onScorePress = (key: string, surfer: string, waveId?: string) => {
-    console.log("key: ", key, "surfer: ", surfer, "waveId: ", waveId);
     setState({
       ...state,
       selectedKey: key,
@@ -82,7 +82,6 @@ export const HeatSheetScreen = () => {
         },
         { merge: true },
       );
-
       const response = await heatsCollection.doc(heatId).get();
       const heat = response.data() as FirebaseHeat;
       const waves = [] as Wave[];
@@ -153,8 +152,6 @@ export const HeatSheetScreen = () => {
 
   if (!heat || !scores) return null;
 
-  console.log("scores: --> ", scores);
-
   return (
     <SafeAreaView style={styles.rootContainer}>
       <View style={{ flex: 1, flexDirection: "row" }}>
@@ -164,12 +161,11 @@ export const HeatSheetScreen = () => {
             const data = item;
             // ^^ need to change name because scoping issue
             const [firstName, lastName] = data.surfer.split(" ");
-
             return (
               <View
                 key={`${data.surfer}${data.color}`}
                 style={[styles.rowRootContainer, { backgroundColor: colors.greyscale9 }]}>
-                <TouchableOpacity style={styles.rowTouchable}>
+                <View style={styles.rowTouchable}>
                   <View style={styles.rowSurferTextContainer}>
                     <View style={{ flex: 2 }}>
                       <View style={[styles.rowJerseyCircle, { backgroundColor: data.color }]} />
@@ -179,13 +175,12 @@ export const HeatSheetScreen = () => {
                       <Text style={{ color: colors.almostWhite }}>{lastName}</Text>
                     </View>
                   </View>
-                </TouchableOpacity>
+                </View>
                 <FlatList
                   horizontal
                   data={data.waves}
                   keyExtractor={item => item.waveId}
-                  renderItem={({ item }) => {
-                    console.log("KJSDKFJH ", item);
+                  renderItem={({ item, index }) => {
                     return (
                       <TouchableOpacity
                         key={item.waveId}
@@ -194,6 +189,7 @@ export const HeatSheetScreen = () => {
                           styles.waveCell,
                           { width: state.cellWidth, height: state.cellWidth },
                         ]}>
+                        <Text style={styles.waveIndex}>{`${index + 1}`}</Text>
                         <Text
                           style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
                           {item.score.toString()}
@@ -316,6 +312,15 @@ const styles = StyleSheet.create({
     margin: spacings.tiny,
     alignItems: "center",
     justifyContent: "center",
+  },
+  waveIndex: {
+    position: "absolute",
+    top: spacings.tiny,
+    bottom: 0,
+    left: spacings.tiny,
+    right: 0,
+    fontSize: 12,
+    color: colors.almostWhite,
   },
   jerseySquare: {
     width: 10,
