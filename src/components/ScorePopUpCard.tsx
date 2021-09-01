@@ -5,7 +5,6 @@ import { colors, shared, spacings } from "../common";
 import { Button } from "./Button";
 import { ButtonX } from "./ButtonX";
 import { IRadioButtonOption, RadioButton } from "./RadioButton";
-import { RadioButtonGroup } from "./RadioButtonGroup";
 import WheelPicker from "./WheelPicker";
 
 interface IScorePopUpCardProps {
@@ -14,6 +13,7 @@ interface IScorePopUpCardProps {
   onApply: (score: number) => void;
   onRemove: () => void;
   onClose: () => void;
+  isAddWaveCell: boolean;
 }
 
 const integers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -44,37 +44,43 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={{ flexDirection: "row" }}>
-            <View style={{ justifyContent: "center" }}>
-              <RadioButton
-                onPress={() => setRadioOption({ ...radioOption, selected: !radioOption.selected })}
-                selected={radioOption.selected}
-                key={radioOption.id}
-                label={radioOption.label}
-                labelStyle={{ color: colors.almostWhite }}
-                style={{ marginBottom: spacings.small, marginRight: spacings.base }}
-              />
-              <View
-                style={{
-                  flexDirection: "row",
-                  justifyContent: "center",
-                  paddingRight: spacings.small,
-                }}>
-                <View style={{ flex: 1 }}>
-                  <Button
-                    type={"contained"}
-                    label={"Apply"}
-                    onPress={onSelectScore}
-                    style={{ marginTop: spacings.xsmall, marginRight: spacings.tiny }}
-                  />
-                  <Button
-                    type={"bordered"}
-                    label={"Remove"}
-                    onPress={props.onRemove}
-                    style={{ marginTop: spacings.xsmall }}
-                  />
+            {!props.isAddWaveCell ? (
+              <View style={{ justifyContent: "center" }}>
+                <RadioButton
+                  onPress={() =>
+                    setRadioOption({ ...radioOption, selected: !radioOption.selected })
+                  }
+                  selected={radioOption.selected}
+                  key={radioOption.id}
+                  label={radioOption.label}
+                  labelStyle={{ color: colors.almostWhite }}
+                  style={{ marginBottom: spacings.small, marginRight: spacings.base }}
+                />
+                <View
+                  style={{
+                    flexDirection: "row",
+                    justifyContent: "center",
+                    paddingRight: spacings.small,
+                  }}>
+                  <View style={{ flex: 1 }}>
+                    <Button
+                      type={"contained"}
+                      label={"Apply"}
+                      onPress={onSelectScore}
+                      style={{ marginTop: spacings.xsmall, marginRight: spacings.tiny }}
+                    />
+                    <Button
+                      type={"bordered"}
+                      label={"Remove"}
+                      onPress={props.onRemove}
+                      style={{ marginTop: spacings.xsmall }}
+                    />
+                  </View>
                 </View>
               </View>
-            </View>
+            ) : (
+              <View />
+            )}
             <View>
               <View style={styles.scorePickerContainer}>
                 <WheelPicker
@@ -92,12 +98,18 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
                   }}
                 />
               </View>
-            </View>
-            <View>
-              <ButtonX onPress={() => props.onClose()} style={{ paddingLeft: spacings.base }} />
+              {props.isAddWaveCell && (
+                <Button
+                  type={"contained"}
+                  label={"Apply"}
+                  onPress={onSelectScore}
+                  style={{ marginTop: spacings.small }}
+                />
+              )}
             </View>
           </View>
         </View>
+        <ButtonX onPress={() => props.onClose()} />
       </View>
     </Modal>
   );
@@ -105,17 +117,16 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
 
 const styles = StyleSheet.create({
   centeredView: {
+    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
     backgroundColor: "transparent",
-    marginTop: 22,
   },
   modalView: {
     alignItems: "center",
-    margin: spacings.base,
+    marginTop: spacings.base,
     backgroundColor: colors.greyscale9,
     borderRadius: shared.borderRadius,
-    padding: spacings.base,
+    padding: spacings.small,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,

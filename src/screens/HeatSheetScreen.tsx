@@ -71,6 +71,7 @@ export const HeatSheetScreen = () => {
   }, [scores]);
 
   const onScorePress = (key: string, surfer: string, waveId?: string) => {
+    console.log("key: ", key, "surfer: ", surfer, "waveId: ", waveId);
     setState({
       ...state,
       selectedKey: key,
@@ -267,6 +268,7 @@ export const HeatSheetScreen = () => {
         onApply={onSubmitWave}
         onRemove={onRemoveWave}
         onClose={() => setState({ ...state, scoreCardVisible: false })}
+        isAddWaveCell={!state.selectedWaveId}
       />
     </SafeAreaView>
   );
