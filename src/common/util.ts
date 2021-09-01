@@ -1,5 +1,5 @@
 import moment from "moment";
-import { Division, ESA_DIVISIONS } from ".";
+import { Division, ESA_DIVISIONS, Score } from ".";
 import { getDatesBetweenDates } from "../util/dates";
 import { DIVISIONS } from "./constants";
 
@@ -56,4 +56,30 @@ export const getEventDaysListPickerItems = (startDate: Date, endDate: Date) => {
 export const abbreviateName = (name: string) => {
   const [firstName, lastName] = name.split(" ");
   return `${firstName[0]}. ${lastName}`;
+};
+
+export const getWave = (scores: Score[], selectedKey: string, selectedWaveId?: string) => {
+  if (!selectedWaveId) return;
+  return scores
+    .filter(score => score.key === selectedKey)
+    ?.pop()
+    ?.waves?.filter(wave => wave.waveId === selectedWaveId)
+    .pop();
+};
+
+export const computeWaveScoreTotal = (
+  scores: Score[],
+  selectedKey: string,
+  selectedWaveId: string,
+) => {
+  return (
+    scores
+      .filter(score => score.key === selectedKey)
+      ?.pop()
+      ?.waves?.filter(wave => wave.waveId !== selectedWaveId)
+      .filter(wave => wave.disqualified === false)
+      .sort((a, b) => b.score - a.score)
+      .filter((_, index) => index < 2)
+      .reduce((acc, value) => acc + value.score, 0) || 0
+  );
 };

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
-import { colors, shared, spacings } from "../common";
+import { colors, shared, spacings, Wave } from "../common";
 import { Button } from "./Button";
 import { ButtonX } from "./ButtonX";
 import { IRadioButtonOption, RadioButton } from "./RadioButton";
@@ -9,8 +9,9 @@ import WheelPicker from "./WheelPicker";
 
 interface IScorePopUpCardProps {
   visible: boolean;
+  wave?: Wave;
   label: string;
-  onApply: (score: number) => void;
+  onApply: ({ score, disqualified }: { score: number; disqualified: boolean }) => void;
   onRemove: () => void;
   onClose: () => void;
   isAddWaveCell: boolean;
@@ -34,18 +35,31 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
     }
   });
 
+  const onModalWillShow = () => {
+    const [integer, tenth] = props.wave?.score
+      .toString()
+      .split(".")
+      .map(score => Number(score)) as number[];
+    setSelectedIntegerIndex(integer);
+    setSelectedTenthIndex(tenth);
+    setRadioOption({
+      ...radioOption,
+      selected: !!props.wave?.disqualified,
+    });
+  };
+
   const onSelectScore = () => {
     const score = Number(integers[selectedIntegerIndex]) + Number(tenths[selectedTenthIndex]) / 10;
-    props.onApply(score);
+    props.onApply({ score, disqualified: radioOption.selected });
   };
+
+  console.log("PROPS.WAVE --> ", props.wave);
 
   return (
     <Modal
       isVisible={props.visible}
-      onBackdropPress={() => {
-        setRadioOption({ ...radioOption, selected: false });
-        props.onClose();
-      }}>
+      onModalWillShow={onModalWillShow}
+      onBackdropPress={() => props.onClose()}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={{ flexDirection: "row" }}>
@@ -123,12 +137,7 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
             </View>
           </View>
         </View>
-        <ButtonX
-          onPress={() => {
-            setRadioOption({ ...radioOption, selected: false });
-            props.onClose();
-          }}
-        />
+        <ButtonX onPress={() => props.onClose()} />
       </View>
     </Modal>
   );

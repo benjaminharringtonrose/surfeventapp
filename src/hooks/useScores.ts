@@ -29,6 +29,7 @@ export const useScores = (heatId: string) => {
                 waveId: innerKey,
                 score: surferData[key].waves[innerKey].score,
                 time: surferData[key].waves[innerKey].time,
+                disqualified: surferData[key].waves[innerKey].disqualified,
               });
             }
             waves.sort((a, b) => a.time.toMillis() - b.time.toMillis());

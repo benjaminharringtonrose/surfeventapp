@@ -75,6 +75,7 @@ export interface Wave {
   waveId: string;
   score: number;
   time: FirebaseFirestoreTypes.Timestamp;
+  disqualified: boolean;
 }
 
 export type Division = ListPickerItem | string;

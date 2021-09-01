@@ -1,15 +1,16 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, TouchableOpacity, View, Text, FlatList, StyleSheet } from "react-native";
-import _ from "lodash";
 import firestore from "@react-native-firebase/firestore";
 import Orientation from "react-native-orientation-locker";
+import _ from "lodash";
+
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
-import { colors, FirebaseHeat, shared, spacings, Wave } from "../common";
+import { colors, FirebaseHeat, Score, shared, spacings, Wave } from "../common";
 import { useHeat } from "../hooks/useHeat";
 import { Icon, ButtonX, ScorePopUpCard } from "../components";
 import { useScores } from "../hooks/useScores";
-import { abbreviateName } from "../common/util";
+import { abbreviateName, computeWaveScoreTotal, getWave } from "../common/util";
 
 export interface LocalState {
   selectedSurfer: string;
@@ -62,7 +63,13 @@ export const HeatSheetScreen = () => {
     });
   };
 
-  const onSubmitWave = async (score: number) => {
+  const onSubmitWave = async ({
+    score,
+    disqualified,
+  }: {
+    score: number;
+    disqualified: boolean;
+  }) => {
     try {
       const heatsCollection = firestore().collection("heats");
       const waveId = state.selectedWaveId ? state.selectedWaveId : heatsCollection.doc().id;
@@ -73,8 +80,9 @@ export const HeatSheetScreen = () => {
               surfer: state.selectedSurfer,
               waves: {
                 [waveId]: {
-                  score,
                   time: new Date(),
+                  score,
+                  disqualified,
                 },
               },
             },
@@ -87,10 +95,16 @@ export const HeatSheetScreen = () => {
       const waves = [] as Wave[];
       const waveData = heat.scores[state.selectedKey].waves;
       for (const key in waveData) {
-        waves.push({ waveId: key, score: waveData[key].score, time: waveData[key].time });
+        waves.push({
+          waveId: key,
+          score: waveData[key].score,
+          time: waveData[key].time,
+          disqualified: waveData[key].disqualified,
+        });
       }
       const topTwoTotal = waves
-        ?.sort((a, b) => b.score - a.score)
+        ?.filter(waves => waves.disqualified === false)
+        .sort((a, b) => b.score - a.score)
         .filter((_, index) => index < 2)
         .reduce((acc, value) => acc + value.score, 0);
 
@@ -116,15 +130,7 @@ export const HeatSheetScreen = () => {
   const onRemoveWave = async () => {
     try {
       if (state.selectedWaveId) {
-        const total =
-          scores
-            .filter(score => score.key === state.selectedKey)
-            ?.pop()
-            ?.waves?.filter(wave => wave.waveId !== state.selectedWaveId)
-            .sort((a, b) => b.score - a.score)
-            .filter((_, index) => index < 2)
-            .reduce((acc, value) => acc + value.score, 0) || 0;
-
+        const total = computeWaveScoreTotal(scores, state.selectedKey, state.selectedWaveId);
         const heatsCollection = firestore().collection("heats");
         await heatsCollection.doc(heatId).set(
           {
@@ -190,6 +196,14 @@ export const HeatSheetScreen = () => {
                           { width: state.cellWidth, height: state.cellWidth },
                         ]}>
                         <Text style={styles.waveIndex}>{`${index + 1}`}</Text>
+                        {item.disqualified && (
+                          <Icon
+                            name={"close"}
+                            color={colors.red}
+                            size={24}
+                            style={styles.disqualifiedText}
+                          />
+                        )}
                         <Text
                           style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
                           {item.score.toString()}
@@ -250,6 +264,7 @@ export const HeatSheetScreen = () => {
       </View>
       <ScorePopUpCard
         label={"SCORE"}
+        wave={getWave(scores, state.selectedKey, state.selectedWaveId)}
         visible={state.scoreCardVisible}
         onApply={onSubmitWave}
         onRemove={onRemoveWave}
@@ -321,6 +336,16 @@ const styles = StyleSheet.create({
     right: 0,
     fontSize: 12,
     color: colors.almostWhite,
+  },
+  disqualifiedText: {
+    position: "absolute",
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
+    top: spacings.tiny,
+    bottom: 0,
+    left: 46,
+    right: 0,
+    fontSize: 12,
   },
   jerseySquare: {
     width: 10,
