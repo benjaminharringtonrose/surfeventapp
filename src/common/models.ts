@@ -74,6 +74,7 @@ export enum HeatType {
 export interface Wave {
   waveId: string;
   score: number;
+  time: FirebaseFirestoreTypes.Timestamp;
 }
 
 export type Division = ListPickerItem | string;
@@ -82,7 +83,7 @@ export interface FirebaseScore {
   key: string;
   surfer: string;
   color: string;
-  waves: IStringMap<number>;
+  waves: IStringMap<Wave>;
   total?: number;
 }
 

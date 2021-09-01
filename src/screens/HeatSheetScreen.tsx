@@ -65,14 +65,17 @@ export const HeatSheetScreen = () => {
   const onSubmitWave = async (score: number) => {
     try {
       const heatsCollection = firestore().collection("heats");
-      const waveId = heatsCollection.doc().id;
+      const waveId = state.selectedWaveId ? state.selectedWaveId : heatsCollection.doc().id;
       await heatsCollection.doc(heatId).set(
         {
           scores: {
             [state.selectedKey]: {
               surfer: state.selectedSurfer,
               waves: {
-                [waveId]: score,
+                [waveId]: {
+                  score,
+                  time: new Date(),
+                },
               },
             },
           },
@@ -84,11 +87,9 @@ export const HeatSheetScreen = () => {
       const heat = response.data() as FirebaseHeat;
       const waves = [] as Wave[];
       const waveData = heat.scores[state.selectedKey].waves;
-
       for (const key in waveData) {
-        waves.push({ waveId: key, score: waveData[key] });
+        waves.push({ waveId: key, score: waveData[key].score, time: waveData[key].time });
       }
-
       const topTwoTotal = waves
         ?.sort((a, b) => b.score - a.score)
         .filter((_, index) => index < 2)
@@ -152,6 +153,8 @@ export const HeatSheetScreen = () => {
 
   if (!heat || !scores) return null;
 
+  console.log("scores: --> ", scores);
+
   return (
     <SafeAreaView style={styles.rootContainer}>
       <View style={{ flex: 1, flexDirection: "row" }}>
@@ -161,6 +164,7 @@ export const HeatSheetScreen = () => {
             const data = item;
             // ^^ need to change name because scoping issue
             const [firstName, lastName] = data.surfer.split(" ");
+
             return (
               <View
                 key={`${data.surfer}${data.color}`}
@@ -181,6 +185,7 @@ export const HeatSheetScreen = () => {
                   data={data.waves}
                   keyExtractor={item => item.waveId}
                   renderItem={({ item }) => {
+                    console.log("KJSDKFJH ", item);
                     return (
                       <TouchableOpacity
                         key={item.waveId}
@@ -210,7 +215,7 @@ export const HeatSheetScreen = () => {
               </View>
             );
           }}
-          keyExtractor={item => `draggable-item-${item.key}`}
+          keyExtractor={item => `item-${item.key}`}
           initialNumToRender={scores.length}
           contentContainerStyle={{
             borderColor: colors.greyscale1,
@@ -229,7 +234,7 @@ export const HeatSheetScreen = () => {
               <View style={{ flex: 2 }} />
               <Text style={{ flex: 1, color: colors.almostWhite }}>{"TOTAL"}</Text>
             </View>
-            {scores.map((score, index) => {
+            {scores?.map((score, index) => {
               return (
                 <View
                   key={`${score}-${index}`}
