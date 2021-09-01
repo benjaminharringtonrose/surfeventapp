@@ -1,26 +1,15 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
-import React, { useCallback, useEffect, useState } from "react";
-import {
-  SafeAreaView,
-  TouchableOpacity,
-  View,
-  Text,
-  FlatList,
-  StyleSheet,
-  Dimensions,
-} from "react-native";
+import React, { useEffect, useState } from "react";
+import { SafeAreaView, TouchableOpacity, View, Text, FlatList, StyleSheet } from "react-native";
 import _ from "lodash";
 import firestore from "@react-native-firebase/firestore";
 import Orientation from "react-native-orientation-locker";
 import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
-import { colors, FirebaseHeat, Score, shared, spacings, Wave } from "../common";
+import { colors, FirebaseHeat, shared, spacings, Wave } from "../common";
 import { useHeat } from "../hooks/useHeat";
-import { Icon, ButtonX, ScorePopUpCard, DraggableFlatList, RenderItemParams } from "../components";
+import { Icon, ButtonX, ScorePopUpCard } from "../components";
 import { useScores } from "../hooks/useScores";
 import { abbreviateName } from "../common/util";
-import { number } from "yup";
-
-const { width, height } = Dimensions.get("window");
 
 export interface LocalState {
   selectedSurfer: string;
@@ -32,14 +21,13 @@ export interface LocalState {
 }
 
 export const HeatSheetScreen = () => {
-  const [data, setData] = useState<Score[]>([]);
   const [state, setState] = useState<LocalState>({
     selectedSurfer: "",
     selectedKey: "",
     selectedWaveId: undefined,
     scoreCardVisible: false,
     selectedScoreTotal: undefined,
-    cellWidth: 60,
+    cellWidth: 61.75,
   });
   const navigation = useNavigation<RootStackNavProp>();
   const { heatId } = useRoute<HeatSheetRouteProp>().params;
@@ -62,13 +50,6 @@ export const HeatSheetScreen = () => {
       ),
     });
   }, []);
-
-  useEffect(() => {
-    if (scores) {
-      setState({ ...state, cellWidth: height / 4 - spacings.tiny * 8 });
-      setData(scores);
-    }
-  }, [scores]);
 
   const onScorePress = (key: string, surfer: string, waveId?: string) => {
     console.log("key: ", key, "surfer: ", surfer, "waveId: ", waveId);
@@ -169,63 +150,67 @@ export const HeatSheetScreen = () => {
     });
   };
 
-  const renderItem = useCallback(({ item, drag, isActive }: RenderItemParams<Score>) => {
-    const data = item; // needed to change name because of nested FlatLists
-    const backgroundColor = isActive ? colors.greyscale7 : colors.greyscale9;
-    const [firstName, lastName] = data.surfer.split(" ");
-    return (
-      <View
-        key={`${data.surfer}${data.color}`}
-        style={[styles.rowRootContainer, { backgroundColor }]}>
-        <TouchableOpacity onLongPress={drag} style={styles.rowTouchable}>
-          <View style={styles.rowSurferTextContainer}>
-            <View style={{ flex: 2 }}>
-              <View style={[styles.rowJerseyCircle, { backgroundColor: data.color }]} />
-            </View>
-            <View style={{ flex: 8 }}>
-              <Text style={{ color: colors.almostWhite }}>{firstName}</Text>
-              <Text style={{ color: colors.almostWhite }}>{lastName}</Text>
-            </View>
-          </View>
-        </TouchableOpacity>
-        <FlatList
-          horizontal
-          data={data.waves}
-          keyExtractor={item => item.waveId}
-          renderItem={({ item, index }) => {
-            return (
-              <TouchableOpacity
-                key={item.waveId}
-                onPress={() => onScorePress(data.key, data.surfer, item.waveId)}
-                style={[styles.waveCell, { width: state.cellWidth, height: state.cellWidth }]}>
-                <Text style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
-                  {item.score.toString()}
-                </Text>
-              </TouchableOpacity>
-            );
-          }}
-          ListHeaderComponent={
-            <TouchableOpacity
-              onPress={() => onScorePress(data.key, data.surfer)}
-              style={[styles.addWaveCell, { width: state.cellWidth, height: state.cellWidth }]}>
-              <Icon name={"add"} color={colors.almostWhite} size={30} />
-            </TouchableOpacity>
-          }
-        />
-      </View>
-    );
-  }, []);
-
   if (!heat || !scores) return null;
 
   return (
     <SafeAreaView style={styles.rootContainer}>
       <View style={{ flex: 1, flexDirection: "row" }}>
-        <DraggableFlatList
-          data={data}
-          renderItem={renderItem}
+        <FlatList
+          data={scores}
+          renderItem={({ item }) => {
+            const data = item;
+            // ^^ need to change name because scoping issue
+            const [firstName, lastName] = data.surfer.split(" ");
+            return (
+              <View
+                key={`${data.surfer}${data.color}`}
+                style={[styles.rowRootContainer, { backgroundColor: colors.greyscale9 }]}>
+                <TouchableOpacity style={styles.rowTouchable}>
+                  <View style={styles.rowSurferTextContainer}>
+                    <View style={{ flex: 2 }}>
+                      <View style={[styles.rowJerseyCircle, { backgroundColor: data.color }]} />
+                    </View>
+                    <View style={{ flex: 8 }}>
+                      <Text style={{ color: colors.almostWhite }}>{firstName}</Text>
+                      <Text style={{ color: colors.almostWhite }}>{lastName}</Text>
+                    </View>
+                  </View>
+                </TouchableOpacity>
+                <FlatList
+                  horizontal
+                  data={data.waves}
+                  keyExtractor={item => item.waveId}
+                  renderItem={({ item }) => {
+                    return (
+                      <TouchableOpacity
+                        key={item.waveId}
+                        onPress={() => onScorePress(data.key, data.surfer, item.waveId)}
+                        style={[
+                          styles.waveCell,
+                          { width: state.cellWidth, height: state.cellWidth },
+                        ]}>
+                        <Text
+                          style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
+                          {item.score.toString()}
+                        </Text>
+                      </TouchableOpacity>
+                    );
+                  }}
+                  ListHeaderComponent={
+                    <TouchableOpacity
+                      onPress={() => onScorePress(data.key, data.surfer)}
+                      style={[
+                        styles.addWaveCell,
+                        { width: state.cellWidth, height: state.cellWidth },
+                      ]}>
+                      <Icon name={"add"} color={colors.almostWhite} size={30} />
+                    </TouchableOpacity>
+                  }
+                />
+              </View>
+            );
+          }}
           keyExtractor={item => `draggable-item-${item.key}`}
-          onDragEnd={({ data }) => setData(data)}
           initialNumToRender={scores.length}
           contentContainerStyle={{
             borderColor: colors.greyscale1,
