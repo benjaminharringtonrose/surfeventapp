@@ -40,7 +40,12 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
   };
 
   return (
-    <Modal isVisible={props.visible} onBackdropPress={() => props.onClose()}>
+    <Modal
+      isVisible={props.visible}
+      onBackdropPress={() => {
+        setRadioOption({ ...radioOption, selected: false });
+        props.onClose();
+      }}>
       <View style={styles.centeredView}>
         <View style={styles.modalView}>
           <View style={{ flexDirection: "row" }}>
@@ -65,7 +70,7 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
                   <View style={{ flex: 1 }}>
                     <Button
                       type={"contained"}
-                      label={"Apply"}
+                      label={"Save"}
                       onPress={onSelectScore}
                       style={{ marginTop: spacings.xsmall, marginRight: spacings.tiny }}
                     />
@@ -90,6 +95,15 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
                     setSelectedIntegerIndex(index);
                   }}
                 />
+                <View
+                  style={{
+                    width: 4,
+                    height: 4,
+                    borderRadius: 2,
+                    backgroundColor: colors.grey700,
+                    marginTop: spacings.base,
+                  }}
+                />
                 <WheelPicker
                   list={tenths}
                   value={selectedTenthIndex}
@@ -101,7 +115,7 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
               {props.isAddWaveCell && (
                 <Button
                   type={"contained"}
-                  label={"Apply"}
+                  label={"Save"}
                   onPress={onSelectScore}
                   style={{ marginTop: spacings.small }}
                 />
@@ -109,7 +123,12 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
             </View>
           </View>
         </View>
-        <ButtonX onPress={() => props.onClose()} />
+        <ButtonX
+          onPress={() => {
+            setRadioOption({ ...radioOption, selected: false });
+            props.onClose();
+          }}
+        />
       </View>
     </Modal>
   );
