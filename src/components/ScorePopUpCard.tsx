@@ -36,15 +36,13 @@ export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
   });
 
   const onModalWillShow = () => {
-    const [integer, tenth] = props.wave?.score
-      ? (props.wave?.score
-          .toString()
-          .split(".")
-          .map(score => Number(score)) as number[])
-      : [0, 0];
+    const scoreParts = props.wave?.score
+      .toString()
+      .split(".")
+      .map(score => Number(score));
 
-    setSelectedIntegerIndex(integer);
-    setSelectedTenthIndex(tenth);
+    setSelectedIntegerIndex(scoreParts?.[0] || 0);
+    setSelectedTenthIndex(scoreParts?.[1] || 0);
     setRadioOption({
       ...radioOption,
       selected: !!props.wave?.disqualified,
