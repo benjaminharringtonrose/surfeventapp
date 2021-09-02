@@ -198,13 +198,13 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
           </ImageBackground>
         </TouchableOpacity>
       </View>
-      <View style={{ paddingHorizontal: spacings.base }}>
+      <View style={styles.marginHorizontal}>
         <Formik
           innerRef={formRef}
           initialValues={{
             firstName: user?.firstName || undefined,
             lastName: user?.lastName || undefined,
-            gender: { id: "male", label: "male" },
+            gender: undefined,
           }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
@@ -238,13 +238,13 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
                 error={errors.gender}
                 touched={touched.gender}
                 onSelect={value => setFieldValue("gender", value)}
-                style={styles.marginTop}
+                style={[styles.marginTop, styles.marginBottom]}
               />
               <Button
                 type="contained"
                 label="Save"
                 onPress={() => handleSubmit()}
-                style={[styles.marginTop, styles.marginBottom]}
+                style={styles.marginTop}
                 loading={loadingUpdate}
               />
             </View>

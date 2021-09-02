@@ -64,7 +64,6 @@ export const FormDropListPicker = (props: FormDropListPickerProps) => {
             </View>
             <View
               style={{
-                flex: 1,
                 alignItems: "center",
                 flexDirection: "row",
                 justifyContent: "space-between",

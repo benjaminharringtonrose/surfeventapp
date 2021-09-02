@@ -4,7 +4,7 @@ import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { colors, fonts, shared, spacings } from "../common";
+import { colors, fonts, spacings } from "../common";
 import { ModalHeader } from "./ModalHeader";
 
 export interface ListPickerItem {
