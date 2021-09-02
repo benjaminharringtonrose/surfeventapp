@@ -1,5 +1,6 @@
 import moment from "moment";
-import { Division, ESA_DIVISIONS, Score } from ".";
+import { Alert } from "react-native";
+import { Division, Errors, ESA_DIVISIONS, Score } from ".";
 import { getDatesBetweenDates } from "../util/dates";
 import { DIVISIONS } from "./constants";
 
@@ -87,4 +88,16 @@ export const computeWaveScoreTotal = (
 export const capitalize = (s: string) => {
   if (typeof s !== "string") return "";
   return s.charAt(0).toUpperCase() + s.slice(1);
+};
+
+export const getError = (error: Errors, message?: string) => {
+  switch (error) {
+    case Errors.noPhotoPermission:
+      return Alert.alert("No Photo Access", Errors.noPhotoPermission);
+    case Errors.unknown:
+      return Alert.alert("Error: ", message, [{ text: "OK", onPress: () => {} }]);
+    case Errors.generic:
+    default:
+      return Alert.alert("Error", Errors.generic, [{ text: "OK", onPress: () => {} }]);
+  }
 };

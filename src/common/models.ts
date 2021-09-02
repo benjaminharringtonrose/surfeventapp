@@ -45,6 +45,12 @@ export interface Mail {
   };
 }
 
+export enum Errors {
+  generic = "An error occurred. Check your network connection or try again later.",
+  noPhotoPermission = "You must give SurfEvent to access your camera or photo library to upload photos. Please grant access in your Settings app, then try again.",
+  unknown = "unknown",
+}
+
 export enum Gender {
   male = "male",
   female = "female",

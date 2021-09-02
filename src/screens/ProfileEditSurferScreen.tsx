@@ -7,7 +7,6 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
-  Alert,
   ActivityIndicator,
   Image,
 } from "react-native";
@@ -15,12 +14,12 @@ import firestore from "@react-native-firebase/firestore";
 import * as Yup from "yup";
 import ImageCropPicker from "react-native-image-crop-picker";
 import { EventNavProp } from "../AppNavigator";
-import { colors, fonts, shared, spacings, User } from "../common";
+import { colors, Errors, fonts, shared, spacings, User } from "../common";
 import { Button, FormDropListPicker, FormInput } from "../components";
-import { useUser } from "../hooks/useUser";
-import { isEqual } from "lodash";
+import { capitalize } from "lodash";
 import { uploadAvatarAsync } from "../util/media";
 import { ListPickerItem } from "../components/ListPicker";
+import { getError } from "../common/util";
 
 interface FormProps {
   firstName?: string;
@@ -38,79 +37,46 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
   const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false);
   const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
 
-  const user = useUser();
-
   const onSelectProfileImage = () => {
-    setLoadingProfilePhoto(true);
     ImageCropPicker.openPicker({
       width: 800,
       height: 800,
       cropping: true,
-    })
-      .then(async image => {
-        try {
-          await uploadAvatarAsync(image.path, user?.uid!);
-        } catch (e) {
-          console.warn(e);
-          Alert.alert(
-            "Error",
-            "An error occurred. Check your network connection or try again later.",
-            [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-          );
-        }
-      })
-      .catch(e => {
+    }).then(async image => {
+      try {
+        setLoadingProfilePhoto(true);
+        await uploadAvatarAsync(image.path, props.user?.uid!);
+      } catch (e) {
         if (e?.message?.includes("permission")) {
-          console.log("permission issue");
-          Alert.alert(
-            "No Photo Access",
-            "SurfEvent must have access to your camera or photo library to upload photos. Please grant access in your Settings app, then try again!",
-          );
+          getError(Errors.noPhotoPermission);
         }
-        console.log("image picker cancelled or errored. noop.", e);
-      })
-      .finally(() => {
-        setLoadingProfilePhoto(false);
-      });
+        console.warn(e);
+        getError(Errors.generic);
+      }
+    });
+    setLoadingProfilePhoto(false);
   };
 
-  const onSubmit = (values: FormProps) => {
+  const onSubmit = async (values: FormProps) => {
     if (!values.firstName || !values.lastName || !values.gender) {
       return;
     }
-    if (
-      isEqual(values, {
-        firstName: user?.firstName,
-        lastName: user?.lastName,
-        gender: user?.gender,
-      })
-    ) {
-      props.navigation.goBack();
-    } else {
+    try {
       setLoadingUpdate(true);
       const profileUpdate: Partial<User> = {
         firstName: values.firstName,
         lastName: values.lastName,
         gender: values.gender.id,
       };
-      firestore()
+      await firestore()
         .collection("users")
-        .doc(user?.uid)
-        .set(profileUpdate, { merge: true })
-        .then(() => {
-          console.log("User profile updated!");
-          setLoadingUpdate(false);
-          props.navigation.goBack();
-        })
-        .catch(error => {
-          console.log(error);
-          setLoadingUpdate(false);
-          Alert.alert(
-            "Error",
-            "An error occurred. Check your network connection or try again later.",
-            [{ text: "OK", onPress: () => console.log("OK Pressed") }],
-          );
-        });
+        .doc(props.user?.uid)
+        .set(profileUpdate, { merge: true });
+      setLoadingUpdate(false);
+      props.navigation.goBack();
+    } catch (e) {
+      setLoadingUpdate(false);
+      getError(Errors.generic);
     }
   };
 
@@ -143,7 +109,7 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
               <View style={styles.activityIndicatorContainer}>
                 <ActivityIndicator color={colors.grey800} />
               </View>
-            ) : !user?.avatar && !loadingProfilePhoto ? (
+            ) : !props.user?.avatar && !loadingProfilePhoto ? (
               <View
                 style={{
                   position: "absolute",
@@ -169,7 +135,7 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
               </View>
             ) : (
               <>
-                <Image source={{ uri: user?.avatar }} style={styles.firebaseImage} />
+                <Image source={{ uri: props.user?.avatar }} style={styles.firebaseImage} />
                 <View
                   style={{
                     position: "absolute",
@@ -202,9 +168,11 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
         <Formik
           innerRef={formRef}
           initialValues={{
-            firstName: user?.firstName || undefined,
-            lastName: user?.lastName || undefined,
-            gender: undefined,
+            firstName: props.user?.firstName || undefined,
+            lastName: props.user?.lastName || undefined,
+            gender: props.user?.gender
+              ? { id: props.user?.gender, label: capitalize(props.user?.gender) }
+              : undefined,
           }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
@@ -258,15 +226,15 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
 const GENDERS = [
   {
     id: "male",
-    label: "male",
+    label: "Male",
   },
   {
     id: "female",
-    label: "female",
+    label: "Female",
   },
   {
     id: "other",
-    label: "other",
+    label: "Other",
   },
 ];
 
