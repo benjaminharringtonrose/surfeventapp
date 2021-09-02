@@ -5,25 +5,32 @@ import { Modalize } from "react-native-modalize";
 
 import { ButtonAdd } from "../components";
 import { EventNavProp } from "../AppNavigator";
-import { colors, Event, fonts, shared, spacings } from "../common";
+import { colors, Event, fonts, shared, spacings, User } from "../common";
 import { EventAddModal } from "../modals/EventAddModal";
 import { useEvents } from "../hooks/useEvents";
 import { EventButton } from "../components/EventButton";
 import { Alert } from "../components/Alert";
 import { useAppSelector } from "../hooks/redux";
 import moment from "moment";
+import { useOrganization } from "../hooks/useOrganization";
 
-export const EventDashboardAdminScreen = () => {
+interface EventDashboardAdminProps {
+  user: User;
+}
+
+export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const addEventModalRef = useRef<Modalize>(null);
   const navigation = useNavigation<EventNavProp>();
+  const user = props.user;
+  const organization = useOrganization(user.organizationId!);
   const events = useEvents();
   const eventId = useAppSelector(state => state.events.eventId);
 
   useEffect(() => {
     navigation.setOptions({
-      title: "SurfEvent",
+      title: organization?.name,
       headerRight: () => null,
     });
   });
@@ -48,22 +55,16 @@ export const EventDashboardAdminScreen = () => {
           ListHeaderComponent={
             <>
               <View style={{ marginLeft: spacings.base, marginVertical: spacings.base }}>
-                <Text style={[fonts.header]}>{"Events"}</Text>
-                <Text style={[fonts.subheader]}>{"view & create surf events"}</Text>
+                <Text style={[fonts.header]}>{"Event Dashboard"}</Text>
               </View>
               <ButtonAdd
                 label={"add surf event"}
                 onPress={() => addEventModalRef.current?.open()}
               />
-
               <View style={{ padding: spacings.base }}>
-                <Text style={{ color: colors.almostWhite, fontSize: 21 }}>{"Today's Event"}</Text>
-              </View>
-              <View style={styles.card}>
-                <Text style={styles.cardText}>{"There are no surf events today"}</Text>
-              </View>
-              <View style={{ padding: spacings.base }}>
-                <Text style={{ color: colors.almostWhite, fontSize: 21 }}>{"Upcoming Events"}</Text>
+                <Text style={{ color: colors.almostWhite, fontSize: 21 }}>
+                  {"Upcoming Competitions"}
+                </Text>
               </View>
             </>
           }
@@ -73,7 +74,7 @@ export const EventDashboardAdminScreen = () => {
                 eventName={item.eventName}
                 dateStart={moment(item.dateStart.toDate()).format("MMM DD")}
                 dateEnd={moment(item.dateEnd.toDate()).format("DD")}
-                onPress={() => navigation.navigate("EventDetails", { eventId: item.eventId })}
+                onPress={() => navigation.navigate("EventDetailAdmin", { eventId: item.eventId })}
               />
             );
           }}

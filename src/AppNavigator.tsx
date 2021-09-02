@@ -13,7 +13,7 @@ import { SettingsDashboardScreen } from "./screens/SettingsDashboardScreen";
 import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
 import { AuthLoginScreen } from "./screens/AuthLoginScreen";
 import { colors, fonts } from "./common";
-import { EventDetailScreen } from "./screens/EventDetailScreen";
+import { EventDetailAdminScreen } from "./screens/EventDetailAdminScreen";
 import {
   CompositeNavigationProp,
   NavigatorScreenParams,
@@ -174,7 +174,7 @@ export type EventStackParamList = {
   Events: {
     showAlert?: boolean;
   };
-  EventDetails: {
+  EventDetailAdmin: {
     eventId: string;
   };
 };
@@ -187,10 +187,10 @@ export type EventNavProp = CompositeNavigationProp<
 export type EventsRouteProp = RouteProp<EventStackParamList, "Events">;
 
 export type EventDetailsNavProp = CompositeNavigationProp<
-  StackNavigationProp<EventStackParamList, "EventDetails">,
+  StackNavigationProp<EventStackParamList, "EventDetailAdmin">,
   EventStackNavProp
 >;
-export type EventDetailsRouteProp = RouteProp<EventStackParamList, "EventDetails">;
+export type EventDetailsRouteProp = RouteProp<EventStackParamList, "EventDetailAdmin">;
 
 export function EventStack() {
   const Stack = createStackNavigator<EventStackParamList>();
@@ -205,8 +205,8 @@ export function EventStack() {
         }}
       />
       <Stack.Screen
-        name="EventDetails"
-        component={EventDetailScreen}
+        name="EventDetailAdmin"
+        component={EventDetailAdminScreen}
         options={{
           title: "SurfEvent",
           ...defaultNavigationOptions,

@@ -27,6 +27,7 @@ export interface User {
   surfEvents?: string[];
   providers?: string[];
   messagingTokens?: string[];
+  organizationId?: string;
 }
 
 export interface Mail {

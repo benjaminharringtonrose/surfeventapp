@@ -13,10 +13,9 @@ import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
 import { EventEditModal } from "../modals/EventEditModal";
 import { setTime } from "../store/slices/heatSlice";
-import PushNotification, { PushNotificationScheduleObject } from "react-native-push-notification";
 import { getHeatDivisionLabel } from "../common/util";
 
-export const EventDetailScreen = () => {
+export const EventDetailAdminScreen = () => {
   const editEventModalRef = useRef<Modalize>(null);
   const navigation = useNavigation<EventDetailsNavProp>();
   const dispatch = useAppDispatch();

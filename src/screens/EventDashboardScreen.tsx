@@ -7,7 +7,7 @@ import { EventDashboardSurferScreen } from "./EventDashboardSurferScreen";
 
 export const EventDashboardScreen = () => {
   const navigation = useNavigation<EventNavProp>();
-  const isAdmin = useUser()?.isAdmin;
+  const user = useUser();
 
   useEffect(() => {
     navigation.setOptions({
@@ -16,9 +16,11 @@ export const EventDashboardScreen = () => {
     });
   });
 
-  if (isAdmin) {
-    return <EventDashboardAdminScreen />;
+  if (!user) return null;
+
+  if (user?.isAdmin) {
+    return <EventDashboardAdminScreen user={user} />;
   } else {
-    return <EventDashboardSurferScreen />;
+    return <EventDashboardSurferScreen user={user} />;
   }
 };

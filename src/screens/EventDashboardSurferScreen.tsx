@@ -1,8 +1,12 @@
 import React from "react";
 import { Text, SafeAreaView, StyleSheet } from "react-native";
-import { colors, fonts, spacings } from "../common";
+import { colors, fonts, spacings, User } from "../common";
 
-export const EventDashboardSurferScreen = () => {
+interface EventDashboardSurferProps {
+  user: User;
+}
+
+export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => {
   return (
     <SafeAreaView
       style={{
