@@ -17,7 +17,7 @@ export const useScores = (heatId: string) => {
       .collection(Collection.heats)
       .doc(heatId)
       .onSnapshot(doc => {
-        if (doc.exists) {
+        if (doc !== null) {
           let index = 0;
           const scores = [];
           let waves = [];

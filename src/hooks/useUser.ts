@@ -17,7 +17,7 @@ export const useUser = () => {
       .collection(Collection.users)
       .doc(uid)
       .onSnapshot(doc => {
-        if (doc.exists) {
+        if (doc !== null) {
           const user = doc.data() as User;
           console.log(doc.data());
           setUser(user);

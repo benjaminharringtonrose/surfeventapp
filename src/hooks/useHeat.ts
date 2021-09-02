@@ -17,7 +17,7 @@ export const useHeat = (heatId: string) => {
       .collection(Collection.heats)
       .doc(heatId)
       .onSnapshot(doc => {
-        if (doc.exists) {
+        if (doc !== null) {
           const data = doc.data() as FirebaseHeat;
           const division = getDivisionById(data.division);
           const heat = { ...data, division };

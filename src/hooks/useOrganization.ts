@@ -16,7 +16,7 @@ export const useOrganization = (organizationId: string) => {
       .collection(Collection.organizations)
       .doc(organizationId)
       .onSnapshot(doc => {
-        if (doc.exists) {
+        if (doc !== null) {
           const data = doc.data() as Organization;
           setOrganization(data);
         }

@@ -8,7 +8,6 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Icon from "react-native-vector-icons/Ionicons";
 
 import { EventDashboardScreen } from "./screens/EventDashboardScreen";
-import { HeatDashboardScreen } from "./screens/HeatDashboardScreen";
 import { SettingsDashboardScreen } from "./screens/SettingsDashboardScreen";
 import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
 import { AuthLoginScreen } from "./screens/AuthLoginScreen";
@@ -89,7 +88,6 @@ export function RootStack() {
 
 type MainStackParamList = {
   EventStack: NavigatorScreenParams<EventStackParamList>;
-  HeatStack: NavigatorScreenParams<HeatStackParamList>;
   SettingsStack: NavigatorScreenParams<SettingsStackParamList>;
 };
 
@@ -97,10 +95,7 @@ export type EventStackNavProp = CompositeNavigationProp<
   StackNavigationProp<MainStackParamList, "EventStack">,
   StackNavigationProp<RootStackParamList>
 >;
-export type HeatStackNavProp = CompositeNavigationProp<
-  StackNavigationProp<MainStackParamList, "HeatStack">,
-  StackNavigationProp<RootStackParamList>
->;
+
 export type SettingsStackNavProp = CompositeNavigationProp<
   StackNavigationProp<MainStackParamList, "SettingsStack">,
   StackNavigationProp<RootStackParamList>
@@ -115,8 +110,6 @@ export function MainStack() {
           let iconName = "";
           if (route.name === "EventStack") {
             iconName = focused ? "calendar" : "calendar-outline";
-          } else if (route.name === "HeatStack") {
-            iconName = focused ? "calculator" : "calculator-outline";
           } else if (route.name === "SettingsStack") {
             iconName = focused ? "settings" : "settings-outline";
           }
@@ -132,7 +125,6 @@ export function MainStack() {
         tabBarInactiveTintColor: colors.white,
       })}>
       <Tab.Screen name="EventStack" component={EventStack} options={{ headerShown: false }} />
-      <Tab.Screen name="HeatStack" component={HeatStack} options={{ headerShown: false }} />
       <Tab.Screen name="SettingsStack" component={SettingsStack} options={{ headerShown: false }} />
     </Tab.Navigator>
   );
@@ -207,28 +199,6 @@ export function EventStack() {
       <Stack.Screen
         name="EventDetailAdmin"
         component={EventDetailAdminScreen}
-        options={{
-          title: "SurfEvent",
-          ...defaultNavigationOptions,
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-type HeatStackParamList = {
-  Heat: undefined;
-};
-
-export type HeatNavProp = StackNavigationProp<HeatStackParamList, "Heat">;
-
-export function HeatStack() {
-  const Stack = createStackNavigator<HeatStackParamList>();
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Heat"
-        component={HeatDashboardScreen}
         options={{
           title: "SurfEvent",
           ...defaultNavigationOptions,
