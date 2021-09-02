@@ -83,3 +83,8 @@ export const computeWaveScoreTotal = (
       .reduce((acc, value) => acc + value.score, 0) || 0
   );
 };
+
+export const capitalize = (s: string) => {
+  if (typeof s !== "string") return "";
+  return s.charAt(0).toUpperCase() + s.slice(1);
+};

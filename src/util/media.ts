@@ -25,7 +25,7 @@ export const uploadPhotoAsync = async (uri: RequestInfo, filename: string | unde
 
 export const uploadAvatarAsync = async (uri: RequestInfo, uid: string) => {
   try {
-    const avatarUri = await uploadPhotoAsync(uri, `avatars/${uid}`);
+    const avatarUri = await uploadPhotoAsync(uri, `userImages/${uid}/avatar`);
     await firestore().collection(Collection.users).doc(uid).set(
       {
         avatar: avatarUri,
