@@ -26,7 +26,7 @@ export const EventDetailScreen = () => {
 
   useEffect(() => {
     navigation.setOptions({
-      title: "Surf Event Details",
+      title: "Event Details",
       headerLeft: () => <ButtonBack onPress={() => navigation.pop()} />,
       headerRight: () => (
         <ButtonIcon name={"pencil"} onPress={() => editEventModalRef.current?.open()} />

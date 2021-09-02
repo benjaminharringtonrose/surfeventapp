@@ -14,6 +14,7 @@ export interface AuthUser {
   email?: string;
   isAnonymous?: boolean;
   photoURL?: string;
+  isAdmin?: boolean;
   metadata: { creationTime?: string; lastSignInTime?: string };
 }
 
@@ -40,10 +41,11 @@ export interface Mail {
 export enum Collection {
   events = "events",
   heats = "heats",
-  user = "user",
+  users = "users",
   mail = "mail",
   messages = "messages",
   waves = "waves",
+  organizations = "organizations",
 }
 
 export enum ESA_DIVISIONS {
@@ -69,6 +71,20 @@ export enum HeatType {
   quarterFinal = "quarterFinal",
   semiFinal = "semiFinal",
   final = "final",
+}
+
+export interface User {
+  uid: string;
+  firstName?: string;
+  lastName?: string;
+  email: string;
+  timestamp: number;
+  chatRooms?: string[];
+  surfHeats?: string[];
+  surfEvents?: string[];
+  providers?: string[];
+  messagingTokens?: string[];
+  isAdmin?: boolean;
 }
 
 export interface Wave {
@@ -127,4 +143,10 @@ export interface Event {
   timeStart: FirebaseFirestoreTypes.Timestamp;
   dateStart: FirebaseFirestoreTypes.Timestamp;
   dateEnd: FirebaseFirestoreTypes.Timestamp;
+}
+
+export interface Organization {
+  organizationId: string;
+  name: string;
+  acronym: string;
 }

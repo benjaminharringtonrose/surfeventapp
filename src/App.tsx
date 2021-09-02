@@ -18,7 +18,7 @@ import { updateMessagingToken } from "./util/cloudMessaging";
 import { LogBox } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import PushNotification, { PushNotificationObject } from "react-native-push-notification";
+import { useUser } from "./hooks/useUser";
 
 LogBox.ignoreLogs([
   "ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.",

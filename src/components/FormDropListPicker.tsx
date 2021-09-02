@@ -8,6 +8,7 @@ import { ListPicker, ListPickerItem } from "./ListPicker";
 interface FormDropListPickerProps {
   title?: string;
   label?: string;
+  placeholder?: string;
   value?: ListPickerItem;
   items: ListPickerItem[];
   onSelect: (value: ListPickerItem) => void;
@@ -71,7 +72,7 @@ export const FormDropListPicker = (props: FormDropListPickerProps) => {
                 borderBottomColor: colors.greyscale1,
               }}>
               <Text style={[fonts.regular, { color: colors.grey500 }]}>
-                {props.value?.label || "Select..."}
+                {props.value?.label || props?.placeholder || "Select..."}
               </Text>
               <Icon name={"chevron-down"} size={16} color={colors.grey500} />
             </View>

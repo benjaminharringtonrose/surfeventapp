@@ -1,15 +1,16 @@
 import { Action, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "..";
+import { User } from "../../common";
 
 interface UserState {
-  value?: any;
+  user?: User;
 }
 
 const initialState: UserState = {};
 
-interface IAction extends Action {
+interface ISetUser extends Action {
   payload: {
-    value: any;
+    user: User;
   };
 }
 
@@ -17,14 +18,14 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
-    action: (state, action: IAction) => {
-      const { value } = action.payload;
-      state.value = value;
+    setUserRequest: (state, action: ISetUser) => {
+      const { user } = action.payload;
+      state.user = user;
     },
   },
 });
 
-export const { action } = userSlice.actions;
+export const { setUserRequest } = userSlice.actions;
 export const userReducer = userSlice.reducer;
 
-export const valueSelector = (state: RootState) => state.user.value;
+export const userSelector = (state: RootState) => state.user.user;
