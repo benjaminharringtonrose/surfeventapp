@@ -16,6 +16,7 @@ import { useOrganization } from "../hooks/useOrganization";
 
 interface EventDashboardAdminProps {
   user: User;
+  navigation: EventNavProp;
 }
 
 export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {

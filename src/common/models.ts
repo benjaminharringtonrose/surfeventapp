@@ -20,6 +20,11 @@ export interface AuthUser {
 
 export interface User {
   uid: string;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
+  gender?: Gender;
+  birthdate?: any;
   email: string;
   timestamp: number;
   chatRooms?: string[];
@@ -28,6 +33,7 @@ export interface User {
   providers?: string[];
   messagingTokens?: string[];
   organizationId?: string;
+  isAdmin?: boolean;
 }
 
 export interface Mail {
@@ -37,6 +43,12 @@ export interface Mail {
     text: string;
     html?: string;
   };
+}
+
+export enum Gender {
+  male = "male",
+  female = "female",
+  other = "other",
 }
 
 export enum Collection {
@@ -150,4 +162,12 @@ export interface Organization {
   organizationId: string;
   name: string;
   acronym: string;
+  email: string;
+}
+
+export interface AdminRequest {
+  adminRequestId: string;
+  organizationId: string;
+  uid: string;
+  name: string;
 }

@@ -19,8 +19,8 @@ export const EventDashboardScreen = () => {
   if (!user) return null;
 
   if (user?.isAdmin) {
-    return <EventDashboardAdminScreen user={user} />;
+    return <EventDashboardAdminScreen user={user} navigation={navigation} />;
   } else {
-    return <EventDashboardSurferScreen user={user} />;
+    return <EventDashboardSurferScreen user={user} navigation={navigation} />;
   }
 };
