@@ -32,7 +32,7 @@ export const useScores = (heatId: string) => {
                 disqualified: surferData[key].waves[innerKey].disqualified,
               });
             }
-            waves.sort((a, b) => a.time.toMillis() - b.time.toMillis());
+            waves.sort((a, b) => a.time.toDate().getTime() - b.time.toDate().getTime());
             scores.push({ ...surferData[key], color: COLORS[index], key, waves });
             waves = [];
             index += 1;
@@ -44,5 +44,6 @@ export const useScores = (heatId: string) => {
       unsubscribe();
     };
   }, []);
+  console.log("scores[0].waves --- ", scores[0].waves);
   return scores as Score[];
 };

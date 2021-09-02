@@ -63,6 +63,16 @@ export const HeatSheetScreen = () => {
     });
   };
 
+  const getSelectedWave = (scores: Score[], selectedKey: string, selectedWaveId?: string) => {
+    return selectedWaveId
+      ? scores
+          .filter(score => score.key === selectedKey)
+          .pop()
+          ?.waves.filter(wave => wave.waveId === selectedWaveId)
+          .pop()
+      : undefined;
+  };
+
   const onSubmitWave = async ({
     score,
     disqualified,
@@ -73,6 +83,7 @@ export const HeatSheetScreen = () => {
     try {
       const heatsCollection = firestore().collection("heats");
       const waveId = state.selectedWaveId ? state.selectedWaveId : heatsCollection.doc().id;
+      const time = getSelectedWave(scores, state.selectedKey, state.selectedWaveId)?.time;
       await heatsCollection.doc(heatId).set(
         {
           scores: {
@@ -80,7 +91,7 @@ export const HeatSheetScreen = () => {
               surfer: state.selectedSurfer,
               waves: {
                 [waveId]: {
-                  time: new Date(),
+                  time: time ? time : new Date(),
                   score,
                   disqualified,
                 },
