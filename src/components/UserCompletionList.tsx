@@ -5,8 +5,6 @@ import { CompletionListCard, CompletionListCardItem } from "./CompletionListCard
 
 export interface UserInfoCompletionListProps {
   items: CompletionListCardItem[];
-  onProfile: () => void;
-  onVerification: () => void;
   style?: StyleProp<ViewStyle>;
 }
 

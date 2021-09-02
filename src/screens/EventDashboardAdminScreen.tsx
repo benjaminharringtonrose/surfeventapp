@@ -13,9 +13,11 @@ import { Alert } from "../components/Alert";
 import { useAppSelector } from "../hooks/redux";
 import moment from "moment";
 import { useOrganization } from "../hooks/useOrganization";
+import { AlertCard } from "../components/AlertCard";
 
 interface EventDashboardAdminProps {
   user: User;
+  events?: Event[];
   navigation: EventNavProp;
 }
 
@@ -43,6 +45,8 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
     }
   };
 
+  if (!events) return null;
+
   return (
     <SafeAreaView
       style={{
@@ -55,6 +59,14 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
           keyExtractor={item => item.eventId}
           ListHeaderComponent={
             <>
+              {user.isUserRolePending && (
+                <AlertCard
+                  title={"Your administration request is being processed"}
+                  description={
+                    "Once your admin access is approved, other organization members can see the events you've added."
+                  }
+                />
+              )}
               <View style={{ marginLeft: spacings.base, marginVertical: spacings.base }}>
                 <Text style={[fonts.header]}>{"Event Dashboard"}</Text>
               </View>
@@ -87,6 +99,7 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
       )}
       <EventAddModal
         ref={addEventModalRef}
+        user={user}
         onClose={() => addEventModalRef.current?.close()}
         onAlert={() => setShowAlert(true)}
       />

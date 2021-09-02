@@ -14,8 +14,24 @@ export interface AuthUser {
   email?: string;
   isAnonymous?: boolean;
   photoURL?: string;
-  isAdmin?: boolean;
   metadata: { creationTime?: string; lastSignInTime?: string };
+}
+
+export interface FirebaseUser {
+  uid: string;
+  firstName?: string;
+  lastName?: string;
+  avatar?: string;
+  gender?: Gender;
+  birthdate?: FirebaseFirestoreTypes.Timestamp;
+  email: string;
+  createdOn?: FirebaseFirestoreTypes.Timestamp;
+  chatRooms?: string[];
+  providers?: string[];
+  messagingTokens?: string[];
+  organizationId?: string;
+  isAdmin: boolean;
+  isUserRolePending: boolean;
 }
 
 export interface User {
@@ -24,16 +40,15 @@ export interface User {
   lastName?: string;
   avatar?: string;
   gender?: Gender;
-  birthdate?: any;
+  birthdate?: string;
   email: string;
-  timestamp: number;
+  createdOn: string;
   chatRooms?: string[];
-  surfHeats?: string[];
-  surfEvents?: string[];
   providers?: string[];
   messagingTokens?: string[];
   organizationId?: string;
-  isAdmin?: boolean;
+  isAdmin: boolean;
+  isUserRolePending: boolean;
 }
 
 export interface Mail {
@@ -65,6 +80,7 @@ export enum Collection {
   messages = "messages",
   waves = "waves",
   organizations = "organizations",
+  adminRequests = "adminRequests",
 }
 
 export enum ESA_DIVISIONS {
@@ -90,20 +106,6 @@ export enum HeatType {
   quarterFinal = "quarterFinal",
   semiFinal = "semiFinal",
   final = "final",
-}
-
-export interface User {
-  uid: string;
-  firstName?: string;
-  lastName?: string;
-  email: string;
-  timestamp: number;
-  chatRooms?: string[];
-  surfHeats?: string[];
-  surfEvents?: string[];
-  providers?: string[];
-  messagingTokens?: string[];
-  isAdmin?: boolean;
 }
 
 export interface Wave {
@@ -175,5 +177,4 @@ export interface AdminRequest {
   adminRequestId: string;
   organizationId: string;
   uid: string;
-  name: string;
 }

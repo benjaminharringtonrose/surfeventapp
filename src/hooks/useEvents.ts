@@ -4,20 +4,20 @@ import { Collection, Event } from "../common/models";
 import { useAppSelector } from "./redux";
 
 export const useEvents = () => {
-  const [events, setEvents] = useState<any>(undefined);
-  const uid = useAppSelector(state => state.auth.user?.uid);
-
+  const [events, setEvents] = useState<Event[] | undefined>(undefined);
+  const organizationId = useAppSelector(state => state.user.user?.organizationId);
+  console.log("ORGANIZATIONid ----> ", organizationId);
   useEffect(() => {
-    if (!uid) {
+    if (!organizationId) {
       return;
     }
     var unsubscribe = firebase
       .firestore()
       .collection(Collection.events)
-      .where("uid", "==", uid)
       .onSnapshot(querySnapshot => {
         const events: Event[] = [];
         querySnapshot?.forEach(doc => {
+          console.log(doc.data());
           events.push(doc.data() as Event);
         });
         events.sort(

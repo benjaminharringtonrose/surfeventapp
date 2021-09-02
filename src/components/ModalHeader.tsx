@@ -20,11 +20,9 @@ export const ModalHeader = (props: ModalHeaderProps) => {
         {
           flexDirection: "row",
           alignItems: "center",
-
           backgroundColor: colors.greyscale9,
           borderTopLeftRadius: shared.borderRadius,
           borderTopRightRadius: shared.borderRadius,
-          paddingTop: spacings.base,
         },
         props.style,
       ]}>

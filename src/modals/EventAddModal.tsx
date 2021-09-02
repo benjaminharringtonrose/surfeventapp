@@ -6,7 +6,7 @@ import { View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { spacings, colors } from "../common";
+import { spacings, colors, User } from "../common";
 import { FormInput } from "../components/FormInput";
 import { Button } from "../components/Button";
 import { ModalHeader } from "../components/ModalHeader";
@@ -22,13 +22,13 @@ interface EventAddFormProps {
 }
 
 interface EventAddModalProps {
+  user: User;
   onClose: () => void;
   onAlert: () => void;
 }
 export const EventAddModal = forwardRef((props: EventAddModalProps, ref) => {
   const [loadingAddEvent, setLoadingAddEvent] = useState<boolean>(false);
   const formRef = React.useRef<FormikProps<EventAddFormProps>>(null);
-  const uid = useAppSelector(state => state.auth.user?.uid);
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
 
@@ -41,7 +41,7 @@ export const EventAddModal = forwardRef((props: EventAddModalProps, ref) => {
       const eventsCollectionRef = firestore().collection("events");
       const eventId = eventsCollectionRef.doc().id;
       await eventsCollectionRef.doc(eventId).set({
-        uid: uid || "",
+        uid: props.user.uid || "",
         eventId,
         eventName: values.eventName,
         dateStart: values.dateStart,
@@ -90,7 +90,7 @@ export const EventAddModal = forwardRef((props: EventAddModalProps, ref) => {
             <View style={{ marginHorizontal: spacings.base }}>
               <FormInput
                 label={"Event Name"}
-                placeholder={"NSSA Event #1"}
+                placeholder={"Contest #1"}
                 onChangeText={handleChange("eventName")}
                 onBlur={handleBlur("eventName")}
                 autoCapitalize={"words"}

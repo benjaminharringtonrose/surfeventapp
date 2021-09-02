@@ -21,7 +21,6 @@ export const FormDropListPicker = (props: FormDropListPickerProps) => {
   const pickerRef = React.useRef<Modalize>(null);
 
   const onSelect = (item: ListPickerItem) => {
-    console.log(item);
     props.onSelect(item);
     pickerRef.current?.close();
   };

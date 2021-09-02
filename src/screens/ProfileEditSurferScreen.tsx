@@ -14,7 +14,7 @@ import firestore from "@react-native-firebase/firestore";
 import * as Yup from "yup";
 import ImageCropPicker from "react-native-image-crop-picker";
 import { EventNavProp } from "../AppNavigator";
-import { colors, Errors, fonts, shared, spacings, User } from "../common";
+import { colors, Errors, fonts, Organization, shared, spacings, User } from "../common";
 import { Button, FormDropListPicker, FormInput } from "../components";
 import { capitalize } from "lodash";
 import { uploadAvatarAsync } from "../util/media";
@@ -29,6 +29,7 @@ interface FormProps {
 
 interface ProfileEditSurferScreenProps {
   user: User;
+  organizations?: Organization[];
   navigation: EventNavProp;
 }
 
@@ -36,6 +37,7 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
   const formRef = React.useRef<FormikProps<FormProps>>(null);
   const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false);
   const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
+  const [selectedOrg, setSelectedOrg] = useState<ListPickerItem | undefined>(undefined);
 
   const onSelectProfileImage = () => {
     ImageCropPicker.openPicker({
@@ -85,6 +87,15 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
     lastName: Yup.string().required("Required"),
     gender: Yup.object().required("Required"),
   });
+
+  const organizationOptions = props.organizations
+    ? props.organizations.map(o => {
+        return {
+          id: o.organizationId,
+          label: o.name,
+        };
+      })
+    : [];
 
   return (
     <SafeAreaView
@@ -178,6 +189,14 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
           onSubmit={onSubmit}>
           {({ handleSubmit, handleChange, handleBlur, setFieldValue, values, errors, touched }) => (
             <View style={styles.marginTop}>
+              <FormDropListPicker
+                title={"Select Organization"}
+                label={"Surfing Organization"}
+                items={organizationOptions}
+                onSelect={value => setSelectedOrg(value)}
+                value={selectedOrg}
+                style={{ marginBottom: spacings.base }}
+              />
               <FormInput
                 label={"First Name"}
                 placeholder={"Suzie"}
