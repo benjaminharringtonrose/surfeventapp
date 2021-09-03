@@ -1,3 +1,5 @@
+import { Theme } from "@react-navigation/native";
+
 export const colors = {
   primary: "#006EE6",
   primaryVariant: "#3700B3",
@@ -41,4 +43,16 @@ export const colors = {
 
   red: "#e74c3c",
   orange: "#f39c12",
+};
+
+const DarkTheme: Theme = {
+  dark: true,
+  colors: {
+    primary: "#006EE6",
+    background: "#121212",
+    card: "#272727",
+    text: "#F7F7F7",
+    border: "#333333",
+    notification: "#f4d47c",
+  },
 };

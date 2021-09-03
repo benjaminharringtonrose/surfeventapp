@@ -26,7 +26,7 @@ export const EventDashboardScreen = () => {
     });
   });
 
-  if (!user)
+  if (!user || !events?.length)
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, justifyContent: "center" }}>
         <ActivityIndicator color={colors.primary} />

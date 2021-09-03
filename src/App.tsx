@@ -1,8 +1,8 @@
-import { NavigationContainer } from "@react-navigation/native";
+import { DarkTheme, NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import "react-native-get-random-values";
 import React, { useEffect, useState } from "react";
-import { Alert, StatusBar, useColorScheme } from "react-native";
+import { Alert, StatusBar, useColorScheme, View } from "react-native";
 import { AuthStack, RootStack } from "./AppNavigator";
 import { Provider } from "react-redux";
 import messaging from "@react-native-firebase/messaging";
@@ -102,13 +102,28 @@ const Root = () => {
 
   return (
     <Host>
-      <NavigationContainer>
+      <NavigationContainer theme={isDarkMode ? DarkTheme : undefined}>
         <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
-        <Stack.Navigator screenOptions={{ headerStyle: { backgroundColor: colors.background } }}>
+        <Stack.Navigator
+          screenOptions={{
+            headerStyle: { backgroundColor: colors.background },
+            cardOverlay: () => (
+              <View
+                style={{
+                  flex: 1,
+                  backgroundColor: colors.background,
+                }}
+              />
+            ),
+          }}>
           {user ? (
             <Stack.Screen name="Root" component={RootStack} options={{ headerShown: false }} />
           ) : (
-            <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
+            <Stack.Screen
+              name="Auth"
+              component={AuthStack}
+              options={{ headerShown: false, animationTypeForReplace: user ? "push" : "pop" }}
+            />
           )}
         </Stack.Navigator>
       </NavigationContainer>

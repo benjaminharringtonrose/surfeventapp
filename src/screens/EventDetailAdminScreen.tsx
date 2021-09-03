@@ -1,7 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import moment from "moment";
 import React, { useEffect, useRef } from "react";
-import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
+import { SafeAreaView, View, Text, StyleSheet, FlatList, ActivityIndicator } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { EventDetailsNavProp, EventDetailsRouteProp } from "../AppNavigator";
 import { colors, fonts, Heat, shared, spacings, User } from "../common";
@@ -36,7 +36,12 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
     });
   }, []);
 
-  if (!props.event || !props.heats) return null;
+  if (!props.event || !props.heats)
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator color={colors.primary} />
+      </View>
+    );
 
   return (
     <SafeAreaView
