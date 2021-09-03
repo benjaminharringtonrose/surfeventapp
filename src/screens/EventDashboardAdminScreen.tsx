@@ -7,7 +7,6 @@ import { ButtonAdd } from "../components";
 import { EventNavProp } from "../AppNavigator";
 import { colors, Event, fonts, shared, spacings, User } from "../common";
 import { EventAddModal } from "../modals/EventAddModal";
-import { useEvents } from "../hooks/useEvents";
 import { EventButton } from "../components/EventButton";
 import { Alert } from "../components/Alert";
 import { useAppSelector } from "../hooks/redux";
@@ -58,9 +57,9 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
           keyExtractor={item => item.eventId}
           ListHeaderComponent={
             <>
-              {user.isUserRolePending && (
+              {user.state === "pending" && (
                 <AlertCard
-                  title={"Your administration request is being processed"}
+                  title={"You've requested administration access"}
                   description={
                     "Once your admin access is approved, other organization members can see the events you've added."
                   }

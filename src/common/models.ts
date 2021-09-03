@@ -31,7 +31,7 @@ export interface FirebaseUser {
   messagingTokens?: string[];
   organizationId?: string;
   isAdmin: boolean;
-  isUserRolePending: boolean;
+  state: "approved" | "pending" | "rejected";
 }
 
 export interface User {
@@ -48,7 +48,7 @@ export interface User {
   messagingTokens?: string[];
   organizationId?: string;
   isAdmin: boolean;
-  isUserRolePending: boolean;
+  state: "approved" | "pending" | "rejected";
 }
 
 export interface Mail {

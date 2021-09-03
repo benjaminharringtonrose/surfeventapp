@@ -61,7 +61,7 @@ export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => 
           keyExtractor={item => item.eventId}
           ListHeaderComponent={
             <>
-              {props.user.isUserRolePending && props.user.isAdmin && (
+              {props.user.state === "pending" && props.user.isAdmin && (
                 <AlertCard
                   title={"Your administration request is being processed"}
                   description={
