@@ -83,7 +83,7 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
                 eventName={item.eventName}
                 dateStart={moment(item.dateStart.toDate()).format("MMM DD")}
                 dateEnd={moment(item.dateEnd.toDate()).format("DD")}
-                onPress={() => navigation.navigate("EventDetailAdmin", { eventId: item.eventId })}
+                onPress={() => navigation.navigate("EventDetail", { eventId: item.eventId })}
               />
             );
           }}

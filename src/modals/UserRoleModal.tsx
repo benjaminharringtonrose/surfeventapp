@@ -33,12 +33,12 @@ export const UserRoleModal = forwardRef((props: UserRoleModalProps, ref) => {
         await firestore()
           .collection(Collection.users)
           .doc(props.user.uid)
-          .set({ isUserRolePending: false }, { merge: true });
+          .set({ state: "approved" }, { merge: true });
       } else if (selectedUserRole?.id === "admin") {
         await firestore()
           .collection(Collection.users)
           .doc(props.user.uid)
-          .set({ isAdmin: true }, { merge: true });
+          .set({ isAdmin: true, state: "pending" }, { merge: true });
         const adminRequestsCollectionRef = firestore().collection(Collection.adminRequests);
         const adminRequestId = adminRequestsCollectionRef.doc().id;
         const adminRequest: AdminRequest = {

@@ -4,9 +4,8 @@ import React, { useEffect, useRef } from "react";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { EventDetailsNavProp, EventDetailsRouteProp } from "../AppNavigator";
-import { colors, fonts, Heat, shared, spacings, User } from "../common";
-import { ButtonAdd, ButtonBack } from "../components";
-import { ButtonIcon } from "../components/ButtonIcon";
+import { colors, fonts, Heat, shared, spacings } from "../common";
+import { ButtonBack } from "../components";
 import { HeatCard } from "../components/HeatCard";
 import { useAppDispatch } from "../hooks/redux";
 import { useEvent } from "../hooks/useEvent";
@@ -14,7 +13,7 @@ import { useHeats } from "../hooks/useHeats";
 import { EventEditModal } from "../modals/EventEditModal";
 import { setTime } from "../store/slices/heatSlice";
 import { getHeatDivisionLabel } from "../common/util";
-import { Event } from "../common/models";
+import { Event, User } from "../common/models";
 
 interface EventDetailSurferScreenProps {
   navigation: EventDetailsNavProp;
@@ -22,7 +21,7 @@ interface EventDetailSurferScreenProps {
   heats?: Heat[];
 }
 
-export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
+export const EventDetailSurferScreen = (props: EventDetailSurferScreenProps) => {
   const editEventModalRef = useRef<Modalize>(null);
   const dispatch = useAppDispatch();
 
@@ -30,9 +29,7 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
     props.navigation.setOptions({
       title: "Event Details",
       headerLeft: () => <ButtonBack onPress={() => props.navigation.pop()} />,
-      headerRight: () => (
-        <ButtonIcon name={"pencil"} onPress={() => editEventModalRef.current?.open()} />
-      ),
+      headerRight: () => null,
     });
   }, []);
 
@@ -57,17 +54,13 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
                 ).format("DD")}`}
               </Text>
             </View>
-            <ButtonAdd
-              label={"Add Heat"}
-              onPress={() => {
-                if (props.event?.eventId) {
-                  props.navigation.navigate("AddHeat", { eventId: props.event?.eventId });
-                }
-              }}
-              style={{ marginVertical: spacings.base }}
-            />
-            <View style={{ paddingLeft: spacings.base, paddingBottom: spacings.xsmall }}>
-              <Text style={fonts.subheader}>{"Heats"}</Text>
+            <View
+              style={{
+                paddingLeft: spacings.base,
+                paddingBottom: spacings.xsmall,
+                paddingTop: spacings.base,
+              }}>
+              <Text style={{ color: colors.almostWhite, fontSize: 21 }}>{"Heats"}</Text>
             </View>
           </>
         }
@@ -108,7 +101,7 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
           <>
             {!props.heats.length && (
               <View style={styles.card}>
-                <Text style={styles.cardText}>{"You haven't added any heats"}</Text>
+                <Text style={styles.cardText}>{"To be announced"}</Text>
               </View>
             )}
           </>

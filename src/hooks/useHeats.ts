@@ -4,9 +4,8 @@ import { Collection, Heat } from "../common/models";
 import { useAppSelector } from "./redux";
 
 export const useHeats = (eventId: string) => {
-  const [heats, setHeats] = useState<Heat[] | []>([]);
+  const [heats, setHeats] = useState<Heat[] | undefined>(undefined);
   const uid = useAppSelector(state => state.auth.user?.uid);
-
   useEffect(() => {
     if (!uid) {
       return;
@@ -30,6 +29,5 @@ export const useHeats = (eventId: string) => {
       unsubscribe();
     };
   }, []);
-
   return heats;
 };

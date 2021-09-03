@@ -22,6 +22,7 @@ import { HeatAddScreen } from "./screens/HeatAddScreen";
 import { HeatEditScreen } from "./screens/HeatEditScreen";
 import { HeatSheetScreen } from "./screens/HeatSheetScreen";
 import { ProfileEditScreen } from "./screens/ProfileEditScreen";
+import { EventDetailScreen } from "./screens/EventDetailScreen";
 
 const defaultNavigationOptions: StackNavigationOptions = {
   headerStyle: {
@@ -167,7 +168,7 @@ export type EventStackParamList = {
   Events: {
     showAlert?: boolean;
   };
-  EventDetailAdmin: {
+  EventDetail: {
     eventId: string;
   };
   ProfileEdit: undefined;
@@ -181,10 +182,10 @@ export type EventNavProp = CompositeNavigationProp<
 export type EventsRouteProp = RouteProp<EventStackParamList, "Events">;
 
 export type EventDetailsNavProp = CompositeNavigationProp<
-  StackNavigationProp<EventStackParamList, "EventDetailAdmin">,
+  StackNavigationProp<EventStackParamList, "EventDetail">,
   EventStackNavProp
 >;
-export type EventDetailsRouteProp = RouteProp<EventStackParamList, "EventDetailAdmin">;
+export type EventDetailsRouteProp = RouteProp<EventStackParamList, "EventDetail">;
 
 export function EventStack() {
   const Stack = createStackNavigator<EventStackParamList>();
@@ -199,8 +200,8 @@ export function EventStack() {
         }}
       />
       <Stack.Screen
-        name="EventDetailAdmin"
-        component={EventDetailAdminScreen}
+        name="EventDetail"
+        component={EventDetailScreen}
         options={{
           title: "SurfEvent",
           ...defaultNavigationOptions,

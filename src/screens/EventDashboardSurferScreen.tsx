@@ -24,11 +24,6 @@ export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => 
   const hasCompletedProfile = userHasCompletedProfile(props.user);
   const hasCompletedUserRole = userHasCompletedUserRole(props.user);
 
-  const filterPendingEvents = async (events?: Event[]) => {
-    if (!events) return;
-    //
-  };
-
   return (
     <SafeAreaView
       style={{
@@ -85,9 +80,7 @@ export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => 
                 eventName={item.eventName}
                 dateStart={moment(item.dateStart.toDate()).format("MMM DD")}
                 dateEnd={moment(item.dateEnd.toDate()).format("DD")}
-                onPress={() =>
-                  props.navigation.navigate("EventDetailAdmin", { eventId: item.eventId })
-                }
+                onPress={() => props.navigation.navigate("EventDetail", { eventId: item.eventId })}
               />
             );
           }}
