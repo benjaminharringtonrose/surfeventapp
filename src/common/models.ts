@@ -5,6 +5,11 @@ export interface IStringMap<T> {
   [x: string]: T;
 }
 
+export interface IError {
+  message: string;
+  stack?: string;
+}
+
 export interface AuthUser {
   emailVerified?: boolean;
   uid: string;

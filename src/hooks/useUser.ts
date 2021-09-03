@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { firebase } from "@react-native-firebase/firestore";
 import { Collection, FirebaseUser, User } from "../common/models";
 import { useAppDispatch, useAppSelector } from "./redux";
-import { setUserRequest } from "../store/slices/userSlice";
+import { updateUser } from "../store/slices/userSlice";
 
 export const useUser = () => {
   const [user, setUser] = useState<User | undefined>(undefined);
@@ -25,7 +25,7 @@ export const useUser = () => {
             birthdate: firebaseUser?.birthdate?.toDate().toISOString(),
           } as User;
           setUser(user);
-          dispatch(setUserRequest({ user }));
+          dispatch(updateUser({ user }));
         }
       });
     return function cleanup() {
