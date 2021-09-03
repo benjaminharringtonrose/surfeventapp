@@ -1,13 +1,11 @@
+import React, { forwardRef, useState } from "react";
 import firestore from "@react-native-firebase/firestore";
-import React, { forwardRef, useRef, useState } from "react";
 import { View, Text } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { spacings, colors, fonts, Collection, User, AdminRequest } from "../common";
-import { FormDropListPicker } from "../components";
 import { Button } from "../components/Button";
-import { ListPickerItem } from "../components/ListPicker";
 import { ModalHeader } from "../components/ModalHeader";
 import { IRadioButtonOption } from "../components/RadioButton";
 import { RadioButtonGroup } from "../components/RadioButtonGroup";
@@ -21,7 +19,6 @@ export const UserRoleModal = forwardRef((props: UserRoleModalProps, ref) => {
   const [selectedUserRole, setSelectedUserRole] = useState<IRadioButtonOption | undefined>(
     undefined,
   );
-  const [selectedOrg, setSelectedOrg] = useState<ListPickerItem | undefined>(undefined);
   const insets = useSafeAreaInsets();
   const organizations = useOrganizations();
 
@@ -41,12 +38,12 @@ export const UserRoleModal = forwardRef((props: UserRoleModalProps, ref) => {
         await firestore()
           .collection(Collection.users)
           .doc(props.user.uid)
-          .set({ isAdmin: true, organizationId: selectedOrg?.id }, { merge: true });
+          .set({ isAdmin: true }, { merge: true });
         const adminRequestsCollectionRef = firestore().collection(Collection.adminRequests);
         const adminRequestId = adminRequestsCollectionRef.doc().id;
         const adminRequest: AdminRequest = {
           adminRequestId,
-          organizationId: selectedOrg?.id,
+          organizationId: props.user?.organizationId || "",
           uid: props.user.uid,
         };
         await adminRequestsCollectionRef.doc(adminRequestId).set(adminRequest);
@@ -79,7 +76,6 @@ export const UserRoleModal = forwardRef((props: UserRoleModalProps, ref) => {
             onClose={() => {
               props.onClose();
               setSelectedUserRole(undefined);
-              setSelectedOrg(undefined);
             }}
           />
         )}>
@@ -104,16 +100,6 @@ export const UserRoleModal = forwardRef((props: UserRoleModalProps, ref) => {
               onPress={useRoles => onRadioSelect(useRoles)}
               style={{ marginTop: spacings.base }}
             />
-            {selectedUserRole?.id === "admin" && (
-              <FormDropListPicker
-                title={"Select Organization"}
-                label={"Surfing Organization"}
-                items={organizationOptions}
-                onSelect={value => setSelectedOrg(value)}
-                value={selectedOrg}
-                style={{ marginBottom: spacings.base }}
-              />
-            )}
             <Text style={[fonts.small, { marginBottom: spacings.base, color: colors.grey700 }]}>
               {
                 "If you're requesting to become an organization administrator, we'll contact the surfing organization to confirm. Your account will be pending until confirmed."

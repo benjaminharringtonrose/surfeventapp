@@ -25,6 +25,7 @@ interface FormProps {
   firstName?: string;
   lastName?: string;
   gender?: ListPickerItem;
+  organization?: ListPickerItem;
 }
 
 interface ProfileEditSurferScreenProps {
@@ -39,23 +40,22 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
   const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
   const [selectedOrg, setSelectedOrg] = useState<ListPickerItem | undefined>(undefined);
 
-  const onSelectProfileImage = () => {
-    ImageCropPicker.openPicker({
-      width: 800,
-      height: 800,
-      cropping: true,
-    }).then(async image => {
-      try {
-        setLoadingProfilePhoto(true);
-        await uploadAvatarAsync(image.path, props.user?.uid!);
-      } catch (e) {
-        if (e?.message?.includes("permission")) {
-          getError(Errors.noPhotoPermission);
-        }
-        console.warn(e);
-        getError(Errors.generic);
+  const onSelectProfileImage = async () => {
+    try {
+      setLoadingProfilePhoto(true);
+      const image = await ImageCropPicker.openPicker({
+        width: 800,
+        height: 800,
+        cropping: true,
+      });
+      await uploadAvatarAsync(image.path, props.user?.uid!);
+    } catch (e) {
+      if (e?.message?.includes("permission")) {
+        getError(Errors.noPhotoPermission);
       }
-    });
+      console.warn(e);
+      getError(Errors.generic);
+    }
     setLoadingProfilePhoto(false);
   };
 
@@ -69,6 +69,7 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
         firstName: values.firstName,
         lastName: values.lastName,
         gender: values.gender.id,
+        organizationId: values.organization?.id || "",
       };
       await firestore()
         .collection("users")
@@ -184,6 +185,7 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
             gender: props.user?.gender
               ? { id: props.user?.gender, label: capitalize(props.user?.gender) }
               : undefined,
+            organization: undefined,
           }}
           validationSchema={ProfileSchema}
           onSubmit={onSubmit}>
@@ -193,8 +195,10 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
                 title={"Select Organization"}
                 label={"Surfing Organization"}
                 items={organizationOptions}
-                onSelect={value => setSelectedOrg(value)}
-                value={selectedOrg}
+                onSelect={value => setFieldValue("organization", value)}
+                value={values.organization}
+                error={errors.gender}
+                touched={touched.gender}
                 style={{ marginBottom: spacings.base }}
               />
               <FormInput

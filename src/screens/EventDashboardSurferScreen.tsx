@@ -1,4 +1,5 @@
 import React, { useRef } from "react";
+import firestore from "@react-native-firebase/firestore";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { EventNavProp } from "../AppNavigator";
@@ -22,6 +23,12 @@ export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => 
 
   const hasCompletedProfile = userHasCompletedProfile(props.user);
   const hasCompletedUserRole = userHasCompletedUserRole(props.user);
+
+  const filterPendingEvents = async (events?: Event[]) => {
+    if (!events) return;
+    //
+  };
+
   return (
     <SafeAreaView
       style={{
@@ -86,14 +93,13 @@ export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => 
           }}
           ListFooterComponent={
             <View style={styles.card}>
-              {!props.events && (
-                <Text style={styles.cardText}>{"You haven't created any events"}</Text>
+              {!props.events?.length && (
+                <Text style={styles.cardText}>{"There are no upcoming competitions"}</Text>
               )}
             </View>
           }
         />
       )}
-
       <UserRoleModal ref={modalRef} user={props.user} onClose={() => modalRef.current?.close()} />
     </SafeAreaView>
   );

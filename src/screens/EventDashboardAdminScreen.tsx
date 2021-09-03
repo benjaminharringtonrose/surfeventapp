@@ -28,7 +28,6 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
   const navigation = useNavigation<EventNavProp>();
   const user = props.user;
   const organization = useOrganization(user.organizationId!);
-  const events = useEvents();
   const eventId = useAppSelector(state => state.events.eventId);
 
   useEffect(() => {
@@ -45,7 +44,7 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
     }
   };
 
-  if (!events) return null;
+  if (!props.events) return null;
 
   return (
     <SafeAreaView
@@ -53,9 +52,9 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
         flex: 1,
         backgroundColor: colors.background,
       }}>
-      {!!events ? (
+      {!!props.events && (
         <FlatList
-          data={events}
+          data={props.events}
           keyExtractor={item => item.eventId}
           ListHeaderComponent={
             <>
@@ -67,12 +66,10 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
                   }
                 />
               )}
-              <View style={{ marginLeft: spacings.base, marginVertical: spacings.base }}>
-                <Text style={[fonts.header]}>{"Event Dashboard"}</Text>
-              </View>
               <ButtonAdd
                 label={"add surf event"}
                 onPress={() => addEventModalRef.current?.open()}
+                style={{ marginTop: spacings.base }}
               />
               <View style={{ padding: spacings.base }}>
                 <Text style={{ color: colors.almostWhite, fontSize: 21 }}>
@@ -91,11 +88,14 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
               />
             );
           }}
+          ListFooterComponent={
+            <View style={styles.card}>
+              {!props.events.length && (
+                <Text style={styles.cardText}>{"You haven't created any events"}</Text>
+              )}
+            </View>
+          }
         />
-      ) : (
-        <View style={styles.card}>
-          <Text style={styles.cardText}>{"You haven't created any events"}</Text>
-        </View>
       )}
       <EventAddModal
         ref={addEventModalRef}
