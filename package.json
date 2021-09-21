@@ -49,14 +49,16 @@
     "react-native-portalize": "^1.0.7",
     "react-native-progress": "^5.0.0",
     "react-native-push-notification": "^8.0.1",
-    "react-native-reanimated": "^2.0.0",
+    "react-native-reanimated": "^2.2.2",
     "react-native-safe-area-context": "^3.3.0",
     "react-native-screens": "^3.5.0",
     "react-native-svg": "^12.1.1",
     "react-native-vector-icons": "^8.1.0",
     "react-native-wheel-scrollview-picker": "^1.2.2",
     "react-redux": "^7.2.4",
+    "remove": "^0.1.5",
     "uuid": "^8.3.2",
+    "yarn": "^1.22.11",
     "yup": "^0.32.9"
   },
   "devDependencies": {
