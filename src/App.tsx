@@ -47,11 +47,11 @@ const App = () => {
 };
 
 const Root = () => {
-  const isDarkMode = useColorScheme() === "dark";
+  const isDarkMode = useColorScheme() === "dark"; // dark mode does't work if debugger is on
   const Stack = createStackNavigator();
 
   // Set an initializing state whilst Firebase connects
-  const [initializing, setInitializing] = useState(true);
+  const [initializing, setInitializing] = useState<boolean>(true);
   const [user, setUser] = useState<AuthUser | undefined>(undefined);
   const dispatch = useAppDispatch();
 

@@ -26,15 +26,7 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
   const addEventModalRef = useRef<Modalize>(null);
   const navigation = useNavigation<EventNavProp>();
   const user = props.user;
-  const organization = useOrganization(user.organizationId!);
   const eventId = useAppSelector(state => state.events.eventId);
-
-  useEffect(() => {
-    navigation.setOptions({
-      title: organization?.name,
-      headerRight: () => null,
-    });
-  });
 
   const onAddHeat = () => {
     if (eventId) {
