@@ -1,7 +1,7 @@
 import React, { useRef } from "react";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { EventNavProp } from "../navigation";
+import { NavigationProps } from "../navigation";
 import { colors, fonts, shared, spacings, User } from "../common";
 import { UserInfoCompletionList } from "../components/UserCompletionList";
 import { userHasCompletedProfile, userHasCompletedUserRole } from "../util";
@@ -14,7 +14,7 @@ import moment from "moment";
 interface EventDashboardSurferProps {
   user: User;
   events?: Event[];
-  navigation: EventNavProp;
+  navigation: NavigationProps["Events"]["navigation"];
 }
 
 export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => {

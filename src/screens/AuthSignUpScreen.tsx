@@ -8,8 +8,8 @@ import { Button } from "../components/Button";
 import { colors, fonts, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 import { useNavigation } from "@react-navigation/native";
-import { SignUpNavProp } from "../navigation";
 import { ButtonBack } from "../components/ButtonBack";
+import { NavigationProps } from "../navigation";
 
 interface SignUpFormProps {
   email?: string;
@@ -22,7 +22,7 @@ export const AuthSignUpScreen = () => {
   const [loadingSignUp, setLoadingSignUp] = useState<boolean>(false);
   const [signUpError, setSignUpError] = useState<any>(undefined);
 
-  const navigation = useNavigation<SignUpNavProp>();
+  const navigation = useNavigation<NavigationProps["SignUp"]["navigation"]>();
 
   useEffect(() => {
     navigation.setOptions({

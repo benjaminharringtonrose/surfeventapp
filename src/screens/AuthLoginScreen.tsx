@@ -8,7 +8,7 @@ import auth from "@react-native-firebase/auth";
 import { Button } from "../components/Button";
 import { colors, fonts, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
-import { LoginNavProp } from "../navigation";
+import { NavigationProps } from "../navigation";
 
 interface LoginFormProps {
   email?: string;
@@ -21,7 +21,7 @@ export const AuthLoginScreen = () => {
   const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
   const [loginError, setLoginError] = useState<any>(undefined);
 
-  const navigation = useNavigation<LoginNavProp>();
+  const navigation = useNavigation<NavigationProps["Login"]["navigation"]>();
 
   const onLogin = async (values: LoginFormProps) => {
     if (!values.email || !values.password) {

@@ -14,7 +14,7 @@ import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setEventId } from "../store/slices/eventsSlice";
 import { Alert } from "../components/Alert";
-import { EventDetailsNavProp } from "../navigation";
+import { NavigationProps } from "../navigation";
 
 interface EventEditFormProps {
   eventName?: string;
@@ -26,12 +26,13 @@ interface EventEditFormProps {
 interface EventEditModalProps {
   event: Event;
   onClose: () => void;
-  navigation: EventDetailsNavProp;
+  navigation: NavigationProps["EventDetail"]["navigation"];
 }
 export const EventEditModal = forwardRef((props: EventEditModalProps, ref) => {
   const [loadingEditEvent, setLoadingEditEvent] = useState<boolean>(false);
   const [loadingRemoveEvent, setLoadingRemoveEvent] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
+
   const formRef = React.useRef<FormikProps<EventEditFormProps>>(null);
   const uid = useAppSelector(state => state.auth.user?.uid);
   const insets = useSafeAreaInsets();

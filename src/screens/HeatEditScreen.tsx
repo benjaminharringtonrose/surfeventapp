@@ -11,11 +11,11 @@ import { ListPickerItem } from "../components/ListPicker";
 import { FormDropSectionListPicker } from "../components/FormDropSectionListPicker";
 import { FormInput } from "../components";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { RootStackNavProp, RootStackParamList } from "../navigation";
 import { ButtonX } from "../components/ButtonX";
 import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useHeat } from "../hooks/useHeat";
 import { Alert } from "../components/Alert";
+import { NavigationProps } from "../navigation";
 
 interface HeatEditFormProps {
   division?: ListPickerItem;
@@ -35,10 +35,10 @@ export const HeatEditScreen = () => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const formRef = React.useRef<FormikProps<HeatEditFormProps>>(null);
-  const navigation = useNavigation<RootStackNavProp>();
+  const navigation = useNavigation<NavigationProps["EditHeat"]["navigation"]>();
 
   const uid = useAppSelector(state => state.auth.user?.uid);
-  const { heatId, eventId } = useRoute<RouteProp<RootStackParamList, "EditHeat">>().params;
+  const { heatId, eventId } = useRoute<NavigationProps["EditHeat"]["route"]>().params;
   const heat = useHeat(heatId);
 
   useEffect(() => {
@@ -81,13 +81,10 @@ export const HeatEditScreen = () => {
         { merge: true },
       );
       setLoadingEditHeat(false);
-      navigation.navigate("MainStack", {
-        screen: "EventStack",
+      navigation.navigate("EventStack", {
+        screen: "Events",
         params: {
-          screen: "Events",
-          params: {
-            showAlert: true,
-          },
+          showAlert: true,
         },
       });
     } catch (e) {

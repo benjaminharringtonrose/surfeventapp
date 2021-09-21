@@ -1,17 +1,11 @@
 import React from "react";
+import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
 import {
-  createStackNavigator,
-  StackNavigationOptions,
-  StackNavigationProp,
-} from "@react-navigation/stack";
-import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
-import Icon from "react-native-vector-icons/Ionicons";
-import {
-  CompositeNavigationProp,
-  NavigatorScreenParams,
-  RouteProp,
-} from "@react-navigation/native";
-
+  createDrawerNavigator,
+  DrawerContentScrollView,
+  DrawerItem,
+  DrawerItemList,
+} from "@react-navigation/drawer";
 import { colors, fonts } from "../common";
 import { AuthLoginScreen } from "../screens/AuthLoginScreen";
 import { AuthSignUpScreen } from "../screens/AuthSignUpScreen";
@@ -22,8 +16,24 @@ import { HeatEditScreen } from "../screens/HeatEditScreen";
 import { HeatSheetScreen } from "../screens/HeatSheetScreen";
 import { ProfileEditScreen } from "../screens/ProfileEditScreen";
 import { EventDetailScreen } from "../screens/EventDetailScreen";
+import {
+  AuthStackParamList,
+  EventStackParamList,
+  RootStackParamList,
+  SettingsStackParamList,
+  NavigationProps,
+  DrawerStackParamList,
+} from "./types";
 
-const defaultNavigationOptions: StackNavigationOptions = {
+export {
+  NavigationProps,
+  RootStackParamList,
+  AuthStackParamList,
+  EventStackParamList,
+  SettingsStackParamList,
+};
+
+const defaultScreenOptions: StackNavigationOptions = {
   headerStyle: {
     backgroundColor: colors.greyscale9,
   },
@@ -31,210 +41,58 @@ const defaultNavigationOptions: StackNavigationOptions = {
   cardStyle: { backgroundColor: "transparent" },
 };
 
-export type RootStackParamList = {
-  MainStack: NavigatorScreenParams<MainStackParamList>;
-  AddHeat: {
-    eventId: string;
-  };
-  EditHeat: {
-    eventId: string;
-    heatId: string;
-  };
-  HeatSheet: {
-    title: string;
-    eventId: string;
-    heatId: string;
-  };
-};
-
-export type RootStackNavProp = StackNavigationProp<RootStackParamList>;
-export type HeatSheetRouteProp = RouteProp<RootStackParamList, "HeatSheet">;
+export function AuthStack() {
+  const Stack = createStackNavigator<AuthStackParamList>();
+  return (
+    <Stack.Navigator initialRouteName={"Login"} screenOptions={defaultScreenOptions}>
+      <Stack.Screen name="Login" component={AuthLoginScreen} />
+      <Stack.Screen name="SignUp" component={AuthSignUpScreen} />
+    </Stack.Navigator>
+  );
+}
 
 export function RootStack() {
   const Stack = createStackNavigator<RootStackParamList>();
   return (
-    <Stack.Navigator screenOptions={{ presentation: "modal", headerShown: false }}>
-      <Stack.Screen name={"MainStack"} component={MainStack} options={{ headerShown: false }} />
-      <Stack.Screen
-        name={"AddHeat"}
-        component={HeatAddScreen}
-        options={{
-          ...defaultNavigationOptions,
-          title: "SurfEvent",
-          headerShown: true,
-        }}
-      />
-      <Stack.Screen
-        name={"EditHeat"}
-        component={HeatEditScreen}
-        options={{
-          ...defaultNavigationOptions,
-          title: "SurfEvent",
-          headerShown: true,
-        }}
-      />
-      <Stack.Screen
-        name={"HeatSheet"}
-        component={HeatSheetScreen}
-        options={{
-          ...defaultNavigationOptions,
-          title: "Heat Sheet",
-          headerShown: true,
-        }}
-      />
+    <Stack.Navigator
+      initialRouteName={"DrawerStack"}
+      screenOptions={{ ...defaultScreenOptions, presentation: "modal" }}>
+      <Stack.Screen name={"EventStack"} component={EventStack} options={{ headerShown: false }} />
+      <Stack.Screen name={"DrawerStack"} component={DrawerStack} options={{ headerShown: false }} />
+      <Stack.Screen name={"AddHeat"} component={HeatAddScreen} />
+      <Stack.Screen name={"EditHeat"} component={HeatEditScreen} />
+      <Stack.Screen name={"HeatSheet"} component={HeatSheetScreen} />
     </Stack.Navigator>
   );
 }
-
-type MainStackParamList = {
-  EventStack: NavigatorScreenParams<EventStackParamList>;
-  SettingsStack: NavigatorScreenParams<SettingsStackParamList>;
-};
-
-export type EventStackNavProp = CompositeNavigationProp<
-  StackNavigationProp<MainStackParamList, "EventStack">,
-  StackNavigationProp<RootStackParamList>
->;
-
-export type SettingsStackNavProp = CompositeNavigationProp<
-  StackNavigationProp<MainStackParamList, "SettingsStack">,
-  StackNavigationProp<RootStackParamList>
->;
-
-export function MainStack() {
-  const Tab = createBottomTabNavigator<MainStackParamList>();
-  return (
-    <Tab.Navigator
-      screenOptions={({ route }) => ({
-        tabBarIcon: ({ focused, color, size }) => {
-          let iconName = "";
-          if (route.name === "EventStack") {
-            iconName = focused ? "calendar" : "calendar-outline";
-          } else if (route.name === "SettingsStack") {
-            iconName = focused ? "settings" : "settings-outline";
-          }
-          return <Icon name={iconName} size={size} color={color} />;
-        },
-        tabBarStyle: {
-          backgroundColor: colors.background,
-          shadowColor: "transparent",
-          borderTopWidth: 0,
-        },
-        tabBarLabel: "",
-        tabBarActiveTintColor: colors.primary,
-        tabBarInactiveTintColor: colors.white,
-      })}>
-      <Tab.Screen name="EventStack" component={EventStack} options={{ headerShown: false }} />
-      <Tab.Screen name="SettingsStack" component={SettingsStack} options={{ headerShown: false }} />
-    </Tab.Navigator>
-  );
-}
-
-type AuthStackParamList = {
-  Login: undefined;
-  SignUp: undefined;
-};
-
-export type LoginNavProp = StackNavigationProp<AuthStackParamList, "Login">;
-export type SignUpNavProp = StackNavigationProp<AuthStackParamList, "SignUp">;
-
-export function AuthStack() {
-  const Stack = createStackNavigator<AuthStackParamList>();
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Login"
-        component={AuthLoginScreen}
-        options={{
-          title: "SurfEvent",
-          ...defaultNavigationOptions,
-        }}
-      />
-      <Stack.Screen
-        name="SignUp"
-        component={AuthSignUpScreen}
-        options={{
-          title: "SurfEvent",
-          ...defaultNavigationOptions,
-        }}
-      />
-    </Stack.Navigator>
-  );
-}
-
-export type EventStackParamList = {
-  Events: {
-    showAlert?: boolean;
-  };
-  EventDetail: {
-    eventId: string;
-  };
-  ProfileEdit: undefined;
-};
-
-export type EventNavProp = CompositeNavigationProp<
-  StackNavigationProp<EventStackParamList>,
-  EventStackNavProp
->;
-
-export type EventsRouteProp = RouteProp<EventStackParamList, "Events">;
-
-export type EventDetailsNavProp = CompositeNavigationProp<
-  StackNavigationProp<EventStackParamList, "EventDetail">,
-  EventStackNavProp
->;
-export type EventDetailsRouteProp = RouteProp<EventStackParamList, "EventDetail">;
 
 export function EventStack() {
   const Stack = createStackNavigator<EventStackParamList>();
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Events"
-        component={EventDashboardScreen}
-        options={{
-          title: "SurfEvent",
-          ...defaultNavigationOptions,
-        }}
-      />
-      <Stack.Screen
-        name="EventDetail"
-        component={EventDetailScreen}
-        options={{
-          title: "SurfEvent",
-          ...defaultNavigationOptions,
-        }}
-      />
-      <Stack.Screen
-        name="ProfileEdit"
-        component={ProfileEditScreen}
-        options={{
-          title: "Profile Update",
-          ...defaultNavigationOptions,
-        }}
-      />
+    <Stack.Navigator screenOptions={{ ...defaultScreenOptions }}>
+      <Stack.Screen name="EventDetail" component={EventDetailScreen} />
+      <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
     </Stack.Navigator>
   );
 }
 
-type SettingsStackParamList = {
-  Settings: undefined;
-};
-
-export type SettingsNavProp = StackNavigationProp<SettingsStackParamList, "Settings">;
-
-export function SettingsStack() {
-  const Stack = createStackNavigator<SettingsStackParamList>();
+function CustomDrawerContent(props: any) {
   return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name="Settings"
-        component={SettingsDashboardScreen}
-        options={{
-          title: "SurfEvent",
-          ...defaultNavigationOptions,
-        }}
-      />
-    </Stack.Navigator>
+    <DrawerContentScrollView {...props}>
+      <DrawerItemList {...props} />
+      <DrawerItem label="Help" onPress={() => alert("Link to help")} />
+    </DrawerContentScrollView>
+  );
+}
+
+function DrawerStack() {
+  const Drawer = createDrawerNavigator<DrawerStackParamList>();
+  return (
+    <Drawer.Navigator
+      initialRouteName={"EventStack"}
+      drawerContent={props => <CustomDrawerContent {...props} />}>
+      <Drawer.Screen name="Events" component={EventDashboardScreen} />
+      <Drawer.Screen name="Settings" component={SettingsDashboardScreen} />
+    </Drawer.Navigator>
   );
 }

@@ -13,13 +13,13 @@ import {
 import firestore from "@react-native-firebase/firestore";
 import * as Yup from "yup";
 import ImageCropPicker from "react-native-image-crop-picker";
-import { EventNavProp } from "../navigation";
 import { colors, Errors, fonts, Organization, shared, spacings, User } from "../common";
 import { Button, FormDropListPicker, FormInput } from "../components";
 import { capitalize } from "lodash";
 import { uploadAvatarAsync } from "../util/media";
 import { ListPickerItem } from "../components/ListPicker";
 import { getError } from "../common/util";
+import { NavigationProps } from "../navigation";
 
 interface FormProps {
   firstName?: string;
@@ -31,7 +31,7 @@ interface FormProps {
 interface ProfileEditSurferScreenProps {
   user: User;
   organizations?: Organization[];
-  navigation: EventNavProp;
+  navigation: NavigationProps["ProfileEdit"]["navigation"];
 }
 
 export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => {

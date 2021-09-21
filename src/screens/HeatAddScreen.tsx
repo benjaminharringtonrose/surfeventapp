@@ -11,7 +11,7 @@ import { ListPickerItem } from "../components/ListPicker";
 import { FormDropSectionListPicker } from "../components/FormDropSectionListPicker";
 import { FormDropListPicker, FormInput } from "../components";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { RootStackNavProp, RootStackParamList } from "../navigation";
+import { NavigationProps, RootStackParamList } from "../navigation";
 import { ButtonX } from "../components/ButtonX";
 import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useEvent } from "../hooks/useEvent";
@@ -38,7 +38,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
   const [loadingAddHeat, setLoadingAddHeat] = useState<boolean>(false);
 
   const formRef = React.useRef<FormikProps<HeatAddFormProps>>(null);
-  const navigation = useNavigation<RootStackNavProp>();
+  const navigation = useNavigation<NavigationProps["AddHeat"]["navigation"]>();
   const uid = useAppSelector(state => state.auth.user?.uid);
   const { eventId } = useRoute<RouteProp<RootStackParamList, "AddHeat">>().params;
   const { event } = useEvent(eventId);
@@ -111,13 +111,10 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
         );
       }
       setLoadingAddHeat(false);
-      navigation.navigate("MainStack", {
-        screen: "EventStack",
+      navigation.navigate("EventStack", {
+        screen: "Events",
         params: {
-          screen: "Events",
-          params: {
-            showAlert: true,
-          },
+          showAlert: true,
         },
       });
     } catch (error) {

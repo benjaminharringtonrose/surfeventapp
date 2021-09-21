@@ -2,7 +2,6 @@ import moment from "moment";
 import React, { useEffect, useRef } from "react";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { EventDetailsNavProp } from "../navigation";
 import { colors, fonts, Heat, shared, spacings } from "../common";
 import { ButtonBack } from "../components";
 import { HeatCard } from "../components/HeatCard";
@@ -11,9 +10,10 @@ import { EventEditModal } from "../modals/EventEditModal";
 import { setTime } from "../store/slices/heatSlice";
 import { getHeatDivisionLabel } from "../common/util";
 import { Event } from "../common/models";
+import { NavigationProps } from "../navigation";
 
 interface EventDetailSurferScreenProps {
-  navigation: EventDetailsNavProp;
+  navigation: NavigationProps["EventDetail"]["navigation"];
   event?: Event;
   heats?: Heat[];
 }

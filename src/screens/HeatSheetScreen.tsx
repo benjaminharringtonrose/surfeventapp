@@ -3,14 +3,13 @@ import React, { useEffect, useState } from "react";
 import { SafeAreaView, TouchableOpacity, View, Text, FlatList, StyleSheet } from "react-native";
 import firestore from "@react-native-firebase/firestore";
 import Orientation from "react-native-orientation-locker";
-import _ from "lodash";
 
-import { HeatSheetRouteProp, RootStackNavProp } from "../navigation";
 import { colors, FirebaseHeat, Score, shared, spacings, Wave } from "../common";
 import { useHeat } from "../hooks/useHeat";
 import { Icon, ButtonX, ScorePopUpCard } from "../components";
 import { useScores } from "../hooks/useScores";
 import { abbreviateName, computeWaveScoreTotal, getWave } from "../common/util";
+import { NavigationProps } from "../navigation";
 
 export interface LocalState {
   selectedSurfer: string;
@@ -30,9 +29,9 @@ export const HeatSheetScreen = () => {
     selectedScoreTotal: undefined,
     cellWidth: 62,
   });
-  const navigation = useNavigation<RootStackNavProp>();
-  const route = useRoute<HeatSheetRouteProp>();
-  const { heatId } = useRoute<HeatSheetRouteProp>().params;
+  const navigation = useNavigation<NavigationProps["HeatSheet"]["navigation"]>();
+  const route = useRoute<NavigationProps["HeatSheet"]["route"]>();
+  const { heatId } = route.params;
   const heat = useHeat(heatId);
   const scores = useScores(heatId);
 

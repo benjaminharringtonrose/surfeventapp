@@ -121,11 +121,7 @@ const Root = () => {
           {user ? (
             <Stack.Screen name="Root" component={RootStack} options={{ headerShown: false }} />
           ) : (
-            <Stack.Screen
-              name="Auth"
-              component={AuthStack}
-              options={{ headerShown: false, animationTypeForReplace: user ? "push" : "pop" }}
-            />
+            <Stack.Screen name="Auth" component={AuthStack} options={{ headerShown: false }} />
           )}
         </Stack.Navigator>
       </NavigationContainer>

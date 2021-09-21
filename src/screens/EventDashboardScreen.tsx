@@ -1,17 +1,17 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { EventNavProp } from "../navigation";
 import { colors } from "../common";
 import { Alert } from "../components/Alert";
 import { useEvents } from "../hooks/useEvents";
 import { usePendingAdminIds } from "../hooks/usePendingAdminIds";
 import { useUser } from "../hooks/useUser";
+import { NavigationProps } from "../navigation";
 import { EventDashboardAdminScreen } from "./EventDashboardAdminScreen";
 import { EventDashboardSurferScreen } from "./EventDashboardSurferScreen";
 
 export const EventDashboardScreen = () => {
-  const navigation = useNavigation<EventNavProp>();
+  const navigation = useNavigation<NavigationProps["Events"]["navigation"]>();
   const { user, loadingUser, userError } = useUser();
   const { events, loadingEvents, eventsError } = useEvents();
   const pendingAdminIds = usePendingAdminIds(user?.organizationId);

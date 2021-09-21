@@ -1,37 +1,35 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 
 import { ButtonAdd } from "../components";
-import { EventNavProp } from "../navigation";
+import { NavigationProps } from "../navigation";
 import { colors, Event, fonts, shared, spacings, User } from "../common";
 import { EventAddModal } from "../modals/EventAddModal";
 import { EventButton } from "../components/EventButton";
 import { Alert } from "../components/Alert";
 import { useAppSelector } from "../hooks/redux";
 import moment from "moment";
-import { useOrganization } from "../hooks/useOrganization";
 import { AlertCard } from "../components/AlertCard";
 
 interface EventDashboardAdminProps {
   user: User;
   events?: Event[];
-  navigation: EventNavProp;
+  navigation: NavigationProps["Events"]["navigation"];
 }
 
 export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const addEventModalRef = useRef<Modalize>(null);
-  const navigation = useNavigation<EventNavProp>();
   const user = props.user;
   const eventId = useAppSelector(state => state.events.eventId);
 
   const onAddHeat = () => {
     if (eventId) {
       setShowAlert(false);
-      navigation.navigate("AddHeat", { eventId });
+      props.navigation.navigate("AddHeat", { eventId });
     }
   };
 
@@ -75,7 +73,14 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
                 eventName={item.eventName}
                 dateStart={moment(item.dateStart.toDate()).format("MMM DD")}
                 dateEnd={moment(item.dateEnd.toDate()).format("DD")}
-                onPress={() => navigation.navigate("EventDetail", { eventId: item.eventId })}
+                onPress={() =>
+                  props.navigation.navigate("EventStack", {
+                    screen: "EventDetail",
+                    params: {
+                      eventId: item.eventId,
+                    },
+                  })
+                }
               />
             );
           }}
