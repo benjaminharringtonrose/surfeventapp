@@ -3,7 +3,7 @@ import "react-native-gesture-handler";
 import "react-native-get-random-values";
 import React, { useEffect, useState } from "react";
 import { Alert, StatusBar, useColorScheme, View } from "react-native";
-import { AuthStack, RootStack } from "./AppNavigator";
+import { AuthStack, RootStack } from "./navigation";
 import { Provider } from "react-redux";
 import messaging from "@react-native-firebase/messaging";
 import { store } from "./store";
@@ -18,7 +18,6 @@ import { updateMessagingToken } from "./util/cloudMessaging";
 import { LogBox } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
-import { useUser } from "./hooks/useUser";
 
 LogBox.ignoreLogs([
   "ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.",
@@ -74,6 +73,7 @@ const Root = () => {
   const onAuthStateChanged = async (firebaseUser: FirebaseAuthTypes.User | null) => {
     try {
       let authUser: AuthUser | undefined = undefined;
+      console.log("onAuthStateChanged ::: firebaseUser :::", firebaseUser);
       if (firebaseUser) {
         authUser = {
           emailVerified: firebaseUser.emailVerified,

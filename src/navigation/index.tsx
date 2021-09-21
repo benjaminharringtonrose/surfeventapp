@@ -12,16 +12,16 @@ import {
   RouteProp,
 } from "@react-navigation/native";
 
-import { colors, fonts } from "./common";
-import { AuthLoginScreen } from "./screens/AuthLoginScreen";
-import { AuthSignUpScreen } from "./screens/AuthSignUpScreen";
-import { EventDashboardScreen } from "./screens/EventDashboardScreen";
-import { SettingsDashboardScreen } from "./screens/SettingsDashboardScreen";
-import { HeatAddScreen } from "./screens/HeatAddScreen";
-import { HeatEditScreen } from "./screens/HeatEditScreen";
-import { HeatSheetScreen } from "./screens/HeatSheetScreen";
-import { ProfileEditScreen } from "./screens/ProfileEditScreen";
-import { EventDetailScreen } from "./screens/EventDetailScreen";
+import { colors, fonts } from "../common";
+import { AuthLoginScreen } from "../screens/AuthLoginScreen";
+import { AuthSignUpScreen } from "../screens/AuthSignUpScreen";
+import { EventDashboardScreen } from "../screens/EventDashboardScreen";
+import { SettingsDashboardScreen } from "../screens/SettingsDashboardScreen";
+import { HeatAddScreen } from "../screens/HeatAddScreen";
+import { HeatEditScreen } from "../screens/HeatEditScreen";
+import { HeatSheetScreen } from "../screens/HeatSheetScreen";
+import { ProfileEditScreen } from "../screens/ProfileEditScreen";
+import { EventDetailScreen } from "../screens/EventDetailScreen";
 
 const defaultNavigationOptions: StackNavigationOptions = {
   headerStyle: {

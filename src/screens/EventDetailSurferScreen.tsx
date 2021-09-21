@@ -1,19 +1,16 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
 import moment from "moment";
 import React, { useEffect, useRef } from "react";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { EventDetailsNavProp, EventDetailsRouteProp } from "../AppNavigator";
+import { EventDetailsNavProp } from "../navigation";
 import { colors, fonts, Heat, shared, spacings } from "../common";
 import { ButtonBack } from "../components";
 import { HeatCard } from "../components/HeatCard";
 import { useAppDispatch } from "../hooks/redux";
-import { useEvent } from "../hooks/useEvent";
-import { useHeats } from "../hooks/useHeats";
 import { EventEditModal } from "../modals/EventEditModal";
 import { setTime } from "../store/slices/heatSlice";
 import { getHeatDivisionLabel } from "../common/util";
-import { Event, User } from "../common/models";
+import { Event } from "../common/models";
 
 interface EventDetailSurferScreenProps {
   navigation: EventDetailsNavProp;

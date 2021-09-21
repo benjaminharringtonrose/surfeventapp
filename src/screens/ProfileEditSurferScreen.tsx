@@ -13,7 +13,7 @@ import {
 import firestore from "@react-native-firebase/firestore";
 import * as Yup from "yup";
 import ImageCropPicker from "react-native-image-crop-picker";
-import { EventNavProp } from "../AppNavigator";
+import { EventNavProp } from "../navigation";
 import { colors, Errors, fonts, Organization, shared, spacings, User } from "../common";
 import { Button, FormDropListPicker, FormInput } from "../components";
 import { capitalize } from "lodash";

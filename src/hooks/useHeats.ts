@@ -5,29 +5,42 @@ import { useAppSelector } from "./redux";
 
 export const useHeats = (eventId: string) => {
   const [heats, setHeats] = useState<Heat[] | undefined>(undefined);
+  const [loadingHeats, setLoadingHeats] = useState<boolean>(false);
+  const [heatsError, setHeatsError] = useState<Error | undefined>(undefined);
   const uid = useAppSelector(state => state.auth.user?.uid);
   useEffect(() => {
     if (!uid) {
       return;
     }
+    setLoadingHeats(true);
     var unsubscribe = firebase
       .firestore()
       .collection(Collection.heats)
       .where("uid", "==", uid)
       .where("eventId", "==", eventId)
-      .onSnapshot(querySnapshot => {
-        const heats: Heat[] = [];
-        querySnapshot?.forEach(doc => {
-          const data = doc.data() as Heat;
-          heats.push(data);
-        });
-        heats.sort((d1, d2) => d1.dateStart.toDate().getTime() - d2.dateStart.toDate().getTime());
-        const mappedHeats = heats.map((heat, index) => ({ ...heat, title: `Heat #${index + 1}` }));
-        setHeats(mappedHeats);
-      });
+      .onSnapshot(
+        querySnapshot => {
+          const heats: Heat[] = [];
+          querySnapshot?.forEach(doc => {
+            const data = doc.data() as Heat;
+            heats.push(data);
+          });
+          heats.sort((d1, d2) => d1.dateStart.toDate().getTime() - d2.dateStart.toDate().getTime());
+          const mappedHeats = heats.map((heat, index) => ({
+            ...heat,
+            title: `Heat #${index + 1}`,
+          }));
+          setHeats(mappedHeats);
+          setLoadingHeats(false);
+        },
+        error => {
+          setHeatsError(error);
+          setLoadingHeats(false);
+        },
+      );
     return function cleanup() {
       unsubscribe();
     };
   }, []);
-  return heats;
+  return { heats, loadingHeats, heatsError };
 };

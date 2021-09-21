@@ -1,23 +1,20 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { EventDetailsRouteProp, EventNavProp } from "../AppNavigator";
+import { EventDetailsRouteProp, EventDetailsNavProp } from "../navigation";
 import { colors } from "../common";
-import { useEvents } from "../hooks/useEvents";
-import { usePendingAdminIds } from "../hooks/usePendingAdminIds";
 import { useUser } from "../hooks/useUser";
 import { EventDetailAdminScreen } from "./EventDetailAdminScreen";
 import { EventDetailSurferScreen } from "./EventDetailSurferScreen";
-import { EventDetailsNavProp } from "../AppNavigator";
 import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
 
 export const EventDetailScreen = () => {
   const navigation = useNavigation<EventDetailsNavProp>();
   const { params } = useRoute<EventDetailsRouteProp>();
-  const user = useUser();
+  const { user } = useUser();
   const event = useEvent(params.eventId);
-  const heats = useHeats(params.eventId);
+  const { heats, loadingHeats, heatsError } = useHeats(params.eventId);
 
   useEffect(() => {
     navigation.setOptions({

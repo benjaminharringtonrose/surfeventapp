@@ -1,6 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
-import { EventNavProp } from "../AppNavigator";
+import { EventNavProp } from "../navigation";
 import { ButtonBack } from "../components";
 import { useOrganizations } from "../hooks/useOrganizations";
 import { useUser } from "../hooks/useUser";
@@ -9,7 +9,7 @@ import { ProfileEditSurferScreen } from "./ProfileEditSurferScreen";
 
 export const ProfileEditScreen = () => {
   const navigation = useNavigation<EventNavProp>();
-  const user = useUser();
+  const { user } = useUser();
   const organizations = useOrganizations();
 
   useEffect(() => {

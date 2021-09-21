@@ -14,7 +14,7 @@ import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setEventId } from "../store/slices/eventsSlice";
 import { Alert } from "../components/Alert";
-import { EventDetailsNavProp } from "../AppNavigator";
+import { EventDetailsNavProp } from "../navigation";
 
 interface EventEditFormProps {
   eventName?: string;

@@ -4,7 +4,7 @@ import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 
 import { ButtonAdd } from "../components";
-import { EventNavProp } from "../AppNavigator";
+import { EventNavProp } from "../navigation";
 import { colors, Event, fonts, shared, spacings, User } from "../common";
 import { EventAddModal } from "../modals/EventAddModal";
 import { EventButton } from "../components/EventButton";

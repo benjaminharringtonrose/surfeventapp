@@ -11,7 +11,7 @@ import { ListPickerItem } from "../components/ListPicker";
 import { FormDropSectionListPicker } from "../components/FormDropSectionListPicker";
 import { FormInput } from "../components";
 import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
-import { RootStackNavProp, RootStackParamList } from "../AppNavigator";
+import { RootStackNavProp, RootStackParamList } from "../navigation";
 import { ButtonX } from "../components/ButtonX";
 import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useHeat } from "../hooks/useHeat";

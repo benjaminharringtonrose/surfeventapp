@@ -1,6 +1,6 @@
 import React from "react";
 import { Text, SafeAreaView } from "react-native";
-import { EventNavProp } from "../AppNavigator";
+import { EventNavProp } from "../navigation";
 import { colors, fonts, User } from "../common";
 
 interface ProfileEditAdminScreenProps {

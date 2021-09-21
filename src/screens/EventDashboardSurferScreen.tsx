@@ -1,8 +1,7 @@
 import React, { useRef } from "react";
-import firestore from "@react-native-firebase/firestore";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { EventNavProp } from "../AppNavigator";
+import { EventNavProp } from "../navigation";
 import { colors, fonts, shared, spacings, User } from "../common";
 import { UserInfoCompletionList } from "../components/UserCompletionList";
 import { userHasCompletedProfile, userHasCompletedUserRole } from "../util";

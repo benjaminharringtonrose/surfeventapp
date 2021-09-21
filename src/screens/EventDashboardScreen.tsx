@@ -1,10 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { EventNavProp } from "../AppNavigator";
+import { EventNavProp } from "../navigation";
 import { colors } from "../common";
 import { Alert } from "../components/Alert";
-import { useAppSelector } from "../hooks/redux";
 import { useEvents } from "../hooks/useEvents";
 import { usePendingAdminIds } from "../hooks/usePendingAdminIds";
 import { useUser } from "../hooks/useUser";
@@ -13,10 +12,9 @@ import { EventDashboardSurferScreen } from "./EventDashboardSurferScreen";
 
 export const EventDashboardScreen = () => {
   const navigation = useNavigation<EventNavProp>();
-  const user = useUser();
+  const { user, loadingUser, userError } = useUser();
   const { events, loadingEvents, eventsError } = useEvents();
   const pendingAdminIds = usePendingAdminIds(user?.organizationId);
-
   const filteredEvents = events?.filter(
     e => !pendingAdminIds?.includes(e.uid) || e.uid === user?.uid,
   );
@@ -27,7 +25,7 @@ export const EventDashboardScreen = () => {
       headerRight: () => null,
     });
   });
-  if (!user || loadingEvents)
+  if (!user || loadingEvents || loadingUser)
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, justifyContent: "center" }}>
         <ActivityIndicator color={colors.primary} />

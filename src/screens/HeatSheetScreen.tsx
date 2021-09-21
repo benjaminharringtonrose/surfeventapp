@@ -5,7 +5,7 @@ import firestore from "@react-native-firebase/firestore";
 import Orientation from "react-native-orientation-locker";
 import _ from "lodash";
 
-import { HeatSheetRouteProp, RootStackNavProp } from "../AppNavigator";
+import { HeatSheetRouteProp, RootStackNavProp } from "../navigation";
 import { colors, FirebaseHeat, Score, shared, spacings, Wave } from "../common";
 import { useHeat } from "../hooks/useHeat";
 import { Icon, ButtonX, ScorePopUpCard } from "../components";

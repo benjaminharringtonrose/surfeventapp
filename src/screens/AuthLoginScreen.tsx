@@ -8,7 +8,7 @@ import auth from "@react-native-firebase/auth";
 import { Button } from "../components/Button";
 import { colors, fonts, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
-import { LoginNavProp } from "../AppNavigator";
+import { LoginNavProp } from "../navigation";
 
 interface LoginFormProps {
   email?: string;

@@ -8,7 +8,7 @@ import { Button } from "../components/Button";
 import { colors, fonts, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 import { useNavigation } from "@react-navigation/native";
-import { SignUpNavProp } from "../AppNavigator";
+import { SignUpNavProp } from "../navigation";
 import { ButtonBack } from "../components/ButtonBack";
 
 interface SignUpFormProps {
