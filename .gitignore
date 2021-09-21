@@ -59,4 +59,6 @@ buck-out/
 # CocoaPods
 /ios/Pods/
 
+# anyone who wants to run the app will need this
 /ios/GoogleService-Info.plist
+/android/app/google-services.json
