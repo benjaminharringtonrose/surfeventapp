@@ -2,6 +2,7 @@ import React from "react";
 import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
 import {
   createDrawerNavigator,
+  DrawerContentComponentProps,
   DrawerContentScrollView,
   DrawerItem,
   DrawerItemList,
@@ -76,7 +77,7 @@ export function EventStack() {
   );
 }
 
-function CustomDrawerContent(props: any) {
+function DrawerContent(props: DrawerContentComponentProps) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
@@ -90,7 +91,7 @@ function DrawerStack() {
   return (
     <Drawer.Navigator
       initialRouteName={"EventStack"}
-      drawerContent={props => <CustomDrawerContent {...props} />}>
+      drawerContent={props => <DrawerContent {...props} />}>
       <Drawer.Screen name="Events" component={EventDashboardScreen} />
       <Drawer.Screen name="Settings" component={SettingsDashboardScreen} />
     </Drawer.Navigator>
