@@ -35,12 +35,10 @@ export const useUser = () => {
             console.log("user: ", user);
             setUser(user);
             dispatch(updateUser({ user }));
-            setLoadingUser(false);
           }
         },
         (error: Error) => {
           setUserError(error);
-          setLoadingUser(false);
         },
         () => {
           setLoadingUser(false);

@@ -19,25 +19,26 @@ export const useEvents = () => {
     var unsubscribe = firebase
       .firestore()
       .collection(Collection.events)
-      .onSnapshot(querySnapshot => {
-        const events: Event[] = [];
-        querySnapshot?.forEach(
-          doc => {
-            console.log(doc.data());
-            events.push(doc.data() as Event);
-          },
-          (error: IError) => {
-            setEventsError(error);
-            setLoadingEvents(false);
-          },
-        );
-        events.sort(
-          (d1, d2) =>
-            new Date(d1.dateStart.toDate()).getTime() - new Date(d2.dateStart.toDate()).getTime(),
-        );
-        setEvents(events);
-        setLoadingEvents(false);
-      });
+      .onSnapshot(
+        querySnapshot => {
+          const events: Event[] = [];
+          querySnapshot?.forEach(
+            doc => {
+              console.log(doc.data());
+              events.push(doc.data() as Event);
+            },
+            (error: IError) => {
+              setEventsError(error);
+            },
+          );
+          events.sort(
+            (d1, d2) =>
+              new Date(d1.dateStart.toDate()).getTime() - new Date(d2.dateStart.toDate()).getTime(),
+          );
+          setEvents(events);
+        },
+        () => setLoadingEvents(false),
+      );
     return function cleanup() {
       unsubscribe();
     };

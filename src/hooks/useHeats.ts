@@ -31,11 +31,9 @@ export const useHeats = (eventId: string) => {
             title: `Heat #${index + 1}`,
           }));
           setHeats(mappedHeats);
-          setLoadingHeats(false);
         },
         error => {
           setHeatsError(error);
-          setLoadingHeats(false);
         },
         () => {
           setLoadingHeats(false);

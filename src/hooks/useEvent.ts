@@ -21,7 +21,6 @@ export const useEvent = (eventId: string) => {
         },
         (error: Error) => {
           setEventError(error);
-          setLoadingEvent(false);
         },
         () => {
           setLoadingEvent(false);
