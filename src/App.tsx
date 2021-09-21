@@ -98,6 +98,8 @@ const Root = () => {
     }
   };
 
+  console.log("isDarkMode ? ", isDarkMode);
+
   if (initializing) return null;
 
   return (

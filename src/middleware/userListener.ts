@@ -1,6 +1,6 @@
 import firestore from "@react-native-firebase/firestore";
 import { Middleware } from "@reduxjs/toolkit";
-import { Collection, User } from "../common";
+import { Collection, FirebaseUser, User } from "../common";
 import { RootState } from "../store";
 import { errorGetCurrentUser, loadingGetCurrentUser, updateUser } from "../store/slices/userSlice";
 
@@ -20,8 +20,13 @@ export const userListener: Middleware<{}, RootState> = store => next => action =
       .doc(userId)
       .onSnapshot(
         doc => {
-          const updatedUser = doc.data() as User;
-          store.dispatch(updateUser({ user: updatedUser }));
+          const firebaseUser = doc.data() as FirebaseUser;
+          const user = {
+            ...firebaseUser,
+            createdOn: firebaseUser?.createdOn?.toDate().toISOString(),
+            birthdate: firebaseUser?.birthdate?.toDate().toISOString(),
+          } as User;
+          store.dispatch(updateUser({ user }));
         },
         error => {
           store.dispatch(

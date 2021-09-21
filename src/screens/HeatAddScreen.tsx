@@ -1,6 +1,6 @@
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
-import firestore, { firebase } from "@react-native-firebase/firestore";
+import firestore from "@react-native-firebase/firestore";
 import React, { forwardRef, useEffect, useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
 import { spacings, colors } from "../common";
@@ -41,7 +41,7 @@ export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
   const navigation = useNavigation<RootStackNavProp>();
   const uid = useAppSelector(state => state.auth.user?.uid);
   const { eventId } = useRoute<RouteProp<RootStackParamList, "AddHeat">>().params;
-  const event = useEvent(eventId);
+  const { event } = useEvent(eventId);
 
   useEffect(() => {
     navigation.setOptions({

@@ -13,7 +13,7 @@ export const EventDetailScreen = () => {
   const navigation = useNavigation<EventDetailsNavProp>();
   const { params } = useRoute<EventDetailsRouteProp>();
   const { user } = useUser();
-  const event = useEvent(params.eventId);
+  const { event } = useEvent(params.eventId);
   const { heats, loadingHeats, heatsError } = useHeats(params.eventId);
 
   useEffect(() => {
@@ -22,6 +22,8 @@ export const EventDetailScreen = () => {
       headerRight: () => null,
     });
   });
+
+  console.log("heats", heats);
 
   if (!user)
     return (

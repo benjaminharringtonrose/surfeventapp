@@ -37,6 +37,9 @@ export const useHeats = (eventId: string) => {
           setHeatsError(error);
           setLoadingHeats(false);
         },
+        () => {
+          setLoadingHeats(false);
+        },
       );
     return function cleanup() {
       unsubscribe();
