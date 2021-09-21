@@ -112,10 +112,10 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
           <ImageBackground
             source={require("../../assets/default_avatar.png")}
             style={{
-              width: 150,
-              height: 150,
-              alignItems: "center",
+              width: 140,
+              height: 140,
               justifyContent: "center",
+              alignItems: "center",
             }}>
             {loadingProfilePhoto ? (
               <View style={styles.activityIndicatorContainer}>
@@ -140,7 +140,7 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
                     borderRadius: shared.borderRadius,
                     opacity: 0.8,
                   }}>
-                  <Text style={[fonts.large, { color: colors.grey100, fontWeight: "500" }]}>
+                  <Text style={[fonts.regular, { color: colors.grey100, fontWeight: "500" }]}>
                     Upload Photo
                   </Text>
                 </View>
@@ -275,14 +275,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.grey200,
     width: 200,
     height: 200,
-    borderRadius: shared.borderRadius,
+    borderRadius: 100,
     alignItems: "center",
     justifyContent: "center",
   },
   firebaseImage: {
     width: 200,
     height: 200,
-    borderRadius: shared.borderRadius,
+    borderRadius: 100,
     borderWidth: 2,
     borderColor: colors.primary,
   },

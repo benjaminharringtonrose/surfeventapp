@@ -3,6 +3,8 @@ import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
 import { EventNavProp } from "../AppNavigator";
 import { colors } from "../common";
+import { Alert } from "../components/Alert";
+import { useAppSelector } from "../hooks/redux";
 import { useEvents } from "../hooks/useEvents";
 import { usePendingAdminIds } from "../hooks/usePendingAdminIds";
 import { useUser } from "../hooks/useUser";
@@ -12,7 +14,7 @@ import { EventDashboardSurferScreen } from "./EventDashboardSurferScreen";
 export const EventDashboardScreen = () => {
   const navigation = useNavigation<EventNavProp>();
   const user = useUser();
-  const events = useEvents();
+  const { events, loadingEvents, eventsError } = useEvents();
   const pendingAdminIds = usePendingAdminIds(user?.organizationId);
 
   const filteredEvents = events?.filter(
@@ -25,21 +27,27 @@ export const EventDashboardScreen = () => {
       headerRight: () => null,
     });
   });
-
-  if (!user || !events?.length)
+  if (!user || loadingEvents)
     return (
       <View style={{ flex: 1, backgroundColor: colors.background, justifyContent: "center" }}>
         <ActivityIndicator color={colors.primary} />
       </View>
     );
 
-  if (user?.isAdmin) {
-    return (
-      <EventDashboardAdminScreen user={user} navigation={navigation} events={filteredEvents} />
-    );
-  } else {
-    return (
-      <EventDashboardSurferScreen user={user} navigation={navigation} events={filteredEvents} />
-    );
-  }
+  return (
+    <View style={{ flex: 1 }}>
+      {user?.isAdmin ? (
+        <EventDashboardAdminScreen user={user} navigation={navigation} events={filteredEvents} />
+      ) : (
+        <EventDashboardSurferScreen user={user} navigation={navigation} events={filteredEvents} />
+      )}
+      {!!eventsError && (
+        <Alert
+          visible={!!eventsError}
+          label={eventsError?.message || "Error!"}
+          actions={[{ label: "label", onPress: () => {}, type: "contained" }]}
+        />
+      )}
+    </View>
+  );
 };

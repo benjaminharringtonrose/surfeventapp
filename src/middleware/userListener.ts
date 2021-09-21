@@ -29,7 +29,7 @@ export const userListener: Middleware<{}, RootState> = store => next => action =
               error: {
                 ...error,
                 message: "Error getting user",
-                stack:
+                code:
                   error.stack +
                   `firestore()
                   .collection("users")
