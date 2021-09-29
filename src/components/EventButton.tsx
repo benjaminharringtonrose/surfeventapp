@@ -21,34 +21,46 @@ export const EventButton = (props: IEventButtonProps) => {
         ...shared.shadow,
         marginBottom: spacings.xsmall,
         marginHorizontal: spacings.base,
-        padding: spacings.base,
+        paddingHorizontal: spacings.base,
+        paddingVertical: spacings.xsmall,
       }}>
-      <View style={{ flex: 10 }}>
-        <View style={{ flex: 6, flexDirection: "row" }}>
-          <View style={{ flex: 5, flexDirection: "row" }}>
+      <View style={{ flex: 2, flexDirection: "row" }}>
+        <View style={{ flex: 1 }}>
+          <View style={{ flexDirection: "row" }}>
             {!!props.eventName && (
-              <Text style={{ fontSize: 18, fontWeight: "500", color: colors.almostWhite }}>
+              <Text style={{ fontSize: 20, fontWeight: "500", color: colors.almostWhite }}>
                 {props.eventName}
               </Text>
             )}
           </View>
-          <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-            <Icon
-              name={"chevron-forward"}
-              size={21}
-              color={colors.grey100}
-              style={{ marginLeft: spacings.tiny }}
-            />
+          <View style={{ flexDirection: "row" }}>
+            {!!props.dateStart && !!props.dateEnd && (
+              <Text style={{ fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
+                {`${props.dateStart} - ${props.dateEnd}`}
+              </Text>
+            )}
           </View>
         </View>
-        <View style={{ flex: 4, flexDirection: "row" }}>
-          {!!props.dateStart && !!props.dateEnd && (
-            <Text style={{ fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
-              {`${props.dateStart} - ${props.dateEnd}`}
-            </Text>
-          )}
+        <View style={{ flex: 1, justifyContent: "center", alignItems: "flex-end" }}>
+          <Icon
+            name={"chevron-forward"}
+            size={21}
+            color={colors.grey100}
+            style={{ marginLeft: spacings.tiny }}
+          />
         </View>
       </View>
     </TouchableOpacity>
   );
 };
+
+{
+  /* <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+<Icon
+  name={"chevron-forward"}
+  size={21}
+  color={colors.grey100}
+  style={{ marginLeft: spacings.tiny }}
+/>
+</View> */
+}
