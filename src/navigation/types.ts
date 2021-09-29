@@ -26,11 +26,6 @@ export type RootStackParamList = {
 export type DrawerStackParamList = {
   Settings: undefined;
   EventStack: NavigatorScreenParams<EventStackParamList>;
-  Events: {
-    showAlert?: boolean;
-  };
-  EventDetail: undefined;
-  ProfileEdit: undefined;
 };
 
 export type AuthStackParamList = {
@@ -39,6 +34,9 @@ export type AuthStackParamList = {
 };
 
 export type EventStackParamList = {
+  Events: {
+    showAlert?: boolean;
+  };
   EventDetail: {
     eventId: string;
   };
@@ -67,10 +65,13 @@ export type NavigationProps = {
   };
   Events: {
     navigation: CompositeNavigationProp<
-      StackNavigationProp<DrawerStackParamList, "Events">,
-      StackNavigationProp<RootStackParamList>
+      StackNavigationProp<EventStackParamList, "Events">,
+      CompositeNavigationProp<
+        DrawerNavigationProp<DrawerStackParamList>,
+        StackNavigationProp<RootStackParamList>
+      >
     >;
-    route: RouteProp<DrawerStackParamList, "Events">;
+    route: RouteProp<EventStackParamList, "Events">;
   };
   HeatSheet: {
     navigation: StackNavigationProp<RootStackParamList, "HeatSheet">;

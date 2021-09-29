@@ -79,12 +79,7 @@ export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => 
                 eventName={item.eventName}
                 dateStart={moment(item.dateStart.toDate()).format("MMM DD")}
                 dateEnd={moment(item.dateEnd.toDate()).format("DD")}
-                onPress={() =>
-                  props.navigation.navigate("EventStack", {
-                    screen: "EventDetail",
-                    params: { eventId: item.eventId },
-                  })
-                }
+                onPress={() => props.navigation.navigate("EventDetail", { eventId: item.eventId })}
               />
             );
           }}

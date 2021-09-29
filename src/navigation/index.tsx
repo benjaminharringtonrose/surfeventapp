@@ -58,7 +58,6 @@ export function RootStack() {
     <Stack.Navigator
       initialRouteName={"DrawerStack"}
       screenOptions={{ ...defaultScreenOptions, presentation: "modal" }}>
-      <Stack.Screen name={"EventStack"} component={EventStack} options={{ headerShown: false }} />
       <Stack.Screen name={"DrawerStack"} component={DrawerStack} options={{ headerShown: false }} />
       <Stack.Screen name={"AddHeat"} component={HeatAddScreen} />
       <Stack.Screen name={"EditHeat"} component={HeatEditScreen} />
@@ -70,7 +69,13 @@ export function RootStack() {
 export function EventStack() {
   const Stack = createStackNavigator<EventStackParamList>();
   return (
-    <Stack.Navigator screenOptions={{ ...defaultScreenOptions }}>
+    <Stack.Navigator
+      screenOptions={{
+        ...defaultScreenOptions,
+        headerMode: "screen",
+        presentation: "card",
+      }}>
+      <Stack.Screen name="Events" component={EventDashboardScreen} />
       <Stack.Screen name="EventDetail" component={EventDetailScreen} />
       <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
     </Stack.Navigator>
@@ -81,7 +86,6 @@ function DrawerContent(props: DrawerContentComponentProps) {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItemList {...props} />
-      <DrawerItem label="Help" onPress={() => alert("Link to help")} />
     </DrawerContentScrollView>
   );
 }
@@ -91,8 +95,9 @@ function DrawerStack() {
   return (
     <Drawer.Navigator
       initialRouteName={"EventStack"}
+      screenOptions={{ title: "" }}
       drawerContent={props => <DrawerContent {...props} />}>
-      <Drawer.Screen name="Events" component={EventDashboardScreen} />
+      <Drawer.Screen name="EventStack" component={EventStack} />
       <Drawer.Screen name="Settings" component={SettingsDashboardScreen} />
     </Drawer.Navigator>
   );

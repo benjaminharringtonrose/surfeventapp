@@ -74,11 +74,8 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
                 dateStart={moment(item.dateStart.toDate()).format("MMM DD")}
                 dateEnd={moment(item.dateEnd.toDate()).format("DD")}
                 onPress={() =>
-                  props.navigation.navigate("EventStack", {
-                    screen: "EventDetail",
-                    params: {
-                      eventId: item.eventId,
-                    },
+                  props.navigation.navigate("EventDetail", {
+                    eventId: item.eventId,
                   })
                 }
               />
