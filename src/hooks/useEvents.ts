@@ -36,6 +36,7 @@ export const useEvents = () => {
               new Date(d1.dateStart.toDate()).getTime() - new Date(d2.dateStart.toDate()).getTime(),
           );
           setEvents(events);
+          setLoadingEvents(false);
         },
         () => setLoadingEvents(false),
       );

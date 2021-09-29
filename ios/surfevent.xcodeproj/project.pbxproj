@@ -14,7 +14,7 @@
 		1CF7D41C2E28F0FE897A01E1 /* libPods-surfevent.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CCFB3388D79214B26B6E7A98 /* libPods-surfevent.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 		98CDBA46DB22AACF3260CCEB /* libPods-surfevent-surfeventTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = FCF8F504DD7AA47EDE55CFAD /* libPods-surfevent-surfeventTests.a */; };
-		D928E4A526D0A32200054AD1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D928E4A426D0A32200054AD1 /* GoogleService-Info.plist */; };
+		D9914D9E2705168F0095C67E /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = D9914D9D2705168F0095C67E /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,7 +44,7 @@
 		96DD17936E85DBB8D439D2A2 /* Pods-surfevent.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-surfevent.release.xcconfig"; path = "Target Support Files/Pods-surfevent/Pods-surfevent.release.xcconfig"; sourceTree = "<group>"; };
 		CCFB3388D79214B26B6E7A98 /* libPods-surfevent.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-surfevent.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D928E4A326D0762E00054AD1 /* surfevent.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = surfevent.entitlements; path = surfevent/surfevent.entitlements; sourceTree = "<group>"; };
-		D928E4A426D0A32200054AD1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		D9914D9D2705168F0095C67E /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../Downloads/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 		FCF8F504DD7AA47EDE55CFAD /* libPods-surfevent-surfeventTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-surfevent-surfeventTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -89,7 +89,7 @@
 		13B07FAE1A68108700A75B9A /* surfevent */ = {
 			isa = PBXGroup;
 			children = (
-				D928E4A426D0A32200054AD1 /* GoogleService-Info.plist */,
+				D9914D9D2705168F0095C67E /* GoogleService-Info.plist */,
 				D928E4A326D0762E00054AD1 /* surfevent.entitlements */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -249,7 +249,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
-				D928E4A526D0A32200054AD1 /* GoogleService-Info.plist in Resources */,
+				D9914D9E2705168F0095C67E /* GoogleService-Info.plist in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

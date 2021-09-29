@@ -38,7 +38,7 @@ export const HeatSheetScreen = () => {
   useEffect(() => {
     Orientation.lockToLandscapeLeft();
     navigation.setOptions({
-      title: route.params.title,
+      title: "",
       gestureEnabled: false,
       headerLeft: () => (
         <ButtonX
