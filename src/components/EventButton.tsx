@@ -1,8 +1,8 @@
-import moment from "moment";
 import React from "react";
 import { TouchableOpacity, View, Text } from "react-native";
 import { Icon } from ".";
-import { colors, shared, spacings } from "../common";
+import { shared, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 
 interface IEventButtonProps {
   eventName?: string;
@@ -12,6 +12,7 @@ interface IEventButtonProps {
 }
 
 export const EventButton = (props: IEventButtonProps) => {
+  const colors = useColors();
   return (
     <TouchableOpacity
       onPress={props?.onPress}

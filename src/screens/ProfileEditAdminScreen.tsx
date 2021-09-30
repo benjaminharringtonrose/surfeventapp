@@ -1,6 +1,7 @@
 import React from "react";
 import { Text, SafeAreaView } from "react-native";
-import { colors, fonts, User } from "../common";
+import { fonts, User } from "../common";
+import { useColors } from "../hooks/useColors";
 import { NavigationProps } from "../navigation";
 
 interface ProfileEditAdminScreenProps {
@@ -9,6 +10,7 @@ interface ProfileEditAdminScreenProps {
 }
 
 export const ProfileEditAdminScreen = (props: ProfileEditAdminScreenProps) => {
+  const colors = useColors();
   return (
     <SafeAreaView
       style={{

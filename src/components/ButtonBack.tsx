@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors, spacings } from "../common";
+import { sharedColors, spacings } from "../common";
 
 interface ButtonBackProps {
   onPress?: () => void;
@@ -10,7 +10,7 @@ interface ButtonBackProps {
 export const ButtonBack = (props: ButtonBackProps) => {
   return (
     <TouchableOpacity onPress={props.onPress} style={{ paddingHorizontal: spacings.base }}>
-      <Icon name={"chevron-back"} color={colors.grey500} size={24} />
+      <Icon name={"chevron-back"} color={sharedColors.grey500} size={24} />
     </TouchableOpacity>
   );
 };

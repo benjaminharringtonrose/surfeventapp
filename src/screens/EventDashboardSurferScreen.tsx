@@ -2,7 +2,7 @@ import React, { useRef } from "react";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { NavigationProps } from "../navigation";
-import { colors, fonts, shared, spacings, User } from "../common";
+import { fonts, shared, sharedColors, spacings, User } from "../common";
 import { UserInfoCompletionList } from "../components/UserCompletionList";
 import { userHasCompletedProfile, userHasCompletedUserRole } from "../util";
 import { UserRoleModal } from "../modals/UserRoleModal";
@@ -10,6 +10,7 @@ import { Event } from "../common/models";
 import { AlertCard } from "../components/AlertCard";
 import { EventButton } from "../components/EventButton";
 import moment from "moment";
+import { useColors } from "../hooks/useColors";
 
 interface EventDashboardSurferProps {
   user: User;
@@ -18,6 +19,7 @@ interface EventDashboardSurferProps {
 }
 
 export const EventDashboardSurferScreen = (props: EventDashboardSurferProps) => {
+  const colors = useColors();
   const modalRef = useRef<Modalize>();
 
   const hasCompletedProfile = userHasCompletedProfile(props.user);
@@ -106,7 +108,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     ...fonts.large,
-    color: colors.grey700,
+    color: sharedColors.grey700,
     textAlign: "center",
     padding: spacings.base,
   },

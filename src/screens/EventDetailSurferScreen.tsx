@@ -2,7 +2,7 @@ import moment from "moment";
 import React, { useEffect, useRef } from "react";
 import { SafeAreaView, View, Text, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { colors, fonts, Heat, shared, spacings } from "../common";
+import { fonts, Heat, shared, sharedColors, spacings } from "../common";
 import { ButtonBack } from "../components";
 import { HeatCard } from "../components/HeatCard";
 import { useAppDispatch } from "../hooks/redux";
@@ -11,6 +11,7 @@ import { setTime } from "../store/slices/heatSlice";
 import { getHeatDivisionLabel } from "../common/util";
 import { Event } from "../common/models";
 import { NavigationProps } from "../navigation";
+import { useColors } from "../hooks/useColors";
 
 interface EventDetailSurferScreenProps {
   navigation: NavigationProps["EventDetail"]["navigation"];
@@ -19,6 +20,7 @@ interface EventDetailSurferScreenProps {
 }
 
 export const EventDetailSurferScreen = (props: EventDetailSurferScreenProps) => {
+  const colors = useColors();
   const editEventModalRef = useRef<Modalize>(null);
   const dispatch = useAppDispatch();
 
@@ -125,7 +127,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     ...fonts.large,
-    color: colors.grey500,
+    color: sharedColors.grey500,
     textAlign: "center",
     padding: spacings.base,
   },

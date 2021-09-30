@@ -9,7 +9,8 @@ import {
   TextStyle,
 } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors, fonts, shared, spacings } from "../common";
+import { fonts, shared, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 
 export interface ButtonProps extends TouchableOpacityProps {
   type?: "contained" | "bordered" | "text";
@@ -23,6 +24,7 @@ export interface ButtonProps extends TouchableOpacityProps {
 }
 
 export const Button = (props: ButtonProps) => {
+  const colors = useColors();
   const { type = "contained", textColor } = props;
   const contentColor = textColor ? textColor : type === "contained" ? "white" : colors.primary;
   return (

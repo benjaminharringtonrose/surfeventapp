@@ -1,7 +1,8 @@
 import React from "react";
 import { TouchableOpacity, View, Text, StyleProp, ViewStyle } from "react-native";
 import Icon from "react-native-vector-icons/Ionicons";
-import { colors, shared, spacings } from "../common";
+import { shared, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 
 interface ButtonAddProps {
   label?: string;
@@ -10,6 +11,7 @@ interface ButtonAddProps {
 }
 
 export const ButtonAdd = (props: ButtonAddProps) => {
+  const colors = useColors();
   return (
     <TouchableOpacity
       onPress={props.onPress}

@@ -4,7 +4,8 @@ import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { colors, fonts, spacings } from "../common";
+import { fonts, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 import { ModalHeader } from "./ModalHeader";
 
 export interface ListPickerItem {
@@ -21,6 +22,7 @@ export interface ListPickerProps {
 }
 
 export const ListPicker = React.forwardRef((props: ListPickerProps, ref) => {
+  const colors = useColors();
   const insets = useSafeAreaInsets();
 
   const renderCells = ({ item }: { item: ListPickerItem }) => {
@@ -71,4 +73,7 @@ export const ListPicker = React.forwardRef((props: ListPickerProps, ref) => {
   );
 });
 
-const Separator = () => <View style={{ height: 1, backgroundColor: colors.grey800 }} />;
+const Separator = () => {
+  const colors = useColors();
+  return <View style={{ height: 1, backgroundColor: colors.grey800 }} />;
+};

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from "react";
 import { View, Text, StyleProp, ViewStyle, TextStyle, Platform } from "react-native";
 import * as Progress from "react-native-progress";
 import BackgroundTimer from "react-native-background-timer";
-import { colors, spacings } from "../common";
+import { spacings } from "../common";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setIsRunning, setTime } from "../store/slices/heatSlice";
 import { Button } from "./Button";
 import PushNotification, { PushNotificationScheduleObject } from "react-native-push-notification";
 import { AddMinutesToDate } from "../util/dates";
+import { useColors } from "../hooks/useColors";
 
 interface ICountdownTimerProps {
   timer: {
@@ -23,6 +24,7 @@ interface ICountdownTimerProps {
 }
 
 export const CountdownTimer = (props: ICountdownTimerProps) => {
+  const colors = useColors();
   const { minutes = 0, seconds = 60 } = props.timer;
   const dispatch = useAppDispatch();
   const { mins, secs } = useAppSelector(state => state.heat.timer);

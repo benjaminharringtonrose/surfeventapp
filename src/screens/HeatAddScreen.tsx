@@ -3,7 +3,7 @@ import * as Yup from "yup";
 import firestore from "@react-native-firebase/firestore";
 import React, { forwardRef, useEffect, useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { spacings, colors } from "../common";
+import { spacings } from "../common";
 import { Button } from "../components/Button";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppSelector } from "../hooks/redux";
@@ -17,6 +17,7 @@ import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useEvent } from "../hooks/useEvent";
 import { getEventDaysListPickerItems } from "../common/util";
 import { v4 as uuidv4 } from "uuid";
+import { useColors } from "../hooks/useColors";
 
 interface HeatAddFormProps {
   division?: ListPickerItem;
@@ -37,6 +38,7 @@ interface HeatAddScreenProps {
 export const HeatAddScreen = forwardRef((props: HeatAddScreenProps, ref) => {
   const [loadingAddHeat, setLoadingAddHeat] = useState<boolean>(false);
 
+  const colors = useColors();
   const formRef = React.useRef<FormikProps<HeatAddFormProps>>(null);
   const navigation = useNavigation<NavigationProps["AddHeat"]["navigation"]>();
   const uid = useAppSelector(state => state.auth.user?.uid);

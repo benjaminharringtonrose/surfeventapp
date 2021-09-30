@@ -1,7 +1,7 @@
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Icon } from ".";
-import { colors, spacings } from "../common";
+import { sharedColors, spacings } from "../common";
 
 interface IButtonIconProps {
   name: string;
@@ -11,7 +11,7 @@ interface IButtonIconProps {
 export const ButtonIcon = (props: IButtonIconProps) => {
   return (
     <TouchableOpacity style={{ paddingHorizontal: spacings.base }} onPress={props.onPress}>
-      <Icon name={props.name} size={24} color={colors.grey500} />
+      <Icon name={props.name} size={24} color={sharedColors.grey500} />
     </TouchableOpacity>
   );
 };

@@ -5,11 +5,12 @@ import * as Yup from "yup";
 import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
-import { colors, fonts, spacings } from "../common";
+import { fonts, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 import { useNavigation } from "@react-navigation/native";
 import { ButtonBack } from "../components/ButtonBack";
 import { NavigationProps } from "../navigation";
+import { useColors } from "../hooks/useColors";
 
 interface SignUpFormProps {
   email?: string;
@@ -17,6 +18,7 @@ interface SignUpFormProps {
 }
 
 export const AuthSignUpScreen = () => {
+  const colors = useColors();
   const formRef = React.useRef<FormikProps<SignUpFormProps>>(null);
 
   const [loadingSignUp, setLoadingSignUp] = useState<boolean>(false);

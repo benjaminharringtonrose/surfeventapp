@@ -4,12 +4,13 @@ import { SafeAreaView, TouchableOpacity, View, Text, FlatList, StyleSheet } from
 import firestore from "@react-native-firebase/firestore";
 import Orientation from "react-native-orientation-locker";
 
-import { colors, FirebaseHeat, Score, shared, spacings, Wave } from "../common";
+import { FirebaseHeat, Score, shared, sharedColors, spacings, Wave } from "../common";
 import { useHeat } from "../hooks/useHeat";
 import { Icon, ButtonX, ScorePopUpCard } from "../components";
 import { useScores } from "../hooks/useScores";
 import { abbreviateName, computeWaveScoreTotal, getWave } from "../common/util";
 import { NavigationProps } from "../navigation";
+import { useColors } from "../hooks/useColors";
 
 export interface LocalState {
   selectedSurfer: string;
@@ -29,6 +30,7 @@ export const HeatSheetScreen = () => {
     selectedScoreTotal: undefined,
     cellWidth: 62,
   });
+  const colors = useColors();
   const navigation = useNavigation<NavigationProps["HeatSheet"]["navigation"]>();
   const route = useRoute<NavigationProps["HeatSheet"]["route"]>();
   const { heatId } = route.params;
@@ -288,15 +290,15 @@ export const HeatSheetScreen = () => {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    backgroundColor: colors.greyscale9,
+    backgroundColor: sharedColors.greyscale9,
   },
   rightContainer: {
     justifyContent: "space-between",
     marginLeft: spacings.xsmall,
-    borderColor: colors.greyscale1,
+    borderColor: sharedColors.greyscale1,
     borderWidth: 1,
     borderRadius: shared.borderRadius,
-    backgroundColor: colors.greyscale7,
+    backgroundColor: sharedColors.greyscale7,
     marginBottom: spacings.tiny,
   },
   rowRootContainer: {
@@ -322,18 +324,18 @@ const styles = StyleSheet.create({
   },
   addWaveCell: {
     borderRightWidth: 1,
-    borderRightColor: colors.greyscale1,
+    borderRightColor: sharedColors.greyscale1,
     borderRadius: shared.borderRadius,
-    backgroundColor: colors.greyscale1,
+    backgroundColor: sharedColors.greyscale1,
     margin: spacings.tiny,
     alignItems: "center",
     justifyContent: "center",
   },
   waveCell: {
     borderRightWidth: 1,
-    borderRightColor: colors.greyscale1,
+    borderRightColor: sharedColors.greyscale1,
     borderRadius: shared.borderRadius,
-    backgroundColor: colors.greyscale1,
+    backgroundColor: sharedColors.greyscale1,
     margin: spacings.tiny,
     alignItems: "center",
     justifyContent: "center",
@@ -345,7 +347,7 @@ const styles = StyleSheet.create({
     left: spacings.tiny,
     right: 0,
     fontSize: 12,
-    color: colors.almostWhite,
+    color: sharedColors.almostWhite,
   },
   disqualifiedText: {
     position: "absolute",

@@ -1,7 +1,8 @@
 import moment from "moment";
 import React from "react";
 import { View, Text } from "react-native";
-import { colors, shared, spacings } from "../common";
+import { shared, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 
 interface IEventCardProps {
   eventName?: string;
@@ -11,6 +12,7 @@ interface IEventCardProps {
 }
 
 export const EventCard = (props: IEventCardProps) => {
+  const colors = useColors();
   return (
     <View
       style={{

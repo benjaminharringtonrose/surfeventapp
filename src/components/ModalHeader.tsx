@@ -1,8 +1,9 @@
 import * as React from "react";
 import { View, StyleProp, ViewStyle, TouchableOpacity, Text } from "react-native";
-import { colors, fonts, shared, spacings } from "../common";
+import { fonts, shared, spacings } from "../common";
 import Icon from "react-native-vector-icons/Ionicons";
 import { NavigationTextButton } from "./NavigationTextButton";
+import { useColors } from "../hooks/useColors";
 
 export interface ModalHeaderProps {
   title: string;
@@ -14,6 +15,7 @@ export interface ModalHeaderProps {
 }
 
 export const ModalHeader = (props: ModalHeaderProps) => {
+  const colors = useColors();
   return (
     <View
       style={[

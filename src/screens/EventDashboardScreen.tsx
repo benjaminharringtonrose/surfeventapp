@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { colors } from "../common";
 import { Alert } from "../components/Alert";
+import { useColors } from "../hooks/useColors";
 import { useEvents } from "../hooks/useEvents";
 import { usePendingAdminIds } from "../hooks/usePendingAdminIds";
 import { useUser } from "../hooks/useUser";
@@ -11,6 +11,7 @@ import { EventDashboardAdminScreen } from "./EventDashboardAdminScreen";
 import { EventDashboardSurferScreen } from "./EventDashboardSurferScreen";
 
 export const EventDashboardScreen = () => {
+  const colors = useColors();
   const navigation = useNavigation<NavigationProps["Events"]["navigation"]>();
   const { user, loadingUser, userError } = useUser();
   const { events, loadingEvents, eventsError } = useEvents();

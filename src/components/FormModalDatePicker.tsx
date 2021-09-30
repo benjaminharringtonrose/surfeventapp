@@ -3,11 +3,12 @@ import React, { useRef } from "react";
 import { View, StyleProp, ViewStyle, TouchableOpacity, Text } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
-import { colors, DateMode, fonts, spacings } from "../common";
+import { DateMode, fonts, spacings } from "../common";
 import { FormDatePicker } from "./FormDatePicker";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ModalHeader } from "./ModalHeader";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useColors } from "../hooks/useColors";
 
 interface FormModalDatePickerProps {
   title?: string;
@@ -21,6 +22,7 @@ interface FormModalDatePickerProps {
 }
 
 export const FormModalDatePicker = (props: FormModalDatePickerProps) => {
+  const colors = useColors();
   const modalRef = useRef<Modalize>();
   const insets = useSafeAreaInsets();
 

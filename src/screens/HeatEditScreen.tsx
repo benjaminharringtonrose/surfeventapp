@@ -3,19 +3,20 @@ import * as Yup from "yup";
 import firestore from "@react-native-firebase/firestore";
 import React, { useEffect, useState } from "react";
 import { SafeAreaView, ScrollView } from "react-native";
-import { spacings, colors } from "../common";
+import { spacings } from "../common";
 import { Button } from "../components/Button";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppSelector } from "../hooks/redux";
 import { ListPickerItem } from "../components/ListPicker";
 import { FormDropSectionListPicker } from "../components/FormDropSectionListPicker";
 import { FormInput } from "../components";
-import { RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { ButtonX } from "../components/ButtonX";
 import { DIVISIONS_SECTIONS } from "../common/constants";
 import { useHeat } from "../hooks/useHeat";
 import { Alert } from "../components/Alert";
 import { NavigationProps } from "../navigation";
+import { useColors } from "../hooks/useColors";
 
 interface HeatEditFormProps {
   division?: ListPickerItem;
@@ -34,6 +35,7 @@ export const HeatEditScreen = () => {
   const [loadingRemoveHeat, setLoadingRemoveHeat] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState<boolean>(false);
 
+  const colors = useColors();
   const formRef = React.useRef<FormikProps<HeatEditFormProps>>(null);
   const navigation = useNavigation<NavigationProps["EditHeat"]["navigation"]>();
 

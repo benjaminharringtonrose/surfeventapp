@@ -4,18 +4,20 @@ import { View, Text } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { spacings, colors, fonts, Collection, User, AdminRequest } from "../common";
+import { spacings, fonts, Collection, User, AdminRequest } from "../common";
 import { Button } from "../components/Button";
 import { ModalHeader } from "../components/ModalHeader";
 import { IRadioButtonOption } from "../components/RadioButton";
 import { RadioButtonGroup } from "../components/RadioButtonGroup";
 import { useOrganizations } from "../hooks/useOrganizations";
+import { useColors } from "../hooks/useColors";
 
 interface UserRoleModalProps {
   user: User;
   onClose: () => void;
 }
 export const UserRoleModal = forwardRef((props: UserRoleModalProps, ref) => {
+  const colors = useColors();
   const [selectedUserRole, setSelectedUserRole] = useState<IRadioButtonOption | undefined>(
     undefined,
   );

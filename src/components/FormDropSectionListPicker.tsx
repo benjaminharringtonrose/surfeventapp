@@ -1,11 +1,12 @@
 import React from "react";
 import { StyleProp, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { colors, fonts, spacings } from "../common";
+import { fonts, spacings } from "../common";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ListPicker, ListPickerItem } from "./ListPicker";
 import { SectionListPicker, SectionListPickerItem } from "./SectionListPicker";
 import { getHeatDivisionLabel } from "../common/util";
+import { useColors } from "../hooks/useColors";
 
 interface FormDropSectionListPickerProps {
   title?: string;
@@ -19,6 +20,7 @@ interface FormDropSectionListPickerProps {
 }
 
 export const FormDropSectionListPicker = (props: FormDropSectionListPickerProps) => {
+  const colors = useColors();
   const pickerRef = React.useRef<Modalize>(null);
 
   const onSelect = (item: ListPickerItem) => {

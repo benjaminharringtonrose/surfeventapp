@@ -9,7 +9,7 @@ import messaging from "@react-native-firebase/messaging";
 import { store } from "./store";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
-import { AuthUser, colors } from "./common";
+import { AuthUser } from "./common";
 import { Host } from "react-native-portalize";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { useAppDispatch } from "./hooks/redux";
@@ -18,6 +18,9 @@ import { updateMessagingToken } from "./util/cloudMessaging";
 import { LogBox } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
+import { getMode } from "./util/asyncStorgage";
+import { setMode } from "./store/slices/settingsSlice";
+import { useColors } from "./hooks/useColors";
 
 LogBox.ignoreLogs([
   "ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.",
@@ -54,8 +57,10 @@ const Root = () => {
   const [initializing, setInitializing] = useState<boolean>(true);
   const [user, setUser] = useState<AuthUser | undefined>(undefined);
   const dispatch = useAppDispatch();
+  const colors = useColors();
 
   useEffect(() => {
+    getDeviceMode();
     Orientation.lockToPortrait();
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
@@ -73,7 +78,6 @@ const Root = () => {
   const onAuthStateChanged = async (firebaseUser: FirebaseAuthTypes.User | null) => {
     try {
       let authUser: AuthUser | undefined = undefined;
-      console.log("onAuthStateChanged ::: firebaseUser :::", firebaseUser);
       if (firebaseUser) {
         authUser = {
           emailVerified: firebaseUser.emailVerified,
@@ -98,7 +102,18 @@ const Root = () => {
     }
   };
 
-  console.log("isDarkMode ? ", isDarkMode);
+  const getDeviceMode = async () => {
+    const mode = await getMode();
+    if (!mode) {
+      if (isDarkMode) {
+        dispatch(setMode({ mode: "system" }));
+      } else {
+        dispatch(setMode({ mode: "light" }));
+      }
+    } else {
+      dispatch(setMode({ mode }));
+    }
+  };
 
   if (initializing) return null;
 

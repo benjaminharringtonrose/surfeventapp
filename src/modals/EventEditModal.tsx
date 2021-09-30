@@ -6,7 +6,7 @@ import { View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { spacings, colors, Event } from "../common";
+import { spacings, Event } from "../common";
 import { FormInput } from "../components/FormInput";
 import { Button } from "../components/Button";
 import { ModalHeader } from "../components/ModalHeader";
@@ -15,6 +15,7 @@ import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setEventId } from "../store/slices/eventsSlice";
 import { Alert } from "../components/Alert";
 import { NavigationProps } from "../navigation";
+import { useColors } from "../hooks/useColors";
 
 interface EventEditFormProps {
   eventName?: string;
@@ -29,14 +30,15 @@ interface EventEditModalProps {
   navigation: NavigationProps["EventDetail"]["navigation"];
 }
 export const EventEditModal = forwardRef((props: EventEditModalProps, ref) => {
-  const [loadingEditEvent, setLoadingEditEvent] = useState<boolean>(false);
-  const [loadingRemoveEvent, setLoadingRemoveEvent] = useState<boolean>(false);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-
+  const colors = useColors();
   const formRef = React.useRef<FormikProps<EventEditFormProps>>(null);
   const uid = useAppSelector(state => state.auth.user?.uid);
   const insets = useSafeAreaInsets();
   const dispatch = useAppDispatch();
+
+  const [loadingEditEvent, setLoadingEditEvent] = useState<boolean>(false);
+  const [loadingRemoveEvent, setLoadingRemoveEvent] = useState<boolean>(false);
+  const [showAlert, setShowAlert] = useState<boolean>(false);
 
   const onSubmit = async (values: EventEditFormProps) => {
     if (!values.eventName || !values.dateStart || !values.dateEnd || !values.timeStart) {

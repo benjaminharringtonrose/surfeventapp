@@ -1,6 +1,7 @@
 import React from "react";
 import { View, Text } from "react-native";
-import { colors, shared, spacings } from "../common";
+import { shared, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 
 interface AlertCardProps {
   title: string;
@@ -8,6 +9,8 @@ interface AlertCardProps {
 }
 
 export const AlertCard = (props: AlertCardProps) => {
+  const colors = useColors();
+
   return (
     <View
       style={{

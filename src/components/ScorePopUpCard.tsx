@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
-import { colors, shared, spacings, Wave } from "../common";
+import { shared, sharedColors, spacings, Wave } from "../common";
+import { useColors } from "../hooks/useColors";
 import { Button } from "./Button";
 import { ButtonX } from "./ButtonX";
 import { IRadioButtonOption, RadioButton } from "./RadioButton";
@@ -21,6 +22,7 @@ const integers = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const tenths = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
 export const ScorePopUpCard = (props: IScorePopUpCardProps) => {
+  const colors = useColors();
   const [selectedIntegerIndex, setSelectedIntegerIndex] = useState(0);
   const [selectedTenthIndex, setSelectedTenthIndex] = useState(0);
   const [radioOption, setRadioOption] = useState<IRadioButtonOption>({
@@ -153,7 +155,7 @@ const styles = StyleSheet.create({
   modalView: {
     alignItems: "center",
     marginTop: spacings.base,
-    backgroundColor: colors.greyscale9,
+    backgroundColor: sharedColors.greyscale9,
     borderRadius: shared.borderRadius,
     padding: spacings.small,
     shadowColor: "#000",
@@ -171,6 +173,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     borderWidth: 2,
     borderRadius: shared.borderRadius,
-    borderColor: colors.greyscale1,
+    borderColor: sharedColors.greyscale1,
   },
 });

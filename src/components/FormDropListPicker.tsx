@@ -1,9 +1,10 @@
 import React from "react";
 import { StyleProp, Text, TouchableOpacity, View, ViewStyle } from "react-native";
 import { Modalize } from "react-native-modalize";
-import { colors, fonts, spacings } from "../common";
+import { fonts, spacings } from "../common";
 import Icon from "react-native-vector-icons/Ionicons";
 import { ListPicker, ListPickerItem } from "./ListPicker";
+import { useColors } from "../hooks/useColors";
 
 interface FormDropListPickerProps {
   title?: string;
@@ -18,6 +19,7 @@ interface FormDropListPickerProps {
 }
 
 export const FormDropListPicker = (props: FormDropListPickerProps) => {
+  const colors = useColors();
   const pickerRef = React.useRef<Modalize>(null);
 
   const onSelect = (item: ListPickerItem) => {

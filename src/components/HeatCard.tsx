@@ -2,8 +2,9 @@ import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import moment from "moment";
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { colors, shared, spacings } from "../common";
+import { shared, sharedColors, spacings } from "../common";
 import { getHeatDivisionLabel } from "../common/util";
+import { useColors } from "../hooks/useColors";
 import { Button } from "./Button";
 
 interface IHeatCardProps {
@@ -21,6 +22,7 @@ interface IHeatCardProps {
 }
 
 export const HeatCard = (props: IHeatCardProps) => {
+  const colors = useColors();
   return (
     <View style={styles.rootContainer}>
       <View style={{ flexDirection: "row", alignItems: "center", marginBottom: spacings.base }}>
@@ -114,7 +116,7 @@ const styles = StyleSheet.create({
   font: {
     fontSize: 17,
     fontWeight: "400",
-    color: colors.grey500,
+    color: sharedColors.grey500,
   },
   dateContainer: {
     justifyContent: "space-between",

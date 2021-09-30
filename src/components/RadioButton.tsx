@@ -8,7 +8,7 @@ import {
   ViewStyle,
   TextStyle,
 } from "react-native";
-import { colors } from "../common";
+import { sharedColors } from "../common";
 
 export interface IRadioButtonOption {
   id: string | number;
@@ -45,10 +45,10 @@ const styles = StyleSheet.create({
   radioButton: {
     height: 20,
     width: 20,
-    backgroundColor: colors.greyscale1,
+    backgroundColor: sharedColors.greyscale1,
     borderRadius: 10,
     borderWidth: 1,
-    borderColor: colors.greyscale1,
+    borderColor: sharedColors.greyscale1,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     height: 14,
     width: 14,
     borderRadius: 7,
-    backgroundColor: colors.primary,
+    backgroundColor: sharedColors.primary,
   },
   radioButtonText: {
     fontSize: 16,

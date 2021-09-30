@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { Text, View } from "react-native";
 import DatePicker from "react-native-date-picker";
-import { colors, DateMode, fonts, spacings } from "../common";
+import { DateMode, fonts, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 
 interface FormDatePickerProps {
   label: string;
@@ -13,6 +14,7 @@ interface FormDatePickerProps {
 }
 
 export const FormDatePicker = (props: FormDatePickerProps) => {
+  const colors = useColors();
   const [date, setDate] = useState(props.value || new Date());
 
   return (

@@ -6,13 +6,14 @@ import { View } from "react-native";
 import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { spacings, colors, User } from "../common";
+import { spacings, User } from "../common";
 import { FormInput } from "../components/FormInput";
 import { Button } from "../components/Button";
 import { ModalHeader } from "../components/ModalHeader";
 import { FormModalDatePicker } from "../components/FormModalDatePicker";
 import { useAppDispatch, useAppSelector } from "../hooks/redux";
 import { setEventId } from "../store/slices/eventsSlice";
+import { useColors } from "../hooks/useColors";
 
 interface EventAddFormProps {
   eventName?: string;
@@ -27,10 +28,11 @@ interface EventAddModalProps {
   onAlert: () => void;
 }
 export const EventAddModal = forwardRef((props: EventAddModalProps, ref) => {
-  const [loadingAddEvent, setLoadingAddEvent] = useState<boolean>(false);
   const formRef = React.useRef<FormikProps<EventAddFormProps>>(null);
   const insets = useSafeAreaInsets();
+  const colors = useColors();
   const dispatch = useAppDispatch();
+  const [loadingAddEvent, setLoadingAddEvent] = useState<boolean>(false);
 
   const onSubmit = async (values: EventAddFormProps) => {
     if (!values.eventName || !values.dateStart || !values.dateEnd || !values.timeStart) {

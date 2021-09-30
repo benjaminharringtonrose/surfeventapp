@@ -1,15 +1,16 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import React, { useEffect } from "react";
 import { ActivityIndicator, View } from "react-native";
-import { colors } from "../common";
 import { useUser } from "../hooks/useUser";
 import { EventDetailAdminScreen } from "./EventDetailAdminScreen";
 import { EventDetailSurferScreen } from "./EventDetailSurferScreen";
 import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
 import { NavigationProps } from "../navigation";
+import { useColors } from "../hooks/useColors";
 
 export const EventDetailScreen = () => {
+  const colors = useColors();
   const navigation = useNavigation<NavigationProps["EventDetail"]["navigation"]>();
   const { params } = useRoute<NavigationProps["EventDetail"]["route"]>();
   const { user } = useUser();
@@ -22,8 +23,6 @@ export const EventDetailScreen = () => {
       headerRight: () => null,
     });
   });
-
-  console.log("heats", heats);
 
   if (!user)
     return (

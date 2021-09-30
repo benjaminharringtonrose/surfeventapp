@@ -4,7 +4,8 @@ import { Modalize } from "react-native-modalize";
 import { Portal } from "react-native-portalize";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 
-import { colors, fonts, spacings } from "../common";
+import { fonts, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 import { ListPickerItem } from "./ListPicker";
 import { ModalHeader } from "./ModalHeader";
 
@@ -22,6 +23,7 @@ export interface SectionListPickerProps {
 }
 
 export const SectionListPicker = React.forwardRef((props: SectionListPickerProps, ref) => {
+  const colors = useColors();
   const insets = useSafeAreaInsets();
 
   return (
@@ -78,7 +80,9 @@ export const SectionListPicker = React.forwardRef((props: SectionListPickerProps
               </View>
             );
           },
-          ItemSeparatorComponent: Separator,
+          ItemSeparatorComponent: () => (
+            <View style={{ height: 1, backgroundColor: colors.greyscale5 }} />
+          ),
           keyExtractor: item => item.id.toString(),
           contentContainerStyle: { paddingBottom: insets.bottom },
           style: { backgroundColor: colors.greyscale9 },
@@ -87,5 +91,3 @@ export const SectionListPicker = React.forwardRef((props: SectionListPickerProps
     </Portal>
   );
 });
-
-const Separator = () => <View style={{ height: 1, backgroundColor: colors.greyscale5 }} />;

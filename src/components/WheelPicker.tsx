@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text } from "react-native";
 
 import Picker from "@gregfrench/react-native-wheel-picker";
-import { colors } from "../common";
+import { useColors } from "../hooks/useColors";
 
 interface WheelPickerProps {
   list: any[];
@@ -13,6 +13,7 @@ interface WheelPickerProps {
 var PickerItem = Picker.Item;
 
 const WheelPicker = (props: WheelPickerProps) => {
+  const colors = useColors();
   return (
     <View>
       <Text>

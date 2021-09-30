@@ -8,7 +8,8 @@ import {
   TextStyle,
   ViewStyle,
 } from "react-native";
-import { colors, fonts, shared, spacings } from "../common";
+import { fonts, shared, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 
 export interface InputProps extends TextInputProps {
   label?: string;
@@ -17,6 +18,7 @@ export interface InputProps extends TextInputProps {
   footnote?: string;
 }
 export const Input = React.forwardRef<TextInput, InputProps>((props: InputProps, ref) => {
+  const colors = useColors();
   return (
     <View
       style={[

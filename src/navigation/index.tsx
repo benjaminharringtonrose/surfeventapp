@@ -1,13 +1,11 @@
 import React from "react";
-import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
 import {
   createDrawerNavigator,
   DrawerContentComponentProps,
   DrawerContentScrollView,
-  DrawerItem,
   DrawerItemList,
 } from "@react-navigation/drawer";
-import { colors, fonts } from "../common";
+import { fonts } from "../common";
 import { AuthLoginScreen } from "../screens/AuthLoginScreen";
 import { AuthSignUpScreen } from "../screens/AuthSignUpScreen";
 import { EventDashboardScreen } from "../screens/EventDashboardScreen";
@@ -25,6 +23,8 @@ import {
   NavigationProps,
   DrawerStackParamList,
 } from "./types";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { useColors } from "../hooks/useColors";
 
 export {
   NavigationProps,
@@ -34,18 +34,21 @@ export {
   SettingsStackParamList,
 };
 
-const defaultScreenOptions: StackNavigationOptions = {
-  headerStyle: {
-    backgroundColor: colors.greyscale9,
-  },
-  headerTitleStyle: fonts.navHeader,
-  cardStyle: { backgroundColor: "transparent" },
-};
-
 export function AuthStack() {
-  const Stack = createStackNavigator<AuthStackParamList>();
+  const colors = useColors();
+  const Stack = createNativeStackNavigator<AuthStackParamList>();
   return (
-    <Stack.Navigator initialRouteName={"Login"} screenOptions={defaultScreenOptions}>
+    <Stack.Navigator
+      initialRouteName={"Login"}
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.greyscale9,
+        },
+        headerTitleStyle: fonts.navHeader,
+        headerTransparent: true,
+        headerTintColor: colors.white,
+        presentation: "card",
+      }}>
       <Stack.Screen name="Login" component={AuthLoginScreen} />
       <Stack.Screen name="SignUp" component={AuthSignUpScreen} />
     </Stack.Navigator>
@@ -53,11 +56,20 @@ export function AuthStack() {
 }
 
 export function RootStack() {
-  const Stack = createStackNavigator<RootStackParamList>();
+  const colors = useColors();
+  const Stack = createNativeStackNavigator<RootStackParamList>();
   return (
     <Stack.Navigator
       initialRouteName={"DrawerStack"}
-      screenOptions={{ ...defaultScreenOptions, presentation: "modal" }}>
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: colors.greyscale9,
+        },
+        headerTitleStyle: fonts.navHeader,
+        headerTransparent: true,
+        headerTintColor: colors.white,
+        presentation: "modal",
+      }}>
       <Stack.Screen name={"DrawerStack"} component={DrawerStack} options={{ headerShown: false }} />
       <Stack.Screen name={"AddHeat"} component={HeatAddScreen} />
       <Stack.Screen name={"EditHeat"} component={HeatEditScreen} />
@@ -67,15 +79,24 @@ export function RootStack() {
 }
 
 export function EventStack() {
-  const Stack = createStackNavigator<EventStackParamList>();
+  const colors = useColors();
+  const Stack = createNativeStackNavigator<EventStackParamList>();
   return (
     <Stack.Navigator
       screenOptions={{
-        ...defaultScreenOptions,
-        headerMode: "screen",
+        headerStyle: {
+          backgroundColor: colors.greyscale9,
+        },
+        headerTitleStyle: fonts.navHeader,
+        headerTransparent: true,
+        headerTintColor: colors.white,
         presentation: "card",
       }}>
-      <Stack.Screen name="Events" component={EventDashboardScreen} />
+      <Stack.Screen
+        name="Events"
+        component={EventDashboardScreen}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="EventDetail" component={EventDetailScreen} />
       <Stack.Screen name="ProfileEdit" component={ProfileEditScreen} />
     </Stack.Navigator>
@@ -95,10 +116,13 @@ function DrawerStack() {
   return (
     <Drawer.Navigator
       initialRouteName={"EventStack"}
-      screenOptions={{ title: "" }}
       drawerContent={props => <DrawerContent {...props} />}>
-      <Drawer.Screen name="EventStack" component={EventStack} />
-      <Drawer.Screen name="Settings" component={SettingsDashboardScreen} />
+      <Drawer.Screen name="EventStack" component={EventStack} options={{ title: "Events" }} />
+      <Drawer.Screen
+        name="Settings"
+        component={SettingsDashboardScreen}
+        options={{ title: "Settings" }}
+      />
     </Drawer.Navigator>
   );
 }

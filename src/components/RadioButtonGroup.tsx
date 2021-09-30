@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { StyleProp, View, ViewStyle } from "react-native";
-import { colors, spacings } from "../common";
+import { spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 import { IRadioButtonOption, RadioButton } from "./RadioButton";
 
 interface IRadioButtonGroup {
@@ -10,6 +11,7 @@ interface IRadioButtonGroup {
 }
 
 export const RadioButtonGroup = ({ options, onPress, style }: IRadioButtonGroup) => {
+  const colors = useColors();
   const [radioOptions, setRadioOptions] = useState<IRadioButtonOption[]>(options);
 
   const onRadioPress = (item: IRadioButtonOption) => {

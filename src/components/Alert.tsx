@@ -1,7 +1,8 @@
 import React from "react";
 import { Text, StyleSheet, View } from "react-native";
 import Modal from "react-native-modal";
-import { colors, shared, spacings } from "../common";
+import { shared, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 import { Button } from "./Button";
 
 interface AlertAction {
@@ -17,6 +18,7 @@ interface AlertProps {
 }
 
 export const Alert = (props: AlertProps) => {
+  const colors = useColors();
   const actions = props.actions.map((action, index) => {
     return { ...action, key: index + 1 };
   });
@@ -24,7 +26,7 @@ export const Alert = (props: AlertProps) => {
   return (
     <Modal isVisible={props.visible}>
       <View style={styles.centeredView}>
-        <View style={styles.modalView}>
+        <View style={[styles.modalView, { backgroundColor: colors.greyscale9 }]}>
           <View>
             <Text
               style={[
@@ -66,7 +68,6 @@ const styles = StyleSheet.create({
   },
   modalView: {
     margin: 20,
-    backgroundColor: colors.greyscale9,
     borderRadius: shared.borderRadius,
     padding: 35,
     alignItems: "center",

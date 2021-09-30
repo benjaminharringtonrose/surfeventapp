@@ -5,13 +5,14 @@ import { Modalize } from "react-native-modalize";
 
 import { ButtonAdd } from "../components";
 import { NavigationProps } from "../navigation";
-import { colors, Event, fonts, shared, spacings, User } from "../common";
+import { Event, fonts, shared, sharedColors, spacings, User } from "../common";
 import { EventAddModal } from "../modals/EventAddModal";
 import { EventButton } from "../components/EventButton";
 import { Alert } from "../components/Alert";
 import { useAppSelector } from "../hooks/redux";
 import moment from "moment";
 import { AlertCard } from "../components/AlertCard";
+import { useColors } from "../hooks/useColors";
 
 interface EventDashboardAdminProps {
   user: User;
@@ -20,8 +21,8 @@ interface EventDashboardAdminProps {
 }
 
 export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
+  const colors = useColors();
   const [showAlert, setShowAlert] = useState<boolean>(false);
-
   const addEventModalRef = useRef<Modalize>(null);
   const user = props.user;
   const eventId = useAppSelector(state => state.events.eventId);
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
   },
   cardText: {
     ...fonts.large,
-    color: colors.grey700,
+    color: sharedColors.grey700,
     textAlign: "center",
     padding: spacings.base,
   },

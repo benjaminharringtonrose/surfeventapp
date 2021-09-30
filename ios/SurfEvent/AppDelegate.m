@@ -75,7 +75,7 @@ didReceiveNotificationResponse:(UNNotificationResponse *)response
   if (@available(iOS 13.0, *)) {
       rootView.backgroundColor = [UIColor systemBackgroundColor];
   } else {
-      rootView.backgroundColor = [UIColor blackColor];
+      rootView.backgroundColor = [UIColor systemBackgroundColor];
   }
 
   self.window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];

@@ -1,6 +1,7 @@
 import * as React from "react";
 import { StyleProp, ViewStyle, Text } from "react-native";
-import { colors, fonts, spacings } from "../common";
+import { fonts, spacings } from "../common";
+import { useColors } from "../hooks/useColors";
 import { CompletionListCard, CompletionListCardItem } from "./CompletionListCard";
 
 export interface UserInfoCompletionListProps {
@@ -9,6 +10,7 @@ export interface UserInfoCompletionListProps {
 }
 
 export const UserInfoCompletionList = (props: UserInfoCompletionListProps) => {
+  const colors = useColors();
   return (
     <CompletionListCard style={props.style} items={props.items}>
       <>

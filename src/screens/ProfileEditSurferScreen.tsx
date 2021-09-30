@@ -13,13 +13,14 @@ import {
 import firestore from "@react-native-firebase/firestore";
 import * as Yup from "yup";
 import ImageCropPicker from "react-native-image-crop-picker";
-import { colors, Errors, fonts, Organization, shared, spacings, User } from "../common";
+import { Errors, fonts, Organization, shared, sharedColors, spacings, User } from "../common";
 import { Button, FormDropListPicker, FormInput } from "../components";
 import { capitalize } from "lodash";
 import { uploadAvatarAsync } from "../util/media";
 import { ListPickerItem } from "../components/ListPicker";
 import { getError } from "../common/util";
 import { NavigationProps } from "../navigation";
+import { useColors } from "../hooks/useColors";
 
 interface FormProps {
   firstName?: string;
@@ -39,6 +40,7 @@ export const ProfileEditSurferScreen = (props: ProfileEditSurferScreenProps) => 
   const [loadingUpdate, setLoadingUpdate] = useState<boolean>(false);
   const [loadingProfilePhoto, setLoadingProfilePhoto] = useState<boolean>(false);
   const [selectedOrg, setSelectedOrg] = useState<ListPickerItem | undefined>(undefined);
+  const colors = useColors();
 
   const onSelectProfileImage = async () => {
     try {
@@ -262,17 +264,13 @@ const GENDERS = [
 ];
 
 const styles = StyleSheet.create({
-  rootContainer: {
-    flex: 1,
-    backgroundColor: colors.white,
-  },
   profilePhotoContainer: {
     marginTop: spacings.base,
     alignItems: "center",
     justifyContent: "center",
   },
   profilePhotoTouchable: {
-    backgroundColor: colors.grey200,
+    backgroundColor: sharedColors.grey200,
     width: 200,
     height: 200,
     borderRadius: 100,
@@ -284,7 +282,7 @@ const styles = StyleSheet.create({
     height: 200,
     borderRadius: 100,
     borderWidth: 2,
-    borderColor: colors.primary,
+    borderColor: sharedColors.primary,
   },
   activityIndicatorContainer: {
     position: "absolute",
