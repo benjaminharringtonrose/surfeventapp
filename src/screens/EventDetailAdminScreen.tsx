@@ -29,6 +29,9 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
   useEffect(() => {
     props.navigation.setOptions({
       title: "Event Details",
+      headerTitleStyle: {
+        color: colors.headerText,
+      },
       headerLeft: () => <ButtonBack onPress={() => props.navigation.pop()} />,
       headerRight: () => (
         <ButtonIcon name={"pencil"} onPress={() => editEventModalRef.current?.open()} />

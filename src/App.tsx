@@ -1,4 +1,4 @@
-import { DarkTheme, NavigationContainer } from "@react-navigation/native";
+import { DarkTheme, DefaultTheme, NavigationContainer } from "@react-navigation/native";
 import "react-native-gesture-handler";
 import "react-native-get-random-values";
 import React, { useEffect, useState } from "react";
@@ -9,18 +9,19 @@ import messaging from "@react-native-firebase/messaging";
 import { store } from "./store";
 import auth, { FirebaseAuthTypes } from "@react-native-firebase/auth";
 import { createStackNavigator } from "@react-navigation/stack";
-import { AuthUser } from "./common";
+import { AuthUser, LightTheme } from "./common";
 import { Host } from "react-native-portalize";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { useAppDispatch } from "./hooks/redux";
+import { useAppDispatch, useAppSelector } from "./hooks/redux";
 import { setAuthUser } from "./store/slices/authSlice";
 import { updateMessagingToken } from "./util/cloudMessaging";
 import { LogBox } from "react-native";
 import Orientation from "react-native-orientation-locker";
 import PushNotificationIOS from "@react-native-community/push-notification-ios";
 import { getMode } from "./util/asyncStorgage";
-import { setMode } from "./store/slices/settingsSlice";
+import { Mode, modeSelector, setMode } from "./store/slices/settingsSlice";
 import { useColors } from "./hooks/useColors";
+import { isDate } from "lodash";
 
 LogBox.ignoreLogs([
   "ReactNativeFiberHostComponent: Calling getNode() on the ref of an Animated component is no longer necessary. You can now directly use the ref instead. This method will be removed in a future release.",
@@ -58,6 +59,7 @@ const Root = () => {
   const [user, setUser] = useState<AuthUser | undefined>(undefined);
   const dispatch = useAppDispatch();
   const colors = useColors();
+  const mode = useAppSelector(state => modeSelector(state));
 
   useEffect(() => {
     getDeviceMode();
@@ -115,12 +117,27 @@ const Root = () => {
     }
   };
 
+  const themeSelector = (mode?: Mode) => {
+    if (!mode) return DefaultTheme;
+    if (mode === "dark") {
+      return DarkTheme;
+    } else if (mode === "light") {
+      return DefaultTheme;
+    } else if (mode === "system") {
+      if (isDarkMode) {
+        return DarkTheme;
+      } else {
+        return DefaultTheme;
+      }
+    }
+  };
+
   if (initializing) return null;
 
   return (
     <Host>
-      <NavigationContainer theme={isDarkMode ? DarkTheme : undefined}>
-        <StatusBar barStyle={isDarkMode ? "light-content" : "dark-content"} />
+      <NavigationContainer theme={themeSelector(mode)}>
+        <StatusBar barStyle={mode === "dark" ? "light-content" : "dark-content"} />
         <Stack.Navigator
           screenOptions={{
             headerStyle: { backgroundColor: colors.background },

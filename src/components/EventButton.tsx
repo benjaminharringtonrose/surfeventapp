@@ -20,6 +20,7 @@ export const EventButton = (props: IEventButtonProps) => {
       style={{
         ...shared.card,
         ...shared.shadow,
+        backgroundColor: colors.card,
         marginBottom: spacings.xsmall,
         marginHorizontal: spacings.base,
         paddingHorizontal: spacings.base,
@@ -29,14 +30,14 @@ export const EventButton = (props: IEventButtonProps) => {
         <View style={{ flex: 1 }}>
           <View style={{ flexDirection: "row" }}>
             {!!props.eventName && (
-              <Text style={{ fontSize: 20, fontWeight: "500", color: colors.almostWhite }}>
+              <Text style={{ fontSize: 20, fontWeight: "500", color: colors.headerText }}>
                 {props.eventName}
               </Text>
             )}
           </View>
           <View style={{ flexDirection: "row" }}>
             {!!props.dateStart && !!props.dateEnd && (
-              <Text style={{ fontSize: 16, fontWeight: "400", color: colors.almostWhite }}>
+              <Text style={{ fontSize: 16, fontWeight: "400", color: colors.subheaderText }}>
                 {`${props.dateStart} - ${props.dateEnd}`}
               </Text>
             )}
@@ -46,7 +47,7 @@ export const EventButton = (props: IEventButtonProps) => {
           <Icon
             name={"chevron-forward"}
             size={21}
-            color={colors.grey100}
+            color={colors.icon}
             style={{ marginLeft: spacings.tiny }}
           />
         </View>
@@ -54,14 +55,3 @@ export const EventButton = (props: IEventButtonProps) => {
     </TouchableOpacity>
   );
 };
-
-{
-  /* <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-<Icon
-  name={"chevron-forward"}
-  size={21}
-  color={colors.grey100}
-  style={{ marginLeft: spacings.tiny }}
-/>
-</View> */
-}

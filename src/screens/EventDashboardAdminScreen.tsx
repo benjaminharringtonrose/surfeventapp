@@ -1,11 +1,10 @@
-import { useNavigation } from "@react-navigation/native";
 import React, { useRef, useState } from "react";
 import { View, Text, SafeAreaView, StyleSheet, FlatList } from "react-native";
 import { Modalize } from "react-native-modalize";
 
 import { ButtonAdd } from "../components";
 import { NavigationProps } from "../navigation";
-import { Event, fonts, shared, sharedColors, spacings, User } from "../common";
+import { Event, fonts, shared, spacings, User } from "../common";
 import { EventAddModal } from "../modals/EventAddModal";
 import { EventButton } from "../components/EventButton";
 import { Alert } from "../components/Alert";
@@ -62,7 +61,7 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
                 style={{ marginTop: spacings.base }}
               />
               <View style={{ padding: spacings.base }}>
-                <Text style={{ color: colors.almostWhite, fontSize: 21 }}>
+                <Text style={{ color: colors.headerText, fontSize: 21 }}>
                   {"Upcoming Competitions"}
                 </Text>
               </View>
@@ -85,7 +84,9 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
           ListFooterComponent={
             <View style={styles.card}>
               {!props.events.length && (
-                <Text style={styles.cardText}>{"You haven't created any events"}</Text>
+                <Text style={[styles.cardText, { color: colors.grey700 }]}>
+                  {"You haven't created any events"}
+                </Text>
               )}
             </View>
           }
@@ -126,7 +127,6 @@ const styles = StyleSheet.create({
   },
   cardText: {
     ...fonts.large,
-    color: sharedColors.grey700,
     textAlign: "center",
     padding: spacings.base,
   },

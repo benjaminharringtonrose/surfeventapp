@@ -2,7 +2,7 @@ import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import moment from "moment";
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import { shared, sharedColors, spacings } from "../common";
+import { shared, spacings } from "../common";
 import { getHeatDivisionLabel } from "../common/util";
 import { useColors } from "../hooks/useColors";
 import { Button } from "./Button";
@@ -24,18 +24,18 @@ interface IHeatCardProps {
 export const HeatCard = (props: IHeatCardProps) => {
   const colors = useColors();
   return (
-    <View style={styles.rootContainer}>
+    <View style={[styles.rootContainer, { backgroundColor: colors.card }]}>
       <View style={{ flexDirection: "row", alignItems: "center", marginBottom: spacings.base }}>
         {!!props?.title && !!props?.division && (
           <View>
-            <Text style={{ fontSize: 21, fontWeight: "400", color: colors.almostWhite }}>
+            <Text style={{ fontSize: 21, fontWeight: "400", color: colors.headerText }}>
               {`${props.title}:`}
             </Text>
             <Text
               style={{
                 fontSize: 21,
                 fontWeight: "400",
-                color: colors.almostWhite,
+                color: colors.headerText,
                 paddingTop: spacings.xsmall,
               }}>
               {getHeatDivisionLabel(props.division)}
@@ -45,11 +45,11 @@ export const HeatCard = (props: IHeatCardProps) => {
       </View>
       <View style={[styles.dateContainer, { flex: 3, flexDirection: "row" }]}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.font}>{"Date"}</Text>
+          <Text style={[styles.font, { color: colors.bodyText }]}>{"Date"}</Text>
         </View>
         {!!props?.dateStart && (
           <View style={{ flex: 2 }}>
-            <Text style={styles.font}>
+            <Text style={[styles.font, { color: colors.bodyText }]}>
               {moment(props.dateStart.toDate()).format("dddd, MMMM Do")}
             </Text>
           </View>
@@ -70,7 +70,7 @@ export const HeatCard = (props: IHeatCardProps) => {
       </View>
       <View style={[styles.surfersContainer, { flex: 3, flexDirection: "row" }]}>
         <View style={{ flex: 1 }}>
-          <Text style={styles.font}>{"Surfers"}</Text>
+          <Text style={[styles.font, { color: colors.bodyText }]}>{"Surfers"}</Text>
         </View>
 
         {!!props?.surfers && (
@@ -79,7 +79,7 @@ export const HeatCard = (props: IHeatCardProps) => {
               data={props.surfers}
               keyExtractor={item => item}
               renderItem={({ item }) => {
-                return <Text style={styles.font}>{item}</Text>;
+                return <Text style={[styles.font, { color: colors.bodyText }]}>{item}</Text>;
               }}
             />
           </View>
@@ -116,7 +116,6 @@ const styles = StyleSheet.create({
   font: {
     fontSize: 17,
     fontWeight: "400",
-    color: sharedColors.grey500,
   },
   dateContainer: {
     justifyContent: "space-between",

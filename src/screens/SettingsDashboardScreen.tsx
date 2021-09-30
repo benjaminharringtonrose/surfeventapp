@@ -65,7 +65,7 @@ export const SettingsDashboardScreen = () => {
         values={["Light Mode", "Dark Mode", "System"]}
         selectedIndex={selectedIndex}
         onChange={onChangeMode}
-        style={styles.margins}
+        style={[styles.margins, { backgroundColor: colors.segmentControl }]}
       />
       <Button type={"contained"} label={"Sign Out"} onPress={onSignOut} style={styles.margins} />
     </SafeAreaView>

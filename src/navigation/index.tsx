@@ -41,12 +41,9 @@ export function AuthStack() {
     <Stack.Navigator
       initialRouteName={"Login"}
       screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.greyscale9,
-        },
         headerTitleStyle: fonts.navHeader,
         headerTransparent: true,
-        headerTintColor: colors.white,
+        headerTintColor: colors.icon,
         presentation: "card",
       }}>
       <Stack.Screen name="Login" component={AuthLoginScreen} />
@@ -62,12 +59,9 @@ export function RootStack() {
     <Stack.Navigator
       initialRouteName={"DrawerStack"}
       screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.greyscale9,
-        },
         headerTitleStyle: fonts.navHeader,
         headerTransparent: true,
-        headerTintColor: colors.white,
+        headerTintColor: colors.icon,
         presentation: "modal",
       }}>
       <Stack.Screen name={"DrawerStack"} component={DrawerStack} options={{ headerShown: false }} />
@@ -84,12 +78,9 @@ export function EventStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerStyle: {
-          backgroundColor: colors.greyscale9,
-        },
         headerTitleStyle: fonts.navHeader,
         headerTransparent: true,
-        headerTintColor: colors.white,
+        headerTintColor: colors.icon,
         presentation: "card",
       }}>
       <Stack.Screen

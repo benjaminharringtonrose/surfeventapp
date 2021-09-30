@@ -17,16 +17,18 @@ export const AlertCard = (props: AlertCardProps) => {
         ...shared.card,
         ...shared.shadow,
         minHeight: 60,
-        backgroundColor: colors.greyscale5,
+        backgroundColor: colors.card,
         marginHorizontal: spacings.base,
         marginTop: spacings.base,
+        borderColor: colors.borderColor,
+        borderWidth: 1,
       }}>
       <View style={{ margin: spacings.small, alignItems: "center" }}>
         <Text
           style={{
             fontSize: 26,
             fontWeight: "300",
-            color: colors.almostWhite,
+            color: colors.headerText,
             textAlign: "center",
           }}>
           {props.title}
@@ -35,7 +37,7 @@ export const AlertCard = (props: AlertCardProps) => {
           style={{
             fontSize: 17,
             fontWeight: "400",
-            color: colors.grey700,
+            color: colors.subheaderText,
             textAlign: "center",
             paddingTop: spacings.xsmall,
           }}>
