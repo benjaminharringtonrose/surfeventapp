@@ -29,9 +29,6 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
   useEffect(() => {
     props.navigation.setOptions({
       title: "Event Details",
-      headerTitleStyle: {
-        color: colors.headerText,
-      },
       headerLeft: () => <ButtonBack onPress={() => props.navigation.pop()} />,
       headerRight: () => (
         <ButtonIcon name={"pencil"} onPress={() => editEventModalRef.current?.open()} />
@@ -58,7 +55,9 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
         ListHeaderComponent={
           <>
             <View style={{ marginLeft: spacings.base, marginTop: spacings.base }}>
-              <Text style={fonts.header}>{props.event.eventName}</Text>
+              <Text style={[fonts.header, { color: colors.headerText }]}>
+                {props.event.eventName}
+              </Text>
               <Text style={fonts.subheader}>
                 {`${moment(props.event.dateStart.toDate()).format("MMM DD")} - ${moment(
                   props.event.dateEnd.toDate(),

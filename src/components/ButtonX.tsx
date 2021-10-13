@@ -13,7 +13,7 @@ export const ButtonX = (props: ButtonXProps) => {
   const colors = useColors();
   return (
     <TouchableOpacity onPress={props.onPress} style={props.style}>
-      <Icon name={"close"} color={colors.almostWhite} size={24} />
+      <Icon name={"close"} color={colors.icon} size={24} />
     </TouchableOpacity>
   );
 };

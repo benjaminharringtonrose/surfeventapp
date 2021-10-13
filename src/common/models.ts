@@ -8,6 +8,7 @@ export interface IStringMap<T> {
 export interface IError {
   code?: string;
   message?: string;
+  stack?: string;
 }
 
 export interface AuthUser {

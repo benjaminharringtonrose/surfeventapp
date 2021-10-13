@@ -8,6 +8,7 @@ import { useEvent } from "../hooks/useEvent";
 import { useHeats } from "../hooks/useHeats";
 import { NavigationProps } from "../navigation";
 import { useColors } from "../hooks/useColors";
+import { fonts } from "../common";
 
 export const EventDetailScreen = () => {
   const colors = useColors();
@@ -16,13 +17,6 @@ export const EventDetailScreen = () => {
   const { user } = useUser();
   const { event } = useEvent(params.eventId);
   const { heats, loadingHeats, heatsError } = useHeats(params.eventId);
-
-  useEffect(() => {
-    navigation.setOptions({
-      title: "Event Details",
-      headerRight: () => null,
-    });
-  });
 
   if (!user)
     return (

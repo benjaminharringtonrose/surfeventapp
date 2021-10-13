@@ -60,11 +60,13 @@ export const HeatCard = (props: IHeatCardProps) => {
           (styles.timeContainer, { flex: 3, flexDirection: "row", marginTop: spacings.small })
         }>
         <View style={{ flex: 1 }}>
-          <Text style={styles.font}>{"Time"}</Text>
+          <Text style={[styles.font, { color: colors.bodyText }]}>{"Time"}</Text>
         </View>
         {!!props?.timeStart && (
           <View style={{ flex: 2 }}>
-            <Text style={styles.font}>{moment(props.timeStart.toDate()).format("hh:mm a")}</Text>
+            <Text style={[styles.font, { color: colors.bodyText }]}>
+              {moment(props.timeStart.toDate()).format("hh:mm a")}
+            </Text>
           </View>
         )}
       </View>

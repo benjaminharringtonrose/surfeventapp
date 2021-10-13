@@ -34,14 +34,14 @@ export const sharedColors = {
 
 export const LightTheme = {
   ...sharedColors,
-  background: sharedColors.grey200,
+  background: sharedColors.almostWhite,
   header: sharedColors.almostBlack,
   input: sharedColors.grey50,
   button: sharedColors.primary,
   card: sharedColors.white,
-  borderColor: sharedColors.white,
-  icon: sharedColors.grey700,
-  segmentControl: sharedColors.grey700,
+  borderColor: sharedColors.grey500,
+  icon: sharedColors.almostBlack,
+  segmentControl: sharedColors.grey700 as string | undefined,
   headerText: sharedColors.almostBlack,
   subheaderText: sharedColors.grey800,
   bodyText: sharedColors.grey800,
@@ -54,11 +54,11 @@ export const DarkTheme = {
   button: sharedColors.primary,
   card: sharedColors.greyscale5,
   borderColor: sharedColors.greyscale5,
-  icon: sharedColors.greyscale5,
-  segmentControl: undefined,
-  headerText: sharedColors.almostWhite,
+  icon: sharedColors.primary,
+  segmentControl: undefined as string | undefined,
+  headerText: sharedColors.white,
   subheaderText: sharedColors.grey700,
-  bodyText: sharedColors.grey500,
+  bodyText: sharedColors.white,
 };
 
 export type Theme = typeof DarkTheme;

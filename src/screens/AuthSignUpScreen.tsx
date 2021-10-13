@@ -59,8 +59,10 @@ export const AuthSignUpScreen = () => {
   return (
     <SafeAreaView style={{ flex: 1, justifyContent: "center", backgroundColor: colors.background }}>
       <View style={{ marginLeft: spacings.base, marginTop: spacings.large }}>
-        <Text style={fonts.header}>{"Sign up below"}</Text>
-        <Text style={fonts.subheader}>{"Provide an email\n and password"}</Text>
+        <Text style={[fonts.header, { color: colors.headerText }]}>{"Sign up below"}</Text>
+        <Text style={[fonts.subheader, { color: colors.headerText }]}>
+          {"Provide an email\n and password"}
+        </Text>
       </View>
       <Formik
         innerRef={formRef}

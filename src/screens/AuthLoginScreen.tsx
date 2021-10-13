@@ -1,15 +1,16 @@
-import React, { useState } from "react";
-import { View, SafeAreaView, Text } from "react-native";
+import React from "react";
+import { View, SafeAreaView, Text, StyleSheet } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
 import { useNavigation } from "@react-navigation/native";
-import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
 import { fonts, spacings } from "../common";
 import { FormInput } from "../components/FormInput";
 import { NavigationProps } from "../navigation";
 import { useColors } from "../hooks/useColors";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { signInRequested } from "../store/slices/authSlice";
 
 interface LoginFormProps {
   email?: string;
@@ -19,26 +20,15 @@ interface LoginFormProps {
 export const AuthLoginScreen = () => {
   const colors = useColors();
   const formRef = React.useRef<FormikProps<LoginFormProps>>(null);
-  const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
-  const [loginError, setLoginError] = useState<any>(undefined);
+  const loadingSignIn = useAppSelector(state => state.auth.loadingSignIn);
+  const errorSignIn = useAppSelector(state => state.auth.errorSignIn);
   const navigation = useNavigation<NavigationProps["Login"]["navigation"]>();
+  const dispatch = useAppDispatch();
 
   const onLogin = async (values: LoginFormProps) => {
-    if (!values.email || !values.password) {
-      return;
-    }
-    setLoadingLogin(true);
-    setLoginError(undefined);
-    try {
-      await auth().signInWithEmailAndPassword(values.email, values.password);
-      console.log("User account created & signed in!");
-      setLoadingLogin(false);
-      setLoginError(undefined);
-    } catch (error) {
-      setLoadingLogin(false);
-      setLoginError(error);
-      console.warn(error);
-    }
+    const { email, password } = values;
+    if (!email || !password) return;
+    dispatch(signInRequested({ email, password }));
   };
 
   const ProfileSchema = Yup.object().shape({
@@ -47,10 +37,10 @@ export const AuthLoginScreen = () => {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center", backgroundColor: colors.background }}>
-      <View style={{ marginLeft: spacings.base, marginTop: spacings.large }}>
-        <Text style={fonts.header}>{"Welcome"}</Text>
-        <Text style={fonts.subheader}>{"Sign in below"}</Text>
+    <SafeAreaView style={[styles.root, { backgroundColor: colors.background }]}>
+      <View style={styles.headerContainer}>
+        <Text style={[fonts.header, { color: colors.headerText }]}>{"Welcome"}</Text>
+        <Text style={[fonts.subheader, { color: colors.headerText }]}>{"Sign in below"}</Text>
       </View>
       <Formik
         innerRef={formRef}
@@ -58,7 +48,7 @@ export const AuthLoginScreen = () => {
         validationSchema={ProfileSchema}
         onSubmit={onLogin}>
         {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
-          <View style={{ flex: 1, marginHorizontal: spacings.base, marginTop: spacings.large }}>
+          <View style={styles.fieldContainer}>
             <FormInput
               label={"Email"}
               placeholder={"jimmy123@gmail.com"}
@@ -79,10 +69,15 @@ export const AuthLoginScreen = () => {
               secureTextEntry={true}
               style={{ marginTop: spacings.base }}
             />
+            {!!errorSignIn && (
+              <Text style={[fonts.regular, { color: colors.error, paddingTop: spacings.base }]}>
+                {"Login failed. Please try again."}
+              </Text>
+            )}
             <Button
               type={"contained"}
               label={"Login"}
-              loading={loadingLogin}
+              loading={loadingSignIn}
               onPress={() => handleSubmit()}
               style={{ marginTop: spacings.base }}
             />
@@ -98,3 +93,9 @@ export const AuthLoginScreen = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  root: { flex: 1, justifyContent: "center" },
+  headerContainer: { marginLeft: spacings.base, marginTop: spacings.large },
+  fieldContainer: { flex: 1, marginHorizontal: spacings.base, marginTop: spacings.large },
+});

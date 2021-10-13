@@ -26,7 +26,7 @@ export const EventDetailSurferScreen = (props: EventDetailSurferScreenProps) => 
 
   useEffect(() => {
     props.navigation.setOptions({
-      title: "Event Details",
+      // title: "Event Details",
       headerLeft: () => <ButtonBack onPress={() => props.navigation.pop()} />,
       headerRight: () => null,
     });

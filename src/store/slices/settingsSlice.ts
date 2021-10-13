@@ -14,7 +14,6 @@ export const settingsSlice = createSlice({
   initialState,
   reducers: {
     setMode: (state, action: PayloadAction<{ mode?: Mode }>) => {
-      console.log("action: --------", action);
       state.mode = action.payload?.mode;
     },
   },

@@ -11,6 +11,7 @@ import { useScores } from "../hooks/useScores";
 import { abbreviateName, computeWaveScoreTotal, getWave } from "../common/util";
 import { NavigationProps } from "../navigation";
 import { useColors } from "../hooks/useColors";
+import { Colors } from "react-native/Libraries/NewAppScreen";
 
 export interface LocalState {
   selectedSurfer: string;
@@ -171,7 +172,7 @@ export const HeatSheetScreen = () => {
   if (!heat || !scores) return null;
 
   return (
-    <SafeAreaView style={styles.rootContainer}>
+    <SafeAreaView style={[styles.rootContainer, { backgroundColor: colors.background }]}>
       <View style={{ flex: 1, flexDirection: "row" }}>
         <FlatList
           data={scores}
@@ -182,15 +183,20 @@ export const HeatSheetScreen = () => {
             return (
               <View
                 key={`${data.surfer}${data.color}`}
-                style={[styles.rowRootContainer, { backgroundColor: colors.greyscale9 }]}>
+                style={[styles.rowRootContainer, { backgroundColor: colors.background }]}>
                 <View style={styles.rowTouchable}>
                   <View style={styles.rowSurferTextContainer}>
                     <View style={{ flex: 2 }}>
-                      <View style={[styles.rowJerseyCircle, { backgroundColor: data.color }]} />
+                      <View
+                        style={[
+                          styles.rowJerseyCircle,
+                          { backgroundColor: data.color, borderColor: colors.borderColor },
+                        ]}
+                      />
                     </View>
                     <View style={{ flex: 8 }}>
-                      <Text style={{ color: colors.almostWhite }}>{firstName}</Text>
-                      <Text style={{ color: colors.almostWhite }}>{lastName}</Text>
+                      <Text style={{ color: colors.bodyText }}>{firstName}</Text>
+                      <Text style={{ color: colors.bodyText }}>{lastName}</Text>
                     </View>
                   </View>
                 </View>
@@ -205,9 +211,16 @@ export const HeatSheetScreen = () => {
                         onPress={() => onScorePress(data.key, data.surfer, item.waveId)}
                         style={[
                           styles.waveCell,
-                          { width: state.cellWidth, height: state.cellWidth },
+                          {
+                            width: state.cellWidth,
+                            height: state.cellWidth,
+                            borderColor: colors.borderColor,
+                            backgroundColor: colors.card,
+                          },
                         ]}>
-                        <Text style={styles.waveIndex}>{`${index + 1}`}</Text>
+                        <Text style={[styles.waveIndex, { color: colors.bodyText }]}>{`${
+                          index + 1
+                        }`}</Text>
                         {item.disqualified && (
                           <Icon
                             name={"close"}
@@ -216,8 +229,7 @@ export const HeatSheetScreen = () => {
                             style={styles.disqualifiedText}
                           />
                         )}
-                        <Text
-                          style={{ fontSize: 24, fontWeight: "400", color: colors.almostWhite }}>
+                        <Text style={{ fontSize: 24, fontWeight: "400", color: colors.bodyText }}>
                           {item.score.toString()}
                         </Text>
                       </TouchableOpacity>
@@ -240,32 +252,41 @@ export const HeatSheetScreen = () => {
           keyExtractor={item => `item-${item.key}`}
           initialNumToRender={scores.length}
           contentContainerStyle={{
-            borderColor: colors.greyscale1,
+            borderColor: colors.borderColor,
             borderWidth: 1,
             borderRadius: shared.borderRadius,
           }}
           ItemSeparatorComponent={() => (
-            <View style={{ backgroundColor: colors.greyscale1, height: 1 }} />
+            <View style={{ backgroundColor: colors.borderColor, height: 1 }} />
           )}
           showsVerticalScrollIndicator={false}
         />
-        <View style={[styles.rightContainer, { width: 200 }]}>
+        <View
+          style={[
+            styles.rightContainer,
+            { backgroundColor: colors.background, borderColor: colors.borderColor, width: 200 },
+          ]}>
           <View style={{ marginBottom: spacings.small }}>
             <View
               style={{ flexDirection: "row", alignItems: "center", paddingTop: spacings.xsmall }}>
               <View style={{ flex: 2 }} />
-              <Text style={{ flex: 1, color: colors.almostWhite }}>{"TOTAL"}</Text>
+              <Text style={{ flex: 1, color: colors.headerText }}>{"TOTAL"}</Text>
             </View>
             {scores?.map((score, index) => {
               return (
                 <View
                   key={`${score}-${index}`}
                   style={{ flexDirection: "row", alignItems: "center" }}>
-                  <View style={[styles.jerseySquare, { backgroundColor: score.color }]} />
-                  <Text style={{ flex: 2, color: colors.almostWhite }}>
+                  <View
+                    style={[
+                      styles.jerseySquare,
+                      { backgroundColor: score.color, borderColor: colors.borderColor },
+                    ]}
+                  />
+                  <Text style={{ flex: 2, color: colors.bodyText }}>
                     {abbreviateName(score.surfer)}
                   </Text>
-                  <Text style={{ flex: 1, color: colors.almostWhite }}>
+                  <Text style={{ flex: 1, color: colors.bodyText }}>
                     {!!score?.total ? score.total.toFixed(1) : "---"}
                   </Text>
                 </View>
@@ -290,15 +311,12 @@ export const HeatSheetScreen = () => {
 const styles = StyleSheet.create({
   rootContainer: {
     flex: 1,
-    backgroundColor: sharedColors.greyscale9,
   },
   rightContainer: {
     justifyContent: "space-between",
     marginLeft: spacings.xsmall,
-    borderColor: sharedColors.greyscale1,
     borderWidth: 1,
     borderRadius: shared.borderRadius,
-    backgroundColor: sharedColors.greyscale7,
     marginBottom: spacings.tiny,
   },
   rowRootContainer: {
@@ -321,6 +339,7 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     borderRadius: 5,
+    borderWidth: 1,
   },
   addWaveCell: {
     borderRightWidth: 1,
@@ -332,10 +351,8 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   waveCell: {
-    borderRightWidth: 1,
-    borderRightColor: sharedColors.greyscale1,
+    borderWidth: 1,
     borderRadius: shared.borderRadius,
-    backgroundColor: sharedColors.greyscale1,
     margin: spacings.tiny,
     alignItems: "center",
     justifyContent: "center",
@@ -347,7 +364,6 @@ const styles = StyleSheet.create({
     left: spacings.tiny,
     right: 0,
     fontSize: 12,
-    color: sharedColors.almostWhite,
   },
   disqualifiedText: {
     position: "absolute",
@@ -363,5 +379,6 @@ const styles = StyleSheet.create({
     width: 10,
     height: 10,
     margin: spacings.xsmall,
+    borderWidth: 1,
   },
 });

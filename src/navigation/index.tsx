@@ -19,20 +19,12 @@ import {
   AuthStackParamList,
   EventStackParamList,
   RootStackParamList,
-  SettingsStackParamList,
-  NavigationProps,
   DrawerStackParamList,
 } from "./types";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { useColors } from "../hooks/useColors";
 
-export {
-  NavigationProps,
-  RootStackParamList,
-  AuthStackParamList,
-  EventStackParamList,
-  SettingsStackParamList,
-};
+export * from "./types";
 
 export function AuthStack() {
   const colors = useColors();
@@ -41,7 +33,7 @@ export function AuthStack() {
     <Stack.Navigator
       initialRouteName={"Login"}
       screenOptions={{
-        headerTitleStyle: fonts.navHeader,
+        headerTitleStyle: { ...fonts.navHeader, color: colors.headerText },
         headerTransparent: true,
         headerTintColor: colors.icon,
         presentation: "card",
@@ -59,7 +51,7 @@ export function RootStack() {
     <Stack.Navigator
       initialRouteName={"DrawerStack"}
       screenOptions={{
-        headerTitleStyle: fonts.navHeader,
+        headerTitleStyle: { ...fonts.navHeader, color: colors.headerText },
         headerTransparent: true,
         headerTintColor: colors.icon,
         presentation: "modal",
@@ -78,7 +70,7 @@ export function EventStack() {
   return (
     <Stack.Navigator
       screenOptions={{
-        headerTitleStyle: fonts.navHeader,
+        headerTitleStyle: { ...fonts.navHeader, color: colors.headerText },
         headerTransparent: true,
         headerTintColor: colors.icon,
         presentation: "card",
