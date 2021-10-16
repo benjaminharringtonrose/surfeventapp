@@ -58,7 +58,7 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
               <Text style={[fonts.header, { color: colors.headerText }]}>
                 {props.event.eventName}
               </Text>
-              <Text style={fonts.subheader}>
+              <Text style={[fonts.subheader, { color: colors.headerText }]}>
                 {`${moment(props.event.dateStart.toDate()).format("MMM DD")} - ${moment(
                   props.event.dateEnd.toDate(),
                 ).format("DD")}`}
@@ -74,7 +74,7 @@ export const EventDetailAdminScreen = (props: EventDetailSurferScreenProps) => {
               style={{ marginVertical: spacings.base }}
             />
             <View style={{ paddingLeft: spacings.base, paddingBottom: spacings.xsmall }}>
-              <Text style={fonts.subheader}>{"Heats"}</Text>
+              <Text style={[fonts.subheader, { color: colors.headerText }]}>{"Heats"}</Text>
             </View>
           </>
         }

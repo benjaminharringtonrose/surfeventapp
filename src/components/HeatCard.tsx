@@ -2,6 +2,7 @@ import { FirebaseFirestoreTypes } from "@react-native-firebase/firestore";
 import moment from "moment";
 import React from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
+import LinearGradient from "react-native-linear-gradient";
 import { shared, spacings } from "../common";
 import { getHeatDivisionLabel } from "../common/util";
 import { useColors } from "../hooks/useColors";
@@ -24,7 +25,11 @@ interface IHeatCardProps {
 export const HeatCard = (props: IHeatCardProps) => {
   const colors = useColors();
   return (
-    <View style={[styles.rootContainer, { backgroundColor: colors.card }]}>
+    <LinearGradient
+      style={[styles.rootContainer, { backgroundColor: colors.card }]}
+      start={{ x: 1, y: 0 }}
+      end={{ x: 0, y: 1 }}
+      colors={[colors.card, colors.card, colors.cardDark]}>
       <View style={{ flexDirection: "row", alignItems: "center", marginBottom: spacings.base }}>
         {!!props?.title && !!props?.division && (
           <View>
@@ -101,7 +106,7 @@ export const HeatCard = (props: IHeatCardProps) => {
           <Button type={"bordered"} label={"Edit Heat"} onPress={props.onEditHeat} />
         </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 };
 

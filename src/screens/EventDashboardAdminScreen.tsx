@@ -45,6 +45,7 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
         <FlatList
           data={props.events}
           keyExtractor={item => item.eventId}
+          contentContainerStyle={{ backgroundColor: colors.background }}
           ListHeaderComponent={
             <>
               {user.state === "pending" && (
@@ -98,6 +99,7 @@ export const EventDashboardAdminScreen = (props: EventDashboardAdminProps) => {
         onClose={() => addEventModalRef.current?.close()}
         onAlert={() => setShowAlert(true)}
       />
+
       <Alert
         visible={showAlert}
         label={"Would you like to start adding heats?"}

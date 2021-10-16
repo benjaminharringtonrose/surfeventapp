@@ -17,7 +17,7 @@ export const AlertCard = (props: AlertCardProps) => {
         ...shared.card,
         ...shared.shadow,
         minHeight: 60,
-        backgroundColor: colors.card,
+        backgroundColor: colors.primary,
         marginHorizontal: spacings.base,
         marginTop: spacings.base,
         borderColor: colors.borderColor,
@@ -26,20 +26,20 @@ export const AlertCard = (props: AlertCardProps) => {
       <View style={{ margin: spacings.small, alignItems: "center" }}>
         <Text
           style={{
-            fontSize: 26,
-            fontWeight: "300",
-            color: colors.headerText,
+            fontSize: 28,
+            fontWeight: "600",
+            color: colors.white,
             textAlign: "center",
           }}>
           {props.title}
         </Text>
         <Text
           style={{
+            paddingTop: spacings.xsmall,
             fontSize: 17,
             fontWeight: "400",
-            color: colors.subheaderText,
+            color: colors.white,
             textAlign: "center",
-            paddingTop: spacings.xsmall,
           }}>
           {props.description}
         </Text>

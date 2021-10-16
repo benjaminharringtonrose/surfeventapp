@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { View, SafeAreaView, Text } from "react-native";
+import { View, SafeAreaView, Text, StyleSheet } from "react-native";
 import { Formik, FormikProps } from "formik";
 import * as Yup from "yup";
-import auth from "@react-native-firebase/auth";
 
 import { Button } from "../components/Button";
 import { fonts, spacings } from "../common";
@@ -11,6 +10,8 @@ import { useNavigation } from "@react-navigation/native";
 import { ButtonBack } from "../components/ButtonBack";
 import { NavigationProps } from "../navigation";
 import { useColors } from "../hooks/useColors";
+import { useAppDispatch, useAppSelector } from "../hooks/redux";
+import { signUpRequested } from "../store/slices/authSlice";
 
 interface SignUpFormProps {
   email?: string;
@@ -21,9 +22,10 @@ export const AuthSignUpScreen = () => {
   const colors = useColors();
   const formRef = React.useRef<FormikProps<SignUpFormProps>>(null);
 
-  const [loadingSignUp, setLoadingSignUp] = useState<boolean>(false);
-  const [signUpError, setSignUpError] = useState<any>(undefined);
+  const loadingSignUp = useAppSelector(state => state.auth.loadingSignUp);
+  const errorSignUp = useAppSelector(state => state.auth.errorSignOut);
 
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<NavigationProps["SignUp"]["navigation"]>();
 
   useEffect(() => {
@@ -35,20 +37,11 @@ export const AuthSignUpScreen = () => {
   }, []);
 
   const onSignUp = async (values: SignUpFormProps) => {
-    if (!values.email || !values.password) {
+    const { email, password } = values;
+    if (!email || !password) {
       return;
     }
-    setLoadingSignUp(true);
-    setSignUpError(undefined);
-    try {
-      await auth().createUserWithEmailAndPassword(values.email, values.password);
-      console.log("User account created and signed in");
-      setLoadingSignUp(false);
-      setSignUpError(undefined);
-    } catch (error) {
-      setLoadingSignUp(false);
-      console.warn(error);
-    }
+    dispatch(signUpRequested({ email, password }));
   };
 
   const ProfileSchema = Yup.object().shape({
@@ -57,8 +50,8 @@ export const AuthSignUpScreen = () => {
   });
 
   return (
-    <SafeAreaView style={{ flex: 1, justifyContent: "center", backgroundColor: colors.background }}>
-      <View style={{ marginLeft: spacings.base, marginTop: spacings.large }}>
+    <SafeAreaView style={[styles.background, { backgroundColor: colors.background }]}>
+      <View style={styles.headerContainer}>
         <Text style={[fonts.header, { color: colors.headerText }]}>{"Sign up below"}</Text>
         <Text style={[fonts.subheader, { color: colors.headerText }]}>
           {"Provide an email\n and password"}
@@ -70,7 +63,7 @@ export const AuthSignUpScreen = () => {
         validationSchema={ProfileSchema}
         onSubmit={onSignUp}>
         {({ handleChange, handleBlur, handleSubmit, values, touched, errors }) => (
-          <View style={{ flex: 1, marginHorizontal: spacings.base, marginTop: spacings.large }}>
+          <View style={styles.fieldWrapper}>
             <FormInput
               label={"Email"}
               placeholder={"jimmy123@gmail.com"}
@@ -92,6 +85,11 @@ export const AuthSignUpScreen = () => {
               secureTextEntry={true}
               style={{ marginTop: spacings.base }}
             />
+            {!!errorSignUp && (
+              <Text style={[fonts.regular, { color: colors.error, paddingTop: spacings.base }]}>
+                {"Login failed. Please try again."}
+              </Text>
+            )}
             <Button
               type={"contained"}
               label={"Sign Up"}
@@ -105,3 +103,9 @@ export const AuthSignUpScreen = () => {
     </SafeAreaView>
   );
 };
+
+const styles = StyleSheet.create({
+  background: { flex: 1, justifyContent: "center" },
+  headerContainer: { marginLeft: spacings.base, marginTop: spacings.large },
+  fieldWrapper: { flex: 1, marginHorizontal: spacings.base, marginTop: spacings.large },
+});

@@ -4,8 +4,8 @@ export const fonts = {
     fontWeight: "300" as "300",
   },
   subheader: {
-    fontSize: 24,
-    fontWeight: "200" as "200",
+    fontSize: 21,
+    fontWeight: "300" as "200",
   },
   navHeader: {
     fontSize: 24,

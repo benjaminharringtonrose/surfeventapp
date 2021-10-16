@@ -7,6 +7,11 @@ import {
   signInRequested,
   SignInRequestedAction,
   signInSucceeded,
+  signOutRequested,
+  signUpFailed,
+  signUpRequested,
+  SignUpRequestedAction,
+  signUpSucceeded,
 } from "../slices/authSlice";
 
 function* signInSaga(action: SignInRequestedAction) {
@@ -38,8 +43,27 @@ function* signInSaga(action: SignInRequestedAction) {
   }
 }
 
+function* signUpSaga(action: SignUpRequestedAction) {
+  const { email, password } = action.payload;
+  try {
+    const firebaseAuth = auth();
+    yield call([firebaseAuth, firebaseAuth.createUserWithEmailAndPassword], email, password);
+    yield put(signUpSucceeded());
+  } catch (e) {
+    const error = getError(e);
+    yield put(signUpFailed({ error }));
+  }
+}
+
+function* signOutSaga() {
+  try {
+  } catch (e) {}
+}
+
 function* authSaga() {
   yield takeLatest(signInRequested.type, signInSaga);
+  yield takeLatest(signUpRequested.type, signUpSaga);
+  yield takeLatest(signOutRequested.type, signOutSaga);
 }
 
 export default authSaga;
